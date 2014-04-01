@@ -7,6 +7,11 @@
 <div class="modal-body">
   <label>Name:</label>
   <input type='text' class="form-control" ng-model="service.name"/><br/>
+  <label>Items:</label>
+  <input type="text" class="form-control" ng-model="search" placeholder="Filter">
+  <div ng-repeat="item in items | filter:search">
+	  <input type="checkbox" ng-checked="check(item)" ng-model="ids[item.id]"/>{{ item.name }}
+  </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">OK</button>
