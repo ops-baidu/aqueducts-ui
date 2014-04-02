@@ -14,11 +14,12 @@
       </tr>
     </thead>
     <tbody ng-repeat="service in services | filter:search">
-      <tr>
-        <td><a href="#/astream/products/{{product.id}}/services/{{service.id}}">{{service.name}}</a></td>
-        <td>0</td>
+      <tr ng-controller="ServiceController" ng-init="initService(product, service)">
+        <td><a href="#/astream/products/{{product.id}}/services/{{service.id}}/jobs">{{service.name}}</a></td>
+	<td>{{job_number}}</td>
         <td>
           <div class="btn-group btn-group-sm">
+            <button class="btn btn-warning" ng-click="apply(service)">apply jobs</button>
             <button class="btn btn-primary" ng-click="edit(product, service)" >edit</button>
             <button class="btn btn-danger" ng-click="destroy(service)">remove</button>
           </div>

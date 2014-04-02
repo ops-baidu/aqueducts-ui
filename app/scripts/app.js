@@ -23,9 +23,13 @@ angular.module('webApp', [
         templateUrl: 'views/list_service.html' ,
         controller: 'ServiceController'
       })
-      .when('/astream/products/:product/services/:service', {
-        templateUrl: 'views/events_charts.html' ,
-        controller: 'EventsController'
+      .when('/astream/products/:product/services/:service/jobs', {
+        templateUrl: 'views/list_job.html' ,
+        controller: 'JobController'
+      })
+      .when('/astream/products/:product/services/:service/jobs/:job', {
+        templateUrl: 'views/job_charts.html' ,
+        controller: 'JobController'
       })
       .otherwise({
         redirectTo: '/'

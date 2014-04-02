@@ -4,8 +4,8 @@
   <div class="input-group-lg">
     <input type="text" class="form-control" ng-model="search" placeholder="Search">
   </div>
-  <div ng-repeat="item in items | filter:search" ng-controller="itemController" ng-init='initCalcs(item)'>
-    <div ng-repeat="calc in calcs" ng-controller="chartController" ng-init='initConfig(chartConfig, product, service, item, calc)'>
+  <div ng-repeat="job in jobs | filter:search" ng-controller="JobController" ng-init='initJob(job)'>
+    <div ng-controller="ChartController" ng-init='initConfig(chartConfig, product, service, item, calculation)'>
       <highchart id="chart1" config="config" class="span10"></highchart>
     </div>
   </div>
