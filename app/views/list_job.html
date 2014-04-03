@@ -30,7 +30,7 @@
     </table>
   </div>
   <a type="button" class="btn btn-success" ng-click="new()">New Job</a>
-  <a type="button" class="btn btn-warning" ng-click="apply(service)">Apply Jobs</a>
+  <a type="button" class="btn btn-warning" ng-click="apply(product,service)">Apply Jobs</a>
 
   <div ng-repeat="job in jobs | filter:search" ng-controller="ChartController" ng-init='initConfig(chartConfig, product, service, job)'>
     <highchart id="chart1" config="config" class="span10"></highchart>

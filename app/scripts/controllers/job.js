@@ -31,6 +31,10 @@ aqueductsApp.controller('JobController', ['$modal', '$route','$log','$scope', '$
       $scope.tags = tags ;  
     });
 
+    $scope.apply = function(product, service) {
+       Restangular.one('products',product.id).one('services',service.id).getList('apply_jobs');
+    };
+
     jobs.getList().then(function(jobs) {
       $scope.jobs = jobs;
     });

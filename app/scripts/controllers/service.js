@@ -27,6 +27,10 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
         $route.reload();
       });
     };
+
+    $scope.apply = function(product, service) {
+       Restangular.one('products',product.id).one('services',service.id).getList('apply_jobs');
+    };
   
     // create and edit service
     $scope.edit = function (product, service) {
