@@ -15,14 +15,13 @@
         <th>Operate</th>
       </tr>
     </thead>
-    <tbody ng-repeat="job in jobs | filter:search" ng-init="initJob(job)">
+    <tbody ng-repeat="job in jobs | filter:search" ng-controller="JobController" ng-init="initJob(job)">
         <td><a href="#/astream/products/{{product.id}}/services/{{service.id}}/jobs/{{job.id}}">{{job.name}}</a></td>
         <td>{{item.name}}</td>
         <td>{{calculation.name}}</td>
-        <td>{{tags}}</td>
+        <td>{{tag_names}}</td>
         <td>
           <div class="btn-group btn-group-sm">
-            <button class="btn btn-primary" ng-click="edit(job)" >edit</button>
             <button class="btn btn-danger" ng-click="destroy(job)">remove</button>
           </div>
         </td>
@@ -30,7 +29,7 @@
     </tbody>
     </table>
   </div>
-  <a type="button" class="btn btn-success" ng-click="edit('new')">New Job</a>
+  <a type="button" class="btn btn-success" ng-click="new()">New Job</a>
   <a type="button" class="btn btn-warning" ng-click="apply(service)">Apply Jobs</a>
 
   <div ng-repeat="job in jobs | filter:search" ng-controller="ChartController" ng-init='initConfig(chartConfig, product, service, job)'>

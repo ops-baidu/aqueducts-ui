@@ -12,12 +12,15 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
       $scope.services = services;
     });
 
+    // for job number
     $scope.initService = function(product, service) {
       Restangular.one('products', product.id).one('services', service.id).all('jobs').getList().then(function(jobs) {
 	console.log(jobs.length);
         $scope.job_number = jobs.length ;  
       });
     };
+
+    // destroy service
     $scope.destroy = function(service) {
       service.remove().then(function() {
         console.log($route);
@@ -25,6 +28,7 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
       });
     };
   
+    // create and edit service
     $scope.edit = function (product, service) {
 
       var services = Restangular.one('products', product.id).all('services');
@@ -63,7 +67,6 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
           var a_service = {
             name: name,
           };
-          console.log(a_service);
           services.post(a_service).then(function() {
             $route.reload();
           });

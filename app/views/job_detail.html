@@ -1,20 +1,26 @@
 <div class="modal-header">
-    <h3 ng-hide="newService">Edit Service</h3>
-    <h3 ng-show="newService">New Service</h3>
+    <h3>New Job</h3>
 </div>
-<form>
+<form name="jobForm">
 <fieldset>
 <div class="modal-body">
-  <label>Name:</label>
-  <input type='text' class="form-control" ng-model="service.name"/><br/>
-  <label>Items:</label>
+  <label>Item:</label>
+  <select class="form-control" name="item" ng-change="change_calc()" ng-model="job.item" ng-options="i.name for i in items" required></select>
+  <span ng-show="JobForm.item.$error.required">Select item</span>
+  </br>
+  <label>Calculation:</label>
+  <select class="form-control" name="calc" ng-model="job.calc" ng-options="c.name for c in calcs" required></select>
+  <span ng-show="JobForm.calc.$error.required">Select calc</span>
+  </br>
+  <label>Tags:</label>
   <input type="text" class="form-control" ng-model="search" placeholder="Filter">
-  <div ng-repeat="item in items | filter:search">
-	  <input type="checkbox" ng-checked="check(item)" ng-model="ids[item.id]"/>{{ item.name }}
+  <div ng-repeat="tag in tags | filter:search">
+	  <input type="checkbox" ng-model="ids[tag.id]"/>{{ tag.name }}
   </div>
+  {{ids}}
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-disabled="jobForm.$invalid || require()" ng-click="ok()">OK</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
 </fieldset>
