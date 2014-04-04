@@ -92,6 +92,11 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
       $scope.service = service ; 
       $scope.services = services ; 
      
+      $scope.require = function() {
+        if ( $scope.service.name ) return false ; 
+	return true ; 
+      };
+
       $scope.ok = function () {
         $modalInstance.close($scope);
       };
