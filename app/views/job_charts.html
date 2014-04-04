@@ -1,0 +1,14 @@
+<nav-bar></nav-bar>
+<div class="row">
+  <h1 class="page-header">{{product.name}} / {{service.name}}</h1>
+  <div class="input-group-lg">
+    <input type="text" class="form-control" ng-model="search" placeholder="Search">
+  </div>
+  <div ng-repeat="job in jobs | filter:search" ng-controller="JobController" ng-init='initJob(job)'>
+    <div ng-controller="ChartController" ng-init='initConfig(chartConfig, product, service, item, calculation)'>
+      <highchart id="chart1" config="config" class="span10"></highchart>
+    </div>
+  </div>
+</div>
+<div class="row">
+</div>
