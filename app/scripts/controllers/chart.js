@@ -11,9 +11,9 @@ aqueductsApp.controller('ChartController', function ($scope,$http,$q,Restangular
       var item = results[0] ;
       var calc = results[1] ;
       var series = [  
-        'http://127.0.0.1:3000/v1/events?product=' + product.name + '&service=' + service.name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-24h&to=now&period=60&name=today&diff=0', 
-        'http://127.0.0.1:3000/v1/events?product=' + product.name + '&service=' + service.name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-48h&to=-24h&period=60&name=yesterday&diff=86400', 
-        'http://127.0.0.1:3000/v1/events?product=' + product.name + '&service=' + service.name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-168h&to=-144h&period=60&name=lastweek&diff=518400',
+        'http://api.aqueducts.baidu.com/v1/events?product=' + product.name + '&service=' + service.name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-24h&to=now&period=60&name=today&diff=0', 
+        'http://api.aqueducts.baidu.com/v1/events?product=' + product.name + '&service=' + service.name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-48h&to=-24h&period=60&name=yesterday&diff=86400', 
+        'http://api.aqueducts.baidu.com/v1/events?product=' + product.name + '&service=' + service.name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-168h&to=-144h&period=60&name=lastweek&diff=518400',
       ] ; 
       function getJsonFromUrl(url) {
         var query = url ; 
