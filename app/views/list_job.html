@@ -1,6 +1,6 @@
 <nav-bar></nav-bar>
 <div class="row" ng-controller="JobController">
-  <h1 class="page-header">{{product.name}} / {{service.name}}</h1>
+  <h1 class="page-header"><a href="#/astream/products/{{product.id}}/services">{{product.name}}</a> / {{service.name}}</h1>
   <div class="input-group-lg">
     <input type="text" class="form-control" ng-model="search" placeholder="Search">
   </div>
