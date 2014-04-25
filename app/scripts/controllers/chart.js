@@ -63,6 +63,11 @@ aqueductsApp.controller('ChartController', function ($scope,$http,$q,Restangular
         y: value[1] 
       });
     } 
+    Highcharts.setOptions({    
+       global: {    
+              useUTC: false    
+          }    
+    });  
     $scope.data = {
       chart: {
           type: 'areaspline',
