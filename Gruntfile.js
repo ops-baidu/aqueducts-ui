@@ -315,6 +315,12 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      config: {
+        files: [
+          {expand: true, src: ['config/*'], dest: '<%= yeoman.dist %>'},
+          {expand: true, src: ['Capfile'], dest: '<%= yeoman.dist %>'},
+        ]
       }
     },
 
@@ -409,6 +415,7 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
+    'copy:config',
     'cdnify',
     'cssmin',
     'uglify',
