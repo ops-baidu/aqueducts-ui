@@ -1,10 +1,12 @@
+require "capistrano"
+
 set :application, "aqueducts-ui"
 set :user, "work"
 set :deploy_to, "/home/#{user}/local/#{application}/"
 set :use_sudo, false
 
 set :scm, :none
-set :repository,  "set your repository location here"
+set :repository,  "/home/#{user}/ci/jenkins/workspace/aqueducts-deploy_ui"
 set :deploy_via, :copy
 set :copy_compression, :gzip
 set :keep_releases, 5
@@ -27,4 +29,4 @@ namespace :deploy do
 end
 
 before "deploy", "deploy:prepare"
-after "deploy", "deploy:configure"
+after "deploy", "deploy:link"
