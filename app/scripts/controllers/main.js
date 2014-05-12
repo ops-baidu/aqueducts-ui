@@ -2,7 +2,7 @@
 
 var aqueductsApp = angular.module('webApp');
 
-aqueductsApp.config(function($routeProvider, RestangularProvider) {
+aqueductsApp.config(['$routeProvider', 'RestangularProvider', function($routeProvider, RestangularProvider) {
     RestangularProvider.setBaseUrl('http://api.aqueducts.baidu.com/v2/');
     RestangularProvider.setRequestInterceptor(function(elem, operation) {
       if (operation === 'remove') {
@@ -10,4 +10,4 @@ aqueductsApp.config(function($routeProvider, RestangularProvider) {
       }
       return elem;
     });
-});
+}]);
