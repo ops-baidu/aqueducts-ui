@@ -104,55 +104,51 @@ aqueductsApp.controller('JobController', ['$modal', '$route','$log','$scope', '$
    var ModalInstanceCtrl = function($scope,$modalInstance,$routeParams,Restangular,$q) {
      var product_id = $routeParams.product ; 
      var service_id = $routeParams.service ; 
-     var promises = [
-       Restangular.one('products', product_id).get(),
-       Restangular.one('products', product_id).one('services', service_id).get(),
-       Restangular.all('items').getList(),
-       Restangular.all('tags').getList()
-     ];
-     $q.all(promises).then(function(results) {
-       var product = results[0] ;
-       var service = results[1] ;
-       var items = results[2];
-       var tags = results[3];
+     Restangular.one('products', product_id).get().then(function(product) {
        $scope.product = product ; 
+     });
+     Restangular.one('products', product_id).one('services', service_id).get().then(function(service) {
        $scope.service = service ; 
-       $scope.items = items ; 
+     });
+     Restangular.all('items').getList().then(function(items) {
+       $scope.items = items ;  
+     });
+     Restangular.all('tags').getList().then(function(tags) {
        $scope.tags = tags ; 
-       $scope.job = {
-         name: product.name + "_" + service.name,
-         product_id: '',
-         service_id: '',
-         item_id: '',
-         calculation_id: '',
-         tag_ids: ''	
-       };
-
        var ids = {};
        for ( var i=0; i<tags.length ; i++ ) {
          var id = tags[i].id ; 
          ids[id] = false ;
        }
        $scope.ids = ids ; 
-       $scope.ok = function() {
-         $modalInstance.close($scope);
-       };
+     });
+     $scope.job = {
+       name: product.name + "_" + service.name,
+       product_id: '',
+       service_id: '',
+       item_id: '',
+       calculation_id: '',
+       tag_ids: ''	
+     };
 
-       $scope.change_calc = function() {
-         $scope.job.calc = null;  
-         Restangular.one('items', $scope.job.item.id).all('calculations').getList().then(function(calcs) {
-           $scope.calcs = calcs;
-         });
-       };
+     $scope.ok = function() {
+       $modalInstance.close($scope);
+     };
 
-       $scope.require = function() {
-         if ( $scope.job.item && $scope.job.calc ) return false;
-         return true ; 
-       };
-       $scope.cancel = function() {
-         $modalInstance.dismiss('cancel');	
-       };
+     $scope.change_calc = function() {
+       $scope.job.calc = null;  
+       Restangular.one('items', $scope.job.item.id).all('calculations').getList().then(function(calcs) {
+         $scope.calcs = calcs;
        });
+     };
+
+     $scope.require = function() {
+       if ( $scope.job.item && $scope.job.calc ) return false;
+       return true ; 
+     };
+     $scope.cancel = function() {
+       $modalInstance.dismiss('cancel');	
+     };
    };
    ModalInstanceCtrl.$inject = ['$scope','$modalInstance','$routeParams','Restangular','$q'];
 }]);
