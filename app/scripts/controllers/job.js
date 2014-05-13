@@ -1,7 +1,7 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('JobController', ['$modal', '$route','$log','$scope', '$routeParams', '$location','Restangular', function($modal, $route, $log, $scope, $routeParams, $location, Restangular, service) {
+aqueductsApp.controller('JobController', ['$modal', '$route','$log','$scope', '$routeParams', '$location','Restangular', function($modal, $route, $log, $scope, $routeParams, $location, Restangular) {
     $scope.chartConfig = {
        useHighStocks : true,
        credits : true,
@@ -41,7 +41,6 @@ aqueductsApp.controller('JobController', ['$modal', '$route','$log','$scope', '$
 
     $scope.destroy = function(job) {
       job.remove().then(function() {
-        console.log($route);
         $route.reload();
       });
     };
