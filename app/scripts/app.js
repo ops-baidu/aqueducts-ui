@@ -5,7 +5,6 @@ angular.module('webApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui',
   'restangular',
   'ui.bootstrap',
   'highcharts-ng'
