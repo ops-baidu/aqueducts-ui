@@ -38,7 +38,7 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
    
       var modalInstance = $modal.open({
         templateUrl: 'views/service_detail.html',
-        controller: ModalInstanceCtrl,
+        controller: ServiceModalInstanceCtrl,
       });
   
       modalInstance.result.then(function (scope) {
@@ -56,7 +56,7 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
       });
     };
 
-    var ModalInstanceCtrl = function ($scope, $modalInstance, $routeParams, Restangular) {
+    var ServiceModalInstanceCtrl = function ($scope, $modalInstance, $routeParams, Restangular) {
       var product_id = $routeParams.product ; 
       $scope.service = { name: ''};
       Restangular.one('products', product_id).all('services').getList().then(function(services) {
@@ -76,5 +76,5 @@ aqueductsApp.controller('ServiceController', ['$modal', '$route','$log','$scope'
         $modalInstance.dismiss('cancel');
       };
     };
-    ModalInstanceCtrl.$inject = ['$scope','$modalInstance','$routeParams','Restangular'];
+    ServiceModalInstanceCtrl.$inject = ['$scope','$modalInstance','$routeParams','Restangular'];
 }]);
