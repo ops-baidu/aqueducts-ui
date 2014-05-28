@@ -17,7 +17,7 @@
     </thead>
     <tbody ng-repeat="job in jobs | filter:search" ng-controller="JobController" ng-init="initJob(job)">
       <tr>
-        <td><a href="#/astream/products/{{product.id}}/services/{{service.id}}/jobs/{{job.id}}">{{job.name}}</a></td>
+        <td>{{job.name}}</td>
         <td>{{item.name}}</td>
         <td>{{calculation.name}}</td>
         <td>{{tag_names}}</td>
