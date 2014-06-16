@@ -7,12 +7,14 @@ angular.module('webApp', [
   'ngRoute',
   'restangular',
   'ui.bootstrap',
-  'highcharts-ng'
+  'ui.dashboard',
+  'highcharts-ng',
 ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html'
+        templateUrl: 'views/main.html',
+        controller: 'DashboardController'
       })
       .when('/astream/products', {
         templateUrl: 'views/list_product.html',

@@ -23,7 +23,10 @@
         <td>{{tag_names}}</td>
         <td>
           <div class="btn-group btn-group-sm">
+            <button class="btn btn-default">remove</button>
+            <!--
             <button class="btn btn-danger" ng-click="destroy(job)">remove</button>
+            -->
           </div>
         </td>
       </tr>
@@ -31,7 +34,10 @@
     </table>
   </div>
   <a type="button" class="btn btn-success" ng-click="new()">New Job</a>
+  <a type="button" class="btn btn-default">Apply Jobs</a>
+  <!--
   <a type="button" class="btn btn-warning" ng-click="apply(product,service)">Apply Jobs</a>
+  -->
 
   <div ng-controller="ChartController">
     <hi-chart val="data" product="{{product.name}}" service="{{service.name}}" class="span10"></hi-chart>
