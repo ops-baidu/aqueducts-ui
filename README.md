@@ -7,8 +7,8 @@ aqueducts web user interface
 
 * node.js
 * ruby
-* compass
-* yeoman
+
+steps:
 
 	npm install -g yo
 	npm install -g grunt-cli bower
@@ -21,7 +21,7 @@ aqueducts web user interface
 	grunt serve
 
 ## Deploy
-*  [aqueducts-ui-deployment.git](http://github.com/ops-baidu/aqueducts-ui-deployment) repo used for hosting generated code
+[aqueducts-ui-deployment.git](http://github.com/ops-baidu/aqueducts-ui-deployment) repo used for hosting generated code
 
 	grunt build
 	bash prepare_deploy.sh
