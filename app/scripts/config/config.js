@@ -1,7 +1,7 @@
 'use strict';
 
-// var host = 'http://api.aqueducts.baidu.com';
-var host = 'http://0.0.0.0:3000';
+var host = 'http://api.aqueducts.baidu.com';
+// var host = 'http://0.0.0.0:3000';
 
 var aqueductsApp = angular.module('webApp');
 
