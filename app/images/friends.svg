@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1000px" height="400px" viewBox="18.609 0.5 916.63 392" enable-background="new 18.609 0.5 916.63 392"
+	 xml:space="preserve">
+<g id="brownHouse">
+	<rect id="rectangle15" x="489.03" y="48.857" fill="#CA8A65" width="26.519" height="26.519"/>
+	<rect id="rectangle16" x="492.489" y="53.469" fill="#C6F7FB" width="6.918" height="6.918"/>
+	<rect id="rectangle17" x="506.324" y="53.469" fill="#C6F7FB" width="6.918" height="6.918"/>
+	<rect id="rectangle18" x="492.489" y="64.999" fill="#C6F7FB" width="6.918" height="6.918"/>
+	<rect id="rectangle19" x="506.324" y="64.999" fill="#70595E" width="6.918" height="10.377"/>
+	<path id="polygon2" fill="#70595E" d="M502.289,35.459l17.8,14.309h-35.604L502.289,35.459z"/>
+	
+		<linearGradient id="oval10_1_" gradientUnits="userSpaceOnUse" x1="422.821" y1="1070.0791" x2="422.821" y2="1090.0879" gradientTransform="matrix(1.153 0 0 1.153 22.8477 -1216.0725)">
+		<stop  offset="0" style="stop-color:#E0EBE8"/>
+		<stop  offset="1" style="stop-color:#FFFFFF"/>
+	</linearGradient>
+	<path id="oval10" fill="url(#oval10_1_)" d="M507.49,28.449c0.104-6.353,1.487-11.138,3.066-10.7
+		c1.591,0.45,2.79,5.961,2.672,12.314c-0.104,6.353-1.487,11.138-3.067,10.7c-1.507-0.426-2.683-5.453-2.683-11.507"/>
+	<rect id="rectangle20" x="506.324" y="36.174" fill="#70595E" width="7.494" height="10.377"/>
+</g>
+<g id="hills">
+	<path id="backHill" fill="#3E9C87" d="M259.584,272.537c0-113.984,97.566-206.385,217.916-206.385
+		c120.349,0,217.915,92.401,217.915,206.385H477.5H259.584z"/>
+	<path id="whiteHill" fill="#D7D7D7" d="M399.096,447.793c0-142.637,120.016-258.271,268.071-258.271
+		c148.053,0,268.071,115.634,268.071,258.271H667.167H399.096z"/>
+	<path id="leftHill" fill="#4AB19A" d="M18.609,430.498c0-149.647,131.372-270.954,293.437-270.954s293.437,121.306,293.437,270.954
+		H312.045H18.609z"/>
+</g>
+<g id="yellowTree">
+	<ellipse id="oval" fill="#439F8A" cx="98.459" cy="317.12" rx="19.089" ry="8.749"/>
+	<path id="bezier" fill="#F6D546" d="M76.188,292.668l21.284-89.083l24.85,89.083H76.188z"/>
+	<rect id="rectangle" x="97.663" y="255.284" fill="#AF946C" width="3.184" height="58.858"/>
+	<path id="bezier2" fill="#AF946C" d="M98.459,270.143l9.114-9.291l2.021,2.068l-10.117,10.309l-0.685,0.35L98.459,270.143z"/>
+	<path id="bezier3" fill="#AF946C" d="M98.459,282.869l9.114-9.291l2.021,2.068l-10.117,10.305l-0.685,0.352L98.459,282.869z"/>
+	<path id="bezier4" fill="#AF946C" d="M100.049,276.505l-9.115-9.293l-2.02,2.068l10.115,10.308l0.686,0.352L100.049,276.505z"/>
+</g>
+<g id="yellowTree2">
+	<ellipse id="oval3" fill="#439F8A" cx="244.804" cy="230.189" rx="16.231" ry="6.334"/>
+	<path id="bezier9" fill="#F4A0A0" d="M221.446,211.661l21.189-80.526l24.736,80.526H221.446z"/>
+	<rect id="rectangle3" x="242.825" y="182.68" fill="#AF946C" width="3.167" height="47.509"/>
+	<path id="bezier10" fill="#AF946C" d="M243.616,191.297l9.074-8.393l2.012,1.869l-10.072,9.328l-0.681,0.302L243.616,191.297z"/>
+	<path id="bezier11" fill="#AF946C" d="M243.616,202.795l9.074-8.393l2.012,1.867l-10.072,9.328l-0.681,0.304L243.616,202.795z"/>
+	<path id="bezier12" fill="#AF946C" d="M245.2,197.045l-9.075-8.395l-2.009,1.869l10.069,9.328l0.682,0.302L245.2,197.045z"/>
+</g>
+<g id="yellowTree3">
+	<ellipse id="oval4" fill="#E0EBE8" cx="650.419" cy="230.857" rx="17.269" ry="6.425"/>
+	<path id="bezier13" fill="#F4A0A0" d="M627.529,212.062l21.496-81.683l25.092,81.683H627.529z"/>
+	<rect id="rectangle4" x="649.214" y="182.665" fill="#AF946C" width="3.21" height="48.191"/>
+	<path id="bezier14" fill="#AF946C" d="M650.014,191.402l9.203-8.514l2.042,1.898l-10.214,9.46l-0.693,0.308L650.014,191.402z"/>
+	<path id="bezier15" fill="#AF946C" d="M650.014,203.066l9.203-8.515l2.042,1.898l-10.214,9.46l-0.693,0.307L650.014,203.066z"/>
+	<path id="bezier16" fill="#AF946C" d="M651.623,197.235l-9.205-8.515l-2.04,1.897l10.214,9.46l0.692,0.308L651.623,197.235z"/>
+</g>
+<g id="yellowTree4">
+	<ellipse id="oval5" fill="#E0EBE8" cx="783.841" cy="255.189" rx="16.806" ry="6.723"/>
+	<path id="bezier17" fill="#F6D546" d="M759.471,232.502l22.487-94.115l26.251,94.115H759.471z"/>
+	<rect id="rectangle5" x="782.159" y="193.005" fill="#AF946C" width="3.361" height="62.186"/>
+	<path id="bezier18" fill="#AF946C" d="M782.999,208.704l9.63-9.814l2.138,2.185l-10.689,10.89l-0.722,0.369L782.999,208.704z"/>
+	<path id="bezier19" fill="#AF946C" d="M782.999,222.147l9.63-9.814l2.138,2.185l-10.689,10.89l-0.722,0.369L782.999,222.147z"/>
+	<path id="bezier20" fill="#AF946C" d="M784.68,215.426l-9.632-9.814l-2.135,2.185l10.688,10.89l0.722,0.369L784.68,215.426z"/>
+</g>
+<g id="darkGreenTree2">
+	<ellipse id="oval6" fill="#E0EBE8" cx="722.264" cy="327.528" rx="18.902" ry="6.3"/>
+	<path id="bezier21" fill="#217D68" d="M694.699,311.006l25.799-97.678l30.112,97.678H694.699z"/>
+	<rect id="rectangle6" x="720.686" y="275.555" fill="#AF946C" width="3.15" height="51.973"/>
+	<path id="bezier22" fill="#AF946C" d="M721.477,286.188l9.023-9.073l1.998,2.015l-10.018,10.099l-0.677,0.331L721.477,286.188z"/>
+	<path id="bezier23" fill="#AF946C" d="M721.477,298.629l9.023-9.07l1.998,2.014l-10.018,10.099l-0.677,0.327L721.477,298.629z"/>
+	<path id="bezier24" fill="#AF946C" d="M723.052,292.406l-9.025-9.072l-2,2.016l10.018,10.096l0.677,0.331L723.052,292.406z"/>
+</g>
+<g id="yellowTree5">
+	<ellipse id="oval2" fill="#439F8A" cx="166.988" cy="269.447" rx="19.32" ry="8.855"/>
+	<path id="bezier5" fill="#217D68" d="M142.031,246.907l23.781-111.096l27.742,111.096H142.031z"/>
+	<rect id="rectangle2" x="165.376" y="209.068" fill="#AF946C" width="3.221" height="59.573"/>
+	<path id="bezier6" fill="#AF946C" d="M166.182,224.106l9.225-9.403l2.043,2.093l-10.24,10.435l-0.692,0.354L166.182,224.106z"/>
+	<path id="bezier7" fill="#AF946C" d="M166.182,236.986l9.225-9.401l2.043,2.091l-10.24,10.435l-0.692,0.355L166.182,236.986z"/>
+	<path id="bezier8" fill="#AF946C" d="M167.792,230.547l-9.227-9.403l-2.044,2.093l10.241,10.434l0.693,0.355L167.792,230.547z"/>
+</g>
+<g id="yellowTree6">
+	<ellipse id="oval7" fill="#378C79" cx="399.179" cy="96.895" rx="12.433" ry="5.698"/>
+	<path id="bezier25" fill="#8FD182" d="M383.12,82.392l15.302-71.485l17.851,71.485H383.12z"/>
+	<rect id="rectangle7" x="398.142" y="58.045" fill="#AF946C" width="2.07" height="38.334"/>
+	<path id="bezier26" fill="#AF946C" d="M398.66,67.721l5.935-6.051l1.316,1.346l-6.589,6.714l-0.445,0.227L398.66,67.721z"/>
+	<path id="bezier27" fill="#AF946C" d="M398.66,76.009l5.935-6.05l1.316,1.346l-6.589,6.714l-0.445,0.227L398.66,76.009z"/>
+	<path id="bezier28" fill="#AF946C" d="M399.697,71.866l-5.938-6.051l-1.315,1.347l6.589,6.714l0.445,0.227L399.697,71.866z"/>
+</g>
+<g id="yellowTree7">
+	<ellipse id="oval8" fill="#378C79" cx="574.726" cy="135.329" rx="17.559" ry="6.852"/>
+	<path id="bezier29" fill="#217D68" d="M549.457,115.284l22.924-87.113l26.76,87.113H549.457z"/>
+	<rect id="rectangle8" x="572.587" y="83.935" fill="#AF946C" width="3.427" height="51.395"/>
+	<path id="bezier30" fill="#AF946C" d="M573.444,93.254l9.815-9.08l2.177,2.021L574.54,96.287l-0.736,0.325L573.444,93.254z"/>
+	<path id="bezier31" fill="#AF946C" d="M573.444,105.691l9.815-9.08l2.177,2.021l-10.896,10.09l-0.736,0.326L573.444,105.691z"/>
+	<path id="bezier32" fill="#AF946C" d="M575.156,99.472l-9.818-9.08l-2.175,2.021l10.892,10.09l0.739,0.326L575.156,99.472z"/>
+</g>
+<g id="blueHouse">
+	<rect id="rectangle9" x="320.888" y="149.24" fill="#6DA0AB" width="34.59" height="34.59"/>
+	<rect id="rectangle10" x="325.499" y="155.005" fill="#C6F7FB" width="9.225" height="9.224"/>
+	<rect id="rectangle11" x="342.794" y="155.005" fill="#C6F7FB" width="9.225" height="9.224"/>
+	<rect id="rectangle12" x="325.499" y="169.994" fill="#C6F7FB" width="9.225" height="9.224"/>
+	<rect id="rectangle13" x="342.794" y="169.994" fill="#70595E" width="9.225" height="13.836"/>
+	<path id="polygon" fill="#70595E" d="M338.183,131.945l22.967,18.586h-45.935L338.183,131.945z"/>
+	
+		<linearGradient id="oval9_1_" gradientUnits="userSpaceOnUse" x1="282.4905" y1="1149.1445" x2="282.4905" y2="1175.1484" gradientTransform="matrix(1.153 0 0 1.153 22.8477 -1216.0725)">
+		<stop  offset="0" style="stop-color:#E0EBE8"/>
+		<stop  offset="1" style="stop-color:#FFFFFF"/>
+	</linearGradient>
+	<path id="oval9" fill="url(#oval9_1_)" d="M345.111,122.825c0.127-8.256,1.787-14.482,3.689-13.905
+		c1.899,0.576,3.341,7.736,3.206,16.003c-0.127,8.255-1.791,14.482-3.69,13.905c-1.81-0.552-3.217-7.08-3.217-14.955"/>
+	<rect id="rectangle14" x="343.948" y="133.098" fill="#70595E" width="8.647" height="13.836"/>
+</g>
+<text transform="matrix(1 0 0 1 88.9124 348.2646)" fill="#666666" font-family="'ArialRoundedMTBold'" font-size="20.7539">IM</text>
+<text transform="matrix(1 0 0 1 154.4065 297.3555)" fill="#666666" font-family="'ArialRoundedMTBold'" font-size="20.7539">SF</text>
+<text transform="matrix(1 0 0 1 623.7698 260.5918)" fill="#666666" font-family="'ArialRoundedMTBold'" font-size="18.4479">JPaaS</text>
+<text transform="matrix(1 0 0 1 221.4436 255.2832)" fill="#666666" font-family="'ArialRoundedMTBold'" font-size="19.6009">Nova</text>
+<text transform="matrix(1 0 0 1 754.2629 279.9414)" fill="#666666" font-family="'ArialRoundedMTBold'" font-size="17.2949">Hao123</text>
+<text transform="matrix(1 0 0 1 536.3928 160.7686)" fill="#666666" font-family="'ArialRoundedMTBold'" font-size="18.4479">HiPhotos</text>
+<text transform="matrix(1 0 0 1 699.4153 360.0068)" fill="#666666" font-family="'ArialRoundedMTBold'" font-size="17.2949">WWW</text>
+</svg>

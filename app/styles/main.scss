@@ -2,6 +2,9 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
 
+
+
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -11,10 +14,17 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 /* Space out content a bit */
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #666;
 }
 
+p {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 20px;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -24,10 +34,6 @@ body {
 }
 
 /* Custom page header */
-.header {
-    border-bottom: 1px solid #e5e5e5;
-}
-
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
     margin-top: 0;
@@ -38,9 +44,12 @@ body {
 
 /* Custom page footer */
 .footer {
-    padding-top: 19px;
-    color: #777;
-    border-top: 1px solid #e5e5e5;
+    padding-top: 20px;
+    font-size: 18px;
+    background-color: #9AB270;
+    color: #fff;
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 .container-narrow > hr {
@@ -49,18 +58,16 @@ body {
 
 /* Main marketing message and sign up button */
 .jumbotron {
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
+    background: #9AB270;
 }
 
 .jumbotron .btn {
-    font-size: 21px;
     padding: 14px 24px;
 }
 
 /* Supporting marketing content */
 .marketing {
-    margin: 40px 0;
+    margin: 0 0 0 0;
 }
 
 .marketing p + h4 {
@@ -87,5 +94,279 @@ body {
     /* Remove the bottom border on the jumbotron for visual effect */
     .jumbotron {
         border-bottom: 0;
+        min-height: 550px;
+
     }
+}
+
+.navbar {
+  background: #FFF;
+  border: none;
+  border-radius: 0;
+
+}
+
+.navbar-inner {
+  min-height: 60px;
+}
+
+.navbar-brand {
+  font-size: 26px;
+  padding-top: 20px;
+  color: #CC333F;
+}
+
+.navbar .nav >li >a {
+  padding: 30px 10px 30px 50px;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+  text-decoration: none;
+  background-color: #fff;
+  color: #666;
+}
+
+.nav .open > a .caret, .nav .open > a:hover .caret, .nav .open > a:focus .caret {
+  border-top-color: #666;
+  border-bottom-color: #666;
+}
+.nav .caret {
+  border-top-color: #999;
+  border-bottom-color: #999;
+}
+.navbar-right a, .navbar-right span{
+  font-size: 14px;
+  color: #999;
+
+}
+
+.navbar-right li.active {
+  color: #666;
+}
+
+.navbar .container {
+
+}
+
+.intro {
+  font-size: 70px;
+}
+
+
+.jumbotron p.main-banner {
+  font-size: 70px;
+  color: #fff;
+}
+.jumbotron p.sub-banner {
+  font-size: 30px;
+  color: #fff;
+  padding-bottom: 40px;
+}
+
+.jumbotron .container {
+  margin-top: 60px;
+}
+.btn-block {
+  padding: 0px;
+}
+
+.btn-success {
+  color: #F38630;
+  background-color: #F2F2F2;
+  font-size: 30px;
+  border: none;
+}
+.btn-success:hover {
+  color: #FA6900;
+  background-color: #F2F2F2;
+  font-size: 30px;
+  border: none;
+}
+.title {
+  font-size: 40px;
+  text-align: center;
+  color: #666;
+  padding-bottom: 40px;
+}
+.why-section {
+  background: #efefef;
+  padding-top: 40px;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  min-height: 550px;
+}
+.how-section {
+  background: #E0E4CC;
+  min-height: 550px;
+}
+
+
+.headroom {
+  position: fixed;
+  z-index: 10;
+  right: 0;
+  left: 0;
+  top: 0;
+  transition: transform 300ms linear;
+}
+.headroom--pinned {
+  transform: translateY(0%);
+}
+.headroom--unpinned {
+  transform: translateY(-100%);
+}
+.section {
+  background: #F8F8F8;
+  padding-top: 40px;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  min-height: 550px;
+  padding-bottom: 100px;
+}
+.container {
+  width: 980px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.private-services > li , .vcard-username, .vcard-email {
+  padding-bottom: 20px;
+  border-bottom-color: rgb(238, 238, 238);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  padding-top: 20px;
+  width: 230px;
+}
+.no-padding {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.navbar-brand {
+  color: #F38630;
+
+}
+
+.navbar-brand:hover {
+  color: #FA6900;
+}
+.line {
+  padding-top: 20px;
+}
+.wave {
+  padding-top:54px;
+}
+
+.col-xs-5, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10{
+  padding-left: 0px;
+  padding-right: 0px;
+
+}
+
+.service-tab {
+  padding-left: 20px;
+  min-height: 600px;
+}
+.form-container {
+  margin-top: 100px;
+  padding-bottom: 100px;
+}
+
+.with-margin {
+  margin-top: 100px;
+}
+.navbar-right a {
+  text-align: right;
+  padding-right: 0;
+}
+a:hover, a:focus {
+  text-decoration: none;
+}
+.navbar-collapse, .collapse {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+#content-wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
+#content {
+  // padding-top: 20px;
+  // padding-bottom: 40px;
+}
+
+#footer {
+  height: 60px;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.avatar {
+  border-radius: 6px;
+}
+.navbar {
+  margin-bottom: 0;
+}
+.console {
+  min-height: 600px;
+  background-color: #000;
+  color: #fff;
+}
+.console p {
+  font-size: 14px;
+}
+
+.job {
+  min-height: 280px;
+}
+.result {
+  min-height: 300px;
+}
+.scroller {
+  height: 600px;
+  width: 570px;
+  overflow-y: hidden;
+  position: relative;
+}
+.panel-default {
+  min-height: 350px;
+}
+
+.panel-mini {
+  min-height: 170px;
+}
+.services {
+  min-height: 600px;
+}
+.settings {
+  min-height: 600px;
+}
+.list-group {
+  border: none;
+}
+.form {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.panel-default > .panel-heading {
+  color: #666;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}
+
+.panel-title {
+  font-size: 18px;
+
 }

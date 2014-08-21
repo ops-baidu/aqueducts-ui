@@ -1,0 +1,48 @@
+<div class="section" ng-init="init()">
+  <div class="container with-margin no">
+    <div class="row">
+      <div class="col-xs-8 col-md-7">
+        <div class="panel panel-default services">
+          <div class="panel-heading">
+            <h3 class="panel-title">Services<a href="/orgs/{{org.name}}/services/new" class="glyphicon glyphicon-plus pull-right"></a></h3>
+          </div>
+          <div class="panel-body">
+            <div style="padding:30px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="service in org.services" ng-init="getJobNum(service.name)">
+              <div><a href="/orgs/{{org.name}}/{{service.name}}">{{service.name}}</a><span class="pull-right">{{jobNum}}<span style="color:#999;padding-left:10px;">Jobs</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-md-3 col-md-offset-1">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">People</h3>
+          </div>
+          <div class="panel-body">
+            <div style="padding:10px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="person in org.people">
+              <div><span class="glyphicon glyphicon-user" style="padding-right:20px;color:#999"></span>{{person.name}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default panel-mini"ng-show="owner">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add member</h3>
+          </div>
+          <div class="panel-body">
+              <div class="alert alert-danger" ng-show="addMemberFailed">
+                Failed
+              </div>
+              <input type="text" class="form-control" ng-model="search.name" placeholder="Find a person">
+              <div style="padding:10px;border-bottom:solid 1px #e4e4e4;"ng-repeat="user in users | filter:search">
+                <div><a ng-click="add(user.name)" href="javascript:void(0);">{{ user.name }}<span class="glyphicon glyphicon-plus pull-right"></span></a></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

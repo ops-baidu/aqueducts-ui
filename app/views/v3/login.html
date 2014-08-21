@@ -1,0 +1,36 @@
+<div class="section" style="min-height:750px;">
+  <div class="container form-container">
+    <div class="panel panel-default col-md-8 col-md-offset-1">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sign in</h3>
+      </div>
+      <div class="panel-body">
+        <form role="form" class="form" name="loginForm" novalidate ng-submit="login(user.key, user.password)">
+          <div class="alert alert-danger" ng-show="wrongCredentials">
+            Wrong credentials
+          </div>
+
+          <div class="form-group" ng-class="{'has-error': loginForm.key.$invalid && loginForm.key.$dirty, 'has-success' : loginForm.email.$vaild && loginForm.key.$dirty}">
+            <label for="" class="control-label">Email / Username</label>
+            <input type="text" name="key" class="form-control" ng-model="user.key" required cu-focus />
+            <p class="help-block" ng-show="loginForm.key.$invalid && loginForm.key.$dirty && !loginForm.key.$focused">
+              Email or username is required
+            </p>
+          </div>
+
+          <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$dirty, 'has-success' : loginForm.password.$vaild && loginForm.password.$dirty}">
+            <label for="" class="control-label">Password</label>
+            <input type="password" name="password" class="form-control" ng-model="user.password" required cu-focus />
+            <p class="help-block" ng-show="loginForm.password.$invalid && loginForm.password.$dirty && !loginForm.password.$focused">
+              Password is required
+            </p>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit" ng-disabled="loginForm.$invalid">Sign In</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

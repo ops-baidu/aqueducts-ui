@@ -9,30 +9,145 @@ angular.module('webApp', [
   'ui.bootstrap',
   'ui.dashboard',
   'highcharts-ng',
+  'headroom',
+  'perfect_scrollbar'
 ])
-  .config(function ($routeProvider) {
+  .config(function($httpProvider){
+    $httpProvider.interceptors.push('tokenInterceptor');
+  })
+
+  .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'DashboardController'
+        controller: 'MainController',
+        access: { requiredLogin: false }
       })
-      .when('/astream/products', {
-        templateUrl: 'views/list_product.html',
-        controller: 'ProductController'
+
+      .when('/login', {
+        templateUrl: 'views/v3/login.html',
+        controller: 'UserController',
+        access: { requiredAuthentication: false }
       })
-      .when('/astream/products/:product/services', {
-        templateUrl: 'views/list_service.html' ,
-        controller: 'ServiceController'
+      .when('/join', {
+        templateUrl: 'views/v3/join.html',
+        controller: 'UserController',
+        access: { requiredAuthentication: false }
       })
-      .when('/astream/products/:product/services/:service/jobs', {
-        templateUrl: 'views/list_job.html' ,
-        controller: 'JobController'
+      // .when('/forgot_password', {
+      //   templateUrl: 'views/forgot_password.html',
+      //   controller: 'UserController',
+      //   access: { requiredAuthentication: false }
+      // })
+      // .when('/logout', {
+      //   templateUrl: 'views/logout.html',
+      //   controller: 'UserController',
+      //   access: { requiredAuthentication: true }
+      // })
+
+
+      // .when('/about', {
+      //   templateUrl: 'views/about.html',
+      //   controller: 'AboutController',
+      //   access: { requiredAuthentication: false }
+      // })
+      // .when('/tour', {
+      //   templateUrl: 'views/tour.html',
+      //   controller: 'TourController',
+      //   access: { requiredAuthentication: false }
+      // })
+      // .when('/live_demo', {
+      //   templateUrl: 'views/live_demo.html',
+      //   controller: 'LiveDemoController',
+      //   access: { requiredAuthentication: false }
+      // })
+
+
+      .when('/users/:username', {
+        templateUrl: 'views/v3/user_home.html',
+        controller: 'UserHomeController',
+        access: { requiredAuthentication: true }
       })
-      .when('/astream/products/:product/services/:service/jobs/:job', {
-        templateUrl: 'views/job_charts.html' ,
-        controller: 'JobController'
+      .when('/home', {
+        templateUrl: 'views/v3/user_home.html',
+        controller: 'UserHomeController',
+        access: { requiredAuthentication: true }
       })
+
+      .when('/users/:username/:service_name', {
+        templateUrl: 'views/v3/user_job_list.html',
+        controller: 'UserJobController',
+        access: { requiredAuthentication: true }
+      })
+
+      .when('/console', {
+        templateUrl: 'views/v3/console.html',
+        controller: 'UserConsoleController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/console/:orgname', {
+        templateUrl: 'views/v3/console.html',
+        controller: 'OrgConsoleController',
+        access: { requiredAuthentication: true }
+      })
+
+      // .when('/demo/new', {
+      //   templateUrl: 'views/new-service.html',
+      //   controller: 'DemoController',
+      //   access: { requiredAuthentication: true }
+      // })
+
+      .when('/orgs/:orgname', {
+        templateUrl: 'views/v3/org_home.html',
+        controller: 'OrgHomeController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/orgs/:orgname/:service_name', {
+        templateUrl: 'views/v3/org_job_list.html',
+        controller: 'OrgJobController',
+        access: { requiredAuthentication: true }
+      })
+
+
+      .when('/orgs/:orgname/services/new', {
+        templateUrl: 'views/v3/new_service.html',
+        controller: 'OrgServiceController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/new/org', {
+        templateUrl: 'views/v3/new_org.html',
+        controller: 'OrganizationController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/new', {
+        templateUrl: 'views/v3/new_service.html',
+        controller: 'UserServiceController',
+        access: { requiredAuthentication: true }
+      })
+
+
+
+      .when('/settings', {
+        templateUrl: 'views/v3/settings.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: true }
+      })
+
+
+
+
+
       .otherwise({
         redirectTo: '/'
       });
-  });
+    $locationProvider.html5Mode(true);
+  })
+  .run(['$rootScope', '$location', 'authenticationService', 'tokenService', function($rootScope, $location, authenticationService, tokenService) {
+    $rootScope.$on('$routeChangeStart', function(event, nextRoute) {
+      //redirect only if both isAuthenticated is false and no token is set
+      if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredAuthentication && !authenticationService.isAuthenticated && !tokenService.getToken()) {
+        $location.path('/login');
+      }
+    });
+  }]);
+
