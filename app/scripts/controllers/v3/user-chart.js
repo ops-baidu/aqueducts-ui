@@ -15,9 +15,9 @@ aqueductsApp.controller('UserChartController', [ '$scope','$http', '$q', '$route
       var item = results[0] ;
       var calc = results[1] ;
       var series = [  
-        '/v1/' + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-24h&to=now&period=60&name=today&diff=0', 
-        '/v1/' + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-48h&to=-24h&period=60&name=yesterday&diff=86400', 
-        '/v1/' + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-168h&to=-144h&period=60&name=lastweek&diff=518400',
+        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-24h&to=now&period=60&name=today&diff=0', 
+        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-48h&to=-24h&period=60&name=yesterday&diff=86400', 
+        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-168h&to=-144h&period=60&name=lastweek&diff=518400',
       ] ; 
       function getJsonFromUrl(url) {
         var query = url ; 
@@ -63,7 +63,7 @@ aqueductsApp.controller('UserChartController', [ '$scope','$http', '$q', '$route
   $q.all(promises).then(function(results) {
     var user = results[0] ;
     var service = results[1] ;
-    var promise = [ $http.get('/v1/events?product=' + user.name + '&service=' + service.name + '&item=page_view&calculation=count&from=-16s&to=now')] ;
+    var promise = [ $http.get(EventsApiBaseUrl + 'events?product=' + user.name + '&service=' + service.name + '&item=page_view&calculation=count&from=-16s&to=now')] ;
     $q.all(promise).then(function (response) {
       var result = []; 
       var o_data = response[0].data ; 
@@ -89,7 +89,7 @@ aqueductsApp.controller('UserChartController', [ '$scope','$http', '$q', '$route
                     // set up the updating of the chart each second
                     var series = this.series[0];
                     setInterval(function() {
-                        var request = '/v1/events?product=' + user.name + '&service=' + service.name + '&item=page_view&calculation=count&from=-16s&to=now' ;
+                        var request = EventsApiBaseUrl + 'events?product=' + user.name + '&service=' + service.name + '&item=page_view&calculation=count&from=-16s&to=now' ;
                         $http.get(request).success(function (data, status, headers, config) {
                           if ( data[data.length - 1] != series[series.length - 1]) {
                             series.addPoint( [data[data.length -1][0], data[data.length -1][1] ], true, true) ; 
