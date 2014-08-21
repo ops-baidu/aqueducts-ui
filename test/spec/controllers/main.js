@@ -20,3 +20,11 @@ describe('Controller: MainCtrl', function () {
     expect(scope.awesomeThings.length).toBe(3);
   });
 });
+var token = localStorage.getItem('token');
+if (token) {
+  var promise = auth.validateToken(token);
+  promise.then(successWithToken, error);
+
+} else {
+
+}

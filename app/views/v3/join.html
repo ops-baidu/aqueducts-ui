@@ -1,0 +1,54 @@
+<div class="section">
+  <div class="container form-container">
+
+    <div class="panel panel-default col-md-8 col-md-offset-1">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sign up</h3>
+      </div>
+      <div class="panel-body">
+
+        <form class="form" name="joinForm" novalidate ng-submit="join(user.email, user.name, pw1)">
+          <div class="alert alert-danger" ng-show="wrongCredentials">
+            Email or username already be taken
+          </div>
+
+          <div class="form-group" ng-class="{'has-error': joinForm.email.$invalid && joinForm.email.$dirty, 'has-success' : joinForm.email.$vaild && joinForm.email.$dirty}">
+            <label for="" class="control-label">Email</label>
+            <input type="email" name="email" class="form-control" ng-model="user.email" required cu-focus />
+            <p class="help-block" ng-show="joinForm.email.$invalid && joinForm.email.$dirty && !joinForm.email.$focused">
+              Wrong email
+            </p>
+          </div>
+          <div class="form-group" ng-class="{'has-error': joinForm.name.$invalid && joinForm.name.$dirty, 'has-success' : joinForm.name.$vaild && joinForm.name.$dirty}">
+              <label for="" class="control-label">Name</label>
+              <input type="name" name="name" class="form-control" ng-model="user.name" required cu-focus />
+              <p class="help-block" ng-show="joinForm.name.$invalid && joinForm.name.$dirty && !joinForm.name.$focused">
+                Wrong name
+              </p>
+          </div>
+
+          <div class="form-group" ng-class="{'has-error': joinForm.pw1.$invalid && joinForm.pw1.$dirty, 'has-success' : joinForm.pw1.$vaild && joinForm.pw1.$dirty}">
+            <label for="pw1" class="control-label">Password</label>
+            <input type="password" name="pw1" id="pw1" class="form-control" ng-model="pw1" required cu-focus />
+            <p class="help-block" ng-show="joinForm.pw1.$invalid && joinForm.pw1.$dirty && !joinForm.pw1.$focused">
+              Password is required
+            </p>
+          </div>
+          <div class="form-group" ng-class="{'has-error': joinForm.pw2.$invalid && joinForm.pw2.$dirty, 'has-success' : joinForm.pw2.$vaild && joinForm.pw2.$dirty}">
+            <label for="pw2" class="control-label">Confirm password</label>
+            <input type="password" name="pw2" id="pw2" class="form-control" ng-model="pw2" required cu-focus password-check="pw1"/>
+            <p class="help-block" ng-show="joinForm.pw2.$error.passwordMatch && joinForm.pw2.$invalid && joinForm.pw2.$dirty && !joinForm.pw2.$focused">
+              Passwords don't match
+            </p>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit" ng-disabled="joinForm.$invalid">Sign up</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

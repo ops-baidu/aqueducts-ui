@@ -1,0 +1,35 @@
+<div class="section" >
+  <div class="container vcard with-margin"  ng-init="init()">
+    <div class="row">
+      <div class="col-xs-6 col-md-3">
+        <img class="avatar" ng-src="{{randomImgArray[0]}}" height="230" width="230">
+        <h4 class="vcard-username" ng-model="user.name">{{user.name}}</h4>
+        <h5 class="vcard-email" ng-model="user.email"><span style="width:25px; color:#999;"class="glyphicon glyphicon-envelope"></span>{{user.email}}</h5>
+        <div class="vcard-orgs">
+          <h4>Organizations</h4>
+          <div ng-repeat="org in user.orgs">
+            <div style="padding:10px;">
+            <a href="/orgs/{{org.name}}"><img alt="ops-baidu"class="avatar" ng-src="{{randomImgArray[$index+1]}}" height="42" width="42"></a>
+            <h5><a href="/orgs/{{org.name}}">{{org.name}}</a></h5>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-9 ">
+        <div class="panel panel-default services" style="min-height:600px;">
+          <div class="panel-heading">
+            <h3 class="panel-title">Private services<a href="/new" class="glyphicon glyphicon-plus pull-right"></a></h3>
+          </div>
+          <div class="panel-body">
+            <div style="padding:30px;border-bottom:solid 1px #e4e4e4;" class="" role="" ng-repeat="service in user.services" ng-init="getJobNum(service.name)">
+              <div><a href="/users/{{user.name}}/{{service.name}}">{{service.name}}</a><span class="pull-right">{{jobNum}}<span style="color:#999;padding-left:10px;">Jobs</span></span></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

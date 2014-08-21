@@ -1,4 +1,3 @@
-<nav-bar></nav-bar>
 <div class="row">
   <h1 class="page-header">{{product.name}}</h1>
   <div class="input-group-lg">
@@ -11,6 +10,7 @@
         <th>Service Name</th>
         <th>Job Number</th>
         <th>Operate</th>
+        <th>Area & Flow</th>
       </tr>
     </thead>
     <tbody ng-repeat="service in services | filter:search" ng-controller="ServiceController" ng-init="initService(product, service)">
@@ -19,14 +19,15 @@
 	<td>{{job_number}}</td>
         <td>
           <div class="btn-group btn-group-sm">
-            <button class="btn btn-default">apply jobs</button>
-            <button class="btn btn-default">remove</button>
-            <!--
+            <!-- <button class="btn btn-default">apply jobs</button> -->
+            <!-- <button class="btn btn-default">remove</button> -->
+
             <button class="btn btn-warning" ng-click="apply(product,service)">apply jobs</button>
             <button class="btn btn-danger" ng-click="destroy(service)">remove</button>
-            -->
+
           </div>
         </td>
+        <td>{{service.flows}}</td>
       </tr>
     </tbody>
     </table>

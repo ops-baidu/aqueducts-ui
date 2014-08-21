@@ -9,6 +9,10 @@
 
 module.exports = function (grunt) {
 
+
+  var modRewrite = require('connect-modrewrite');
+
+
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
@@ -60,11 +64,46 @@ module.exports = function (grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: '0.0.0.0',
         livereload: 35729
       },
+      proxies: [
+        {
+          context: ['/v3','/v1'],
+          host: 'api.aqueducts.baidu.com',
+          // host: '10.38.137.32',
+          // host: '127.0.0.1',
+          // port: 8082
+
+          port: 80
+        }
+      ],
+
       livereload: {
         options: {
+          middleware: function (connect, options) {
+                        if (!Array.isArray(options.base)) {
+                            options.base = [options.base];
+                        }
+
+                        // Setup the proxy
+                        var middlewares = [
+                          require('grunt-connect-proxy/lib/utils').proxyRequest,
+                          modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.jpeg|\\.ico|\\.ttf|\\.woff$ /index.html [L]']),
+                        ];
+
+                        // Serve static files.
+                        options.base.forEach(function(base) {
+                            middlewares.push(connect.static(base));
+                        });
+
+                        // Make directory browse-able.
+                        var directory = options.directory || options.base[options.base.length - 1];
+                        middlewares.push(connect.directory(directory));
+
+                        return middlewares;
+          },
+
           open: true,
           base: [
             '.tmp',
@@ -388,6 +427,7 @@ module.exports = function (grunt) {
       'bower-install',
       'concurrent:server',
       'autoprefixer',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
@@ -402,6 +442,7 @@ module.exports = function (grunt) {
     'clean:server',
     'concurrent:test',
     'autoprefixer',
+    'configureProxies:server',
     'connect:test',
     'karma'
   ]);

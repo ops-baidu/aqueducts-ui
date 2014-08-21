@@ -12,7 +12,7 @@ aqueductsApp.directive('hiChart', function() {
   return {
     restrict: 'E',
     replace: true,
-    scope: { 
+    scope: {
        val: '=' ,
        product: '@',
        service: '@',
@@ -24,6 +24,13 @@ aqueductsApp.directive('hiChart', function() {
         new Highcharts.Chart(value);
       });
     }
+  };
+});
+aqueductsApp.directive('footer', function(){
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'views/footer.html'
   };
 });
 

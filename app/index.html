@@ -14,20 +14,31 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/perfect-scrollbar/min/perfect-scrollbar.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="bower_components/malhar-angular-dashboard/dist/angular-ui-dashboard.css">
     <!-- endbuild -->
+    <base href="/">
+
+
   </head>
   <body ng-app="webApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    <div id="content-wrapper">
+      <div id="content">
+        <!-- Add your site or application content here -->
+        <div ng-include src="'views/navbar.html'"></div>
 
-    <!-- Add your site or application content here -->
-    <div class="container" ng-view="">
+        <div ng-view="">
+        </div>
+
+      </div>
+      <footer id="footer"></footer>
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -67,18 +78,49 @@
     <script src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <script src="bower_components/restangular/dist/restangular.js"></script>
+    <script src="bower_components/headroom.js/dist/headroom.js"></script>
+    <script src="bower_components/headroom.js/dist/jQuery.headroom.js"></script>
+    <script src="bower_components/headroom.js/dist/angular.headroom.js"></script>
+    <script src="bower_components/perfect-scrollbar/min/perfect-scrollbar.min.js"></script>
+    <script src="bower_components/perfect-scrollbar/min/perfect-scrollbar.with-mousewheel.min.js"></script>
+    <script src="bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/config/config.js"></script>
-    <script src="scripts/controllers/product.js"></script>
-    <script src="scripts/controllers/service.js"></script>
-    <script src="scripts/controllers/job.js"></script>
-    <script src="scripts/controllers/chart.js"></script>
-    <script src="scripts/controllers/dashboard.js"></script>
+
+    <script src="scripts/services/authentication.js"></script>
+    <script src="scripts/services/token.js"></script>
+    <script src="scripts/services/interceptor.js"></script>
+    <script src="scripts/services/user.js"></script>
+
+
+    <script src="scripts/controllers/v3/main.js"></script>
+    <script src="scripts/controllers/v3/user.js"></script>
+    <script src="scripts/controllers/v3/organization.js"></script>
+
+    <script src="scripts/controllers/v3/org-service.js"></script>
+    <script src="scripts/controllers/v3/user-service.js"></script>
+
+    <script src="scripts/controllers/v3/user-job.js"></script>
+    <script src="scripts/controllers/v3/org-job.js"></script>
+    <script src="scripts/controllers/v3/user-chart.js"></script>
+    <script src="scripts/controllers/v3/org-chart.js"></script>
+
+    <script src="scripts/controllers/v3/user-home.js"></script>
+    <script src="scripts/controllers/v3/org-home.js"></script>
+
+    <script src="scripts/controllers/v3/user-console.js"></script>
+    <script src="scripts/controllers/v3/org-console.js"></script>
+    <script src="scripts/controllers/v3/settings.js"></script>
+    <script src="scripts/controllers/v3/navbar.js"></script>
+
     <script src="scripts/directives/navbar.js"></script>
+    <script src="scripts/directives/cu-focus.js"></script>
+    <script src="scripts/directives/password-check.js"></script>
+
     <!-- endbuild -->
 </body>
 </html>

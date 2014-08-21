@@ -1,0 +1,33 @@
+<div class="section">
+  <div class="container form-container">
+
+    <div class="panel panel-default col-md-8 col-md-offset-1">
+      <div class="panel-heading">
+        <h3 class="panel-title">New organization</h3>
+      </div>
+      <div class="panel-body">
+
+
+        <form class="form" role="form" name="form" novalidate ng-submit="create(org.name, org.desc)">
+          <div class="alert alert-danger" ng-show="addOrgFailed">
+            {{message}}
+          </div>
+          <div class="form-group" ng-class="{'has-error': form.name.$invalid && form.name.$dirty, 'has-success' : form.name.$vaild && form.name.$dirty}">
+              <label for="name">Name:</label>
+              <input placeholder="must be unique" id="name" name="name" type='text' required class="form-control" ng-model="org.name"/><br/>
+          </div>
+          <div class="form-group">
+              <label for="">Description:</label>
+              <input placeholder="optional"type='text' name="desc" id="desc" class="form-control" ng-model="org.desc"/><br/>
+          </div>
+
+          <div class="form-group">
+
+            <button class="btn btn-primary" ng-disabled="form.$invalid" type="submit">Create organization</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
