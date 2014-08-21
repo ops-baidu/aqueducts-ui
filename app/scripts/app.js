@@ -140,7 +140,7 @@ angular.module('webApp', [
       .otherwise({
         redirectTo: '/'
       });
-    $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode(true);
   })
   .run(['$rootScope', '$location', 'authenticationService', 'tokenService', function($rootScope, $location, authenticationService, tokenService) {
     $rootScope.$on('$routeChangeStart', function(event, nextRoute) {
