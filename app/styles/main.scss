@@ -303,6 +303,10 @@ html, body {
   // padding-bottom: 40px;
 }
 
+ul ul, ol ul {
+  list-style-type: none;
+}
+
 #footer {
   height: 60px;
   box-sizing: border-box;

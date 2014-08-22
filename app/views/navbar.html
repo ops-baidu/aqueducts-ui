@@ -17,7 +17,28 @@
             <!-- <li><a href="/tour">TOUR</a></li> -->
 
 
-            <li ng-if="isLoggedIn()"><a href="#/home">HOME</a></li>
+            <li ng-if="isLoggedIn()" class="dropdown" ng-init="getContext()">
+              <a role="button" id="drop0" data-toggle="dropdown" href="#" class="dropdown-toggle" aria-describedby="">
+                {{context}}
+                <span class="caret"></span>
+              </a>
+              <div class="dropdown-menu" role="menu">
+                <ul>
+                <li role="presentation">
+                  <a role="menuitem" tabindex="-1" ng-href="#/home" ng-click="setContext(username)">
+                  {{username}}
+                  </a>
+                </li>
+                </ul>
+                <ul ng-repeat="org in orgs">
+                  <li role="presentation">
+                    <a role="menuitem" tabindex="-1" ng-href="#/orgs/{{org.name}}" ng-click="setContext(org.name)">
+                    {{org.name}}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
 
             <li ng-if="isLoggedIn()" class="dropdown">
               <a role="button" id="drop1" data-toggle="dropdown" href="#" class="dropdown-toggle" aria-describedby="Create new...">
@@ -36,9 +57,12 @@
 
             </li>
             <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToConsole()">CONSOLE</a></li>
-            <li ng-if="isLoggedIn()"><a href="#/settings">SETTINGS</a></li>
+            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToCharts()"><span class="glyphicon glyphicon-stats"></span></a></li>
 
-            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()">LOGOUT</a></li>
+            <li ng-if="isLoggedIn()"><a href="#/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+
+            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></a></li>
+
 
             <li ng-if="!isLoggedIn()"><a href="#/login">LOGIN</a></li>
             <li ng-if="!isLoggedIn()"><a href="#/join">SIGN UP</a></li>

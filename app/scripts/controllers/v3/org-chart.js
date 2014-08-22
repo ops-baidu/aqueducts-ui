@@ -2,12 +2,22 @@
 
 var aqueductsApp = angular.module('webApp');
 aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeParams', 'Restangular', 'EventsApiBaseUrl' , function ($scope,$http,$q,$routeParams,Restangular,EventsApiBaseUrl) {
-  var orgname = $routeParams.orgname ; 
-  $scope.orgname = orgname;
-  var service_name = $routeParams.service_name ; 
-  $scope.service_name = service_name;
+  
+  $scope.init = function(){
+    var orgname = $routeParams.orgname;
+    $scope.orgname = orgname;
+    var services = Restangular.one('orgs', orgname).all('services');
+    services.getList().then(function(services){
+      $scope.services = services;
+
+    });
+
+  };
+
 
   $scope.initConfig=function(config,orgname,service_name,job) {
+    var orgname = $routeParams.orgname;
+
     var promises = [
       Restangular.one('items', job.item_id).get(),
       Restangular.one('calculations', job.calculation_id).get()

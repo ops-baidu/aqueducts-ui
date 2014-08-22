@@ -1,4 +1,4 @@
-<div class="section" style="padding-top:80px;">
+<div class="section" style="padding-top:80px;min-height:900px;">
   <div class="container">
     <h1 class="page-header"><a ng-href="#/orgs/{{orgname}}">{{orgname}}</a> / {{service_name}}
       <a type="button" class="btn btn-warning pull-right" ng-click="apply(orgname, service_name)">Apply Jobs</a>
@@ -10,7 +10,7 @@
       Failed
     </div>
     <div class="alert alert-success" ng-show="jobApplySuccess">
-      {{Successfully applied}}
+      Successfully applied
     </div>
     <div class="alert alert-danger" ng-show="jobRemoveFailed">
       Failed
@@ -41,7 +41,7 @@
             <td>
               <div class="btn-group btn-group-sm">
 
-                <button class="btn btn-danger" ng-click="destroy(job)">remove</button>
+                <span class="glyphicon glyphicon-trash" ng-click="destroy(job)"></span>
 
               </div>
             </td>

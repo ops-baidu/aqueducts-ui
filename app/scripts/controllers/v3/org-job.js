@@ -34,7 +34,7 @@ aqueductsApp.controller('OrgJobController', ['$modal', '$route','$log','$scope',
     });
 
     $scope.apply = function(orgname, service_name) {
-       Restangular.one('orgs',orgname).one('services', service_name).customPOST('apply').then(function(){
+       Restangular.one('orgs',orgname).one('services', service_name).customPOST({}, 'apply').then(function(){
           $scope.jobApplySuccess = true;
           $route.reload();
        }, function(response){
@@ -47,7 +47,7 @@ aqueductsApp.controller('OrgJobController', ['$modal', '$route','$log','$scope',
     });
 
     $scope.destroy = function(job) {
-      Restangular.one('orgs', $scope.orgname).one('services', $scope.service_name).one('jobs', job.name).remove().then(function() {
+      job.remove().then(function() {
         $route.reload();
       }, function (response) {
         $scope.jobRemoveFailed = true;
@@ -105,7 +105,7 @@ aqueductsApp.controller('OrgJobController', ['$modal', '$route','$log','$scope',
          $route.reload();
        }, function(response){
          $scope.jobCreateFailed = true;
-       )};
+       });
      });
    };
 

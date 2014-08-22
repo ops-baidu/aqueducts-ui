@@ -10,7 +10,7 @@
       Failed
     </div>
     <div class="alert alert-success" ng-show="jobApplySuccess">
-      {{Successfully applied}}
+      Successfully applied
     </div>
     <div class="alert alert-danger" ng-show="jobRemoveFailed">
       Failed
@@ -40,30 +40,22 @@
           <td>{{calculation.name}}</td>
           <td>{{tag_names}}</td>
           <td>
-            <div class="btn-group btn-group-sm">
-              <button class="btn btn-default">remove</button>
-              <!--
-              <button class="btn btn-danger" ng-click="destroy(job)">remove</button>
-              -->
-            </div>
+            <a ng-click="destroy(job)" href="javascript:void(0);"><span class="glyphicon glyphicon-trash" ></span></a>
           </td>
         </tr>
       </tbody>
       </table>
     </div>
-    <a type="button" class="btn btn-primary" ng-click="new()">New Job</a>
-    <!-- <a type="button" class="btn btn-default">Apply Jobs</a> -->
-
-    <a type="button" class="btn btn-warning" ng-click="apply(product,service)">Apply Jobs</a>
+   
   </div>
 
-  <div ng-controller="UserChartController"  class="col-md-offset-1" style="background: #F8F8F8;padding-left:50px;padding-top:100px;padding-bottom: 100px;">
+  <!-- <div ng-controller="UserChartController"  class="col-md-offset-1" style="background: #F8F8F8;padding-left:50px;padding-top:100px;padding-bottom: 100px;">
     <hi-chart val="data" product="{{username}}" service="{{service_name}}" class="span10"></hi-chart>
   </div>
   <div class="container">
     <div ng-repeat="job in jobs | filter:search" ng-controller="UserChartController" ng-init='initConfig(chartConfig, username, service_name, job)'>
       <highchart id="chart1" config="config" class="span10"></highchart>
     </div>
-  </div>
+  </div> -->
 </div>
 

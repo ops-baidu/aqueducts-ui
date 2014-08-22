@@ -33,7 +33,7 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
     });
 
     $scope.apply = function(service_name) {
-       Restangular.all('user').one('services',service_name).customPOST('apply').then(function(){
+       Restangular.all('user').one('services',service_name).customPOST({}, 'apply').then(function(){
           $scope.jobApplySuccess = true;
           $route.reload();
        }, function(response){
@@ -101,7 +101,7 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
 
 
        var jobs = Restangular.all('user').one('services', service_name).all('jobs') ;
-       jobs.post(job).then(function() {
+       jobs.customPOST({name: job.name, calculation_id: job.calculation_id, item_id:job.item_id, tag_ids:job.tag_ids}, '').then(function() {
          $route.reload();
        }, function(response){
          $scope.jobCreateFailed = true;

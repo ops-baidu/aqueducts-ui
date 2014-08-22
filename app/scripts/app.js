@@ -90,6 +90,16 @@ angular.module('webApp', [
         controller: 'OrgConsoleController',
         access: { requiredAuthentication: true }
       })
+      .when('/charts', {
+        templateUrl: 'views/v3/user_charts.html',
+        controller: 'UserChartController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/charts/:orgname', {
+        templateUrl: 'views/v3/org_charts.html',
+        controller: 'OrgChartController',
+        access: { requiredAuthentication: true }
+      })
 
       // .when('/demo/new', {
       //   templateUrl: 'views/new-service.html',
