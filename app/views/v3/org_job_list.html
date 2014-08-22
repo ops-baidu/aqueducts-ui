@@ -1,6 +1,23 @@
 <div class="section" style="padding-top:80px;">
   <div class="container">
-    <h1 class="page-header"><a href="#/orgs/{{orgname}}">{{orgname}}</a> / {{service_name}}</h1>
+    <h1 class="page-header"><a ng-href="#/orgs/{{orgname}}">{{orgname}}</a> / {{service_name}}
+      <a type="button" class="btn btn-warning pull-right" ng-click="apply(orgname, service_name)">Apply Jobs</a>
+      <a type="button" style="margin-right:20px;"class="btn btn-primary pull-right" ng-click="new()">New Job</a>
+
+    </h1>
+
+    <div class="alert alert-danger" ng-show="jobApplyFailed">
+      Failed
+    </div>
+    <div class="alert alert-success" ng-show="jobApplySuccess">
+      {{Successfully applied}}
+    </div>
+    <div class="alert alert-danger" ng-show="jobRemoveFailed">
+      Failed
+    </div>
+    <div class="alert alert-danger" ng-show="jobCreateFailed">
+      Failed
+    </div>
     <div class="input-group-lg">
       <input type="text" class="form-control" ng-model="search" placeholder="Search">
     </div>
@@ -23,19 +40,16 @@
             <td>{{j.tag_names}}</td>
             <td>
               <div class="btn-group btn-group-sm">
-                <button class="disabled btn btn-default">remove</button>
-                <!--
+
                 <button class="btn btn-danger" ng-click="destroy(job)">remove</button>
-                -->
+
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <!-- <a type="button" class="btn btn-primary" ng-click="new()">New Job</a> -->
 
-    <!-- <a type="button" class="btn btn-warning" ng-click="apply()">Apply Jobs</a> -->
   </div>
 
   <div ng-controller="OrgChartController" class="col-md-offset-1" style="background: #F8F8F8;padding-left:50px;padding-top:100px;padding-bottom: 100px;">

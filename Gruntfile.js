@@ -10,7 +10,7 @@
 module.exports = function (grunt) {
 
 
-  var modRewrite = require('connect-modrewrite');
+  // var modRewrite = require('connect-modrewrite');
 
 
   // Load grunt tasks automatically

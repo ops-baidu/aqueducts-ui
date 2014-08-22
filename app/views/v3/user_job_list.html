@@ -1,6 +1,24 @@
 <div class="section" style="padding-top:80px;">
   <div class="container">
-    <h1 class="page-header"><a href="#/home">{{username}}</a> / {{service_name}}</h1>
+    <h1 class="page-header"><a href="#/home">{{username}}</a> / {{service_name}}
+      <a type="button" class="btn btn-warning pull-right" ng-click="apply(service_name)">Apply Jobs</a>
+      <a type="button" style="margin-right:20px;"class="btn btn-primary pull-right" ng-click="new()">New Job</a>
+
+    </h1>
+
+    <div class="alert alert-danger" ng-show="jobApplyFailed">
+      Failed
+    </div>
+    <div class="alert alert-success" ng-show="jobApplySuccess">
+      {{Successfully applied}}
+    </div>
+    <div class="alert alert-danger" ng-show="jobRemoveFailed">
+      Failed
+    </div>
+    <div class="alert alert-danger" ng-show="jobCreateFailed">
+      Failed
+    </div>
+
     <div class="input-group-lg">
       <input type="text" class="form-control" ng-model="search" placeholder="Search">
     </div>

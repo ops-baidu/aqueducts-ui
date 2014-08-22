@@ -32,17 +32,26 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
       $scope.tags = tags ;
     });
 
-    // $scope.apply = function(product, service) {
-    //    Restangular.one('products',product.id).one('services',service.id).getList('apply_jobs');
-    // };
+    $scope.apply = function(service_name) {
+       Restangular.all('user').one('services',service_name).customPOST('apply').then(function(){
+          $scope.jobApplySuccess = true;
+          $route.reload();
+       }, function(response){
+          $scope.jobApplyFailed = true;
+          $scope.jobApplyFailedMsg = response.data.message;
+       });
+    };
 
     jobs.getList().then(function(jobs) {
       $scope.jobs = jobs;
     });
 
     $scope.destroy = function(job) {
-      job.remove().then(function() {
+      Restangular.all('user').one('services', $scope.service_name).one('jobs', job.name).remove().then(function() {
         $route.reload();
+      }, function (response) {
+        $scope.jobRemoveFailed = true;
+        $scope.jobRemoveFailedMsg = response.data.message;
       });
     };
 
@@ -94,6 +103,9 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
        var jobs = Restangular.all('user').one('services', service_name).all('jobs') ;
        jobs.post(job).then(function() {
          $route.reload();
+       }, function(response){
+         $scope.jobCreateFailed = true;
+         $scope.jobCreatFailedMsg = response.data.message;
        });
      });
    };
