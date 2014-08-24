@@ -53,6 +53,15 @@ angular.module('webApp').controller('OrgHomeController', ['$scope', 'Restangular
       $scope.addMemberFailed = true;
     });
   };
+  $scope.remove = function(name){
+    var orgname = $routeParams.orgname;
+    var org = Restangular.one('orgs', orgname);
+    org.customPOST({username: name}, "remove_member").then(function(){
+      $route.reload();
+    }, function(){
+      $scope.removeMemberFailed = true;
+    });
+  };
   $scope.getJobNum = function(name){
     var orgname = $routeParams.orgname;
 

@@ -337,7 +337,7 @@ ul ul, ol ul {
 }
 .scroller {
   height: 600px;
-  width: 570px;
+  width: 100%;
   overflow-y: hidden;
   position: relative;
 }
@@ -374,3 +374,11 @@ ul ul, ol ul {
   font-size: 18px;
 }
 
+.panel-default > .console-heading {
+  background-color: #9AB270;
+  border: none;
+}
+.navbar-right a {
+  text-align: left;
+  padding-right: 0;
+}

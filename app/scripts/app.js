@@ -29,6 +29,11 @@ angular.module('webApp', [
         controller: 'UserController',
         access: { requiredAuthentication: false }
       })
+      .when('/guest', {
+        templateUrl: 'views/v3/login.html',
+        controller: 'GuestController',
+        access: { requiredAuthentication: false }
+      })
       .when('/join', {
         templateUrl: 'views/v3/join.html',
         controller: 'UserController',

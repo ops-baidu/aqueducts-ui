@@ -2,17 +2,7 @@
 
 var aqueductsApp = angular.module('webApp');
 aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope', '$routeParams', '$location','Restangular', function($modal, $route, $log, $scope, $routeParams, $location, Restangular) {
-    $scope.chartConfig = {
-     useHighStocks : true,
-     credits : true,
-     rangeSelector : {
-       selected : 1
-     },
-     title : {
-       text : 'placeholder'
-     },
-     series : [],
-    };
+
     var username = $routeParams.username;
     var service_name = $routeParams.service_name ;
 
@@ -20,7 +10,9 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
     $scope.service_name = service_name;
 
     var jobs = Restangular.all('user').one('services', service_name).all('jobs');
-
+    jobs.getList().then(function(jobs) {
+      $scope.jobs = jobs;
+    });
 
     Restangular.all('items').getList().then(function(items) {
       $scope.items = items ;
@@ -42,12 +34,8 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
        });
     };
 
-    jobs.getList().then(function(jobs) {
-      $scope.jobs = jobs;
-    });
-
     $scope.destroy = function(job) {
-      Restangular.all('user').one('services', $scope.service_name).one('jobs', job.name).remove().then(function() {
+      job.remove().then(function() {
         $route.reload();
       }, function (response) {
         $scope.jobRemoveFailed = true;
@@ -101,7 +89,9 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
 
 
        var jobs = Restangular.all('user').one('services', service_name).all('jobs') ;
-       jobs.customPOST({name: job.name, calculation_id: job.calculation_id, item_id:job.item_id, tag_ids:job.tag_ids}, '').then(function() {
+       // jobs.customPOST({name: job.name, calculation_id: job.calculation_id, item_id:job.item_id, tag_ids:job.tag_ids}, '').then(function() {
+       jobs.post(job).then(function() {
+
          $route.reload();
        }, function(response){
          $scope.jobCreateFailed = true;

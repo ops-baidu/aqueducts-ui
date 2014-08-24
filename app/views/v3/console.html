@@ -1,46 +1,29 @@
-<div class="section">
-  <div class="container form-container">
-    <div class="row">
-      <div class="panel panel-default col-md-7 console">
-        <div class="panel-heading">
-          <h3 class="panel-title">Console<a href="javascript:void(0);" ng-click="stopEvents()"><span class="pull-right glyphicon glyphicon-pause"></span></a></h3>
-          
-        </div>
-        <div class="">
-          <perfect-scrollbar class="panel-body scroller" wheel-propagation="true" wheel-speed="50" refresh-on-change="msg">
-          <div ng-repeat="m in msg">
-              <!-- <p>in_time:{{m.event_time | date:'yyyy-MM-dd HH:mm:ss'}} page_view:{{m.page_view}} idc:{{m.idc}}</p><br/> -->
+<div style="padding-top:80px;">
+  <div class="panel panel-default console">
+    <div class="panel-heading console-heading">
+      <div class="container" style="padding-right:0px;padding-left:0px;">
 
-              <p>{{m[0].event_time | date:'yyyy-MM-dd HH:mm:ss'}} <span style="color:#B58900">page_view </span>{{m[0].page_view}} <span style="color:#258CCD">idc</span> {{m[0].idc}}</p>
-              <!-- <p>{{m[1].event_time | date:'yyyy-MM-dd HH:mm:ss'}} <span style="color:#B58900">page_view </span>{{m[1].page_view}} <span style="color:#258CCD">idc</span> {{m[1].idc}}</p><br/> -->
-              <!-- <p>{{m[2].event_time | date:'yyyy-MM-dd HH:mm:ss'}} <span style="color:#B58900">page_view </span>{{m[2].page_view}} <span style="color:#258CCD">idc</span> {{m[2].idc}}</p><br/> -->
-          </div>
-        </perfect-scrollbar>
-        </div>
-      </div>
-      <div class="col-md-4 col-md-offset-1" ng-init="init()">
-        <div class="panel panel-default job" style="min-height:645px;">
-          <div class="panel-heading">
-            <h3 class="panel-title">Services</h3>
-
-          </div>
-          <div class="panel-body">
-
-            <div ng-repeat="service in services">
-              <div style="padding:30px;border-bottom:solid 1px #e4e4e4;">
-                <a  href="javascript:void(0);"ng-click="consume(service.name)"><span>{{service.name}}</span></a>
-                <!-- <span class="pull-right"> -->
-                  <!-- <a type="button" class="btn btn-primary" >Consume</a> -->
-                  <!-- <a type="button" class="btn btn-warning" ng-click="stopEvents()">Stop</a> -->
-                <!-- </span> -->
-              </div>
+        <div class="btn-group dropdown">
+          <button type="button" class="btn btn-lg btn-default dropdown-toggle"data-toggle="dropdown">{{serviceContext}}
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <div ng-repeat="service in services" class="list-group" style="margin:0px;">
+              <a style="border-left:none; border-right:none;border-top:none;border-radius:0"class="list-group-item"href="javascript:void(0);"ng-click="consume(service.name)">{{service.name}}
+              </a>
             </div>
           </div>
         </div>
-  
+        <a href="javascript:void(0);" ng-click="stopEvents()" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
+          PAUSE<span class="glyphicon glyphicon-pause" style="padding-left:10px;"></span>
+        </a>
       </div>
-
     </div>
-
+    <perfect-scrollbar class="panel-body scroller" wheel-propagation="true" wheel-speed="50" refresh-on-change="msg">
+      <div ng-repeat="m in msg">
+        <p>{{m[0].event_time | date:'yyyy-MM-dd HH:mm:ss'}} <span style="color:#B58900">page_view </span>{{m[0].page_view}} <span style="color:#258CCD">idc</span> {{m[0].idc}}</p>
+      </div>
+    </perfect-scrollbar>
   </div>
 </div>

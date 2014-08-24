@@ -1,4 +1,4 @@
-<div class="section" style="padding-top:80px;">
+<div class="section" style="padding-top:80px;min-height:800px;">
   <div class="container">
     <h1 class="page-header"><a href="#/home">{{username}}</a> / {{service_name}}
       <a type="button" class="btn btn-warning pull-right" ng-click="apply(service_name)">Apply Jobs</a>
@@ -46,16 +46,6 @@
       </tbody>
       </table>
     </div>
-   
   </div>
-
-  <!-- <div ng-controller="UserChartController"  class="col-md-offset-1" style="background: #F8F8F8;padding-left:50px;padding-top:100px;padding-bottom: 100px;">
-    <hi-chart val="data" product="{{username}}" service="{{service_name}}" class="span10"></hi-chart>
-  </div>
-  <div class="container">
-    <div ng-repeat="job in jobs | filter:search" ng-controller="UserChartController" ng-init='initConfig(chartConfig, username, service_name, job)'>
-      <highchart id="chart1" config="config" class="span10"></highchart>
-    </div>
-  </div> -->
 </div>
 

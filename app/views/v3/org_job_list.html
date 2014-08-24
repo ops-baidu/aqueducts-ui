@@ -41,7 +41,7 @@
             <td>
               <div class="btn-group btn-group-sm">
 
-                <span class="glyphicon glyphicon-trash" ng-click="destroy(job)"></span>
+                <a href="javascript:void(0);"><span class="glyphicon glyphicon-trash" ng-click="destroy(job)"></span><a>
 
               </div>
             </td>
@@ -52,13 +52,5 @@
 
   </div>
 
-  <div ng-controller="OrgChartController" class="col-md-offset-1" style="background: #F8F8F8;padding-left:50px;padding-top:100px;padding-bottom: 100px;">
-    <hi-chart val="data" product="{{orgname}}" service="{{service_name}}" class="span10"></hi-chart>
-  </div>
-  <div class="container">
-    <div ng-repeat="job in jobs | filter:search" ng-controller="OrgChartController" ng-init='initConfig(chartConfig, orgname, service_name, job)'>
-      <highchart id="chart1" config="config" class="span10"></highchart>
-    </div>
-  </div>
 </div>
 
