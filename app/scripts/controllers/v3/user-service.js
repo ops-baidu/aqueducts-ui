@@ -51,7 +51,7 @@ aqueductsApp.controller('UserServiceController', ['$modal', '$route','$log','$sc
       label: '流量大于100,000',
     }];
 
-    $scope.service = { demo: false, label: 'New Service', name: '', huabei: true, huadong: false, selectFlow_huadong: 1, selectFlow_huabei: 1};
+    $scope.service = { demo: false, label: 'New private service', name: '', huabei: true, huadong: false, selectFlow_huadong: 1, selectFlow_huabei: 1};
   };
 
 }]);

@@ -15,8 +15,11 @@
             </div>
           </div>
         </div>
-        <a href="javascript:void(0);" ng-click="stopEvents()" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
+        <a ng-if="pause"href="javascript:void(0);" ng-click="stopEvents()" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
           PAUSE<span class="glyphicon glyphicon-pause" style="padding-left:10px;"></span>
+        </a>
+        <a ng-if="live" href="javascript:void(0);" ng-click="consume(serviceContext)" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
+          LIVE<span class="glyphicon glyphicon-play" style="padding-left:10px;"></span>
         </a>
       </div>
     </div>

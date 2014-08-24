@@ -10,14 +10,20 @@ aqueductsApp.controller('UserConsoleController', ['$scope', '$routeParams',
     $scope.user = user;
   });
   $scope.serviceContext = "Services";
-
+  $scope.live = false;
+  $scope.pause = false;
   $scope.stopEvents = function(){
+    $scope.live = true;
+    $scope.pause = false;
     $interval.cancel($scope.intervalPromise);
   };
 
   $scope.consume = function(service_name){
     $scope.serviceContext = service_name;
     $scope.stopEvents();
+    $scope.live = false;
+    $scope.pause = true;
+
     $scope.msg = [];
     var consuming = function(){
       Restangular.all('kafka').customGET('consume', {product: $scope.user.name, service: service_name, area: 'HB'}).then(function(msg){

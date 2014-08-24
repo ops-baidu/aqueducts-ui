@@ -9,6 +9,7 @@ angular.module('webApp').controller('OrgHomeController', ['$scope', 'Restangular
     var org = Restangular.one('orgs', orgname);
     org.get().then(function(o){
       $scope.org = o;
+      $scope.owner_id = o.owner_id;
       Restangular.all('user').customGET('info').then(function(user) {
         if (user.id == o.owner_id) {
           $scope.owner = true;
@@ -43,6 +44,9 @@ angular.module('webApp').controller('OrgHomeController', ['$scope', 'Restangular
     });
 
 
+  };
+  $scope.isOwner = function(person_id){
+    return person_id == $scope.owner_id;
   };
   $scope.add = function(name){
     var orgname = $routeParams.orgname;

@@ -6,7 +6,9 @@
         <h4 class="vcard-username" ng-model="user.name">{{user.name}}</h4>
         <h5 class="vcard-email" ng-model="user.email"><span style="width:25px; color:#999;"class="glyphicon glyphicon-envelope"></span>{{user.email}}</h5>
         <div class="vcard-orgs">
-          <h4>Organizations</h4>
+          <h4>Organizations
+            <span class="badge pull-right"style="margin-right:40px;margin-top:2px;">{{user.orgs.length}}</span>
+          </h4>
           <div ng-repeat="org in user.orgs">
             <div style="padding:10px;">
             <a ng-href="#/orgs/{{org.name}}"><img alt="ops-baidu"class="avatar" ng-src="{{randomImgArray[$index+1]}}" height="42" width="42"></a>

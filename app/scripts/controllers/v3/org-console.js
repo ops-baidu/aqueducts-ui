@@ -10,20 +10,25 @@ aqueductsApp.controller('OrgConsoleController', ['$scope', '$routeParams',
     $scope.services = services;
   });
   $scope.serviceContext = "Services";
-
+  $scope.live = false;
+  $scope.pause = false;
 
   $scope.stopEvents = function(){
+    $scope.live = true;
+    $scope.pause = false;
     $interval.cancel($scope.intervalPromise);
   };
 
   $scope.consume = function(service_name){
     $scope.serviceContext = service_name;
     $scope.stopEvents();
+    $scope.pause = true;
+    $scope.live = false;
     $scope.msg = [];
     var consuming = function(){
-      Restangular.all('kafka').customGET('consume', {product: $scope.orgname, service: service_name, area: 'HB'}).then(function(msg){
-        $scope.msg.push(msg);
-      });
+      // Restangular.all('kafka').customGET('consume', {product: $scope.orgname, service: service_name, area: 'HB'}).then(function(msg){
+      //   $scope.msg.push(msg);
+      // });
     };
     $scope.intervalPromise = $interval(consuming, 1000);
   };
