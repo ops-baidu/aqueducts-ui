@@ -26,8 +26,12 @@ aqueductsApp.controller('UserConsoleController', ['$scope', '$routeParams',
 
     $scope.msg = [];
     var consuming = function(){
-      Restangular.all('kafka').customGET('consume', {product: $scope.user.name, service: service_name, area: 'HB'}).then(function(msg){
+      Restangular.all('kafka').customGET('consume', {username: $scope.user.name, service: service_name, area: 'HB'}).then(function(msg){
         $scope.msg.push(msg);
+      }, function(response){
+        $scope.stopEvents();
+        $scope.msg.push([{"error": "no events"},]);
+
       });
     };
     $scope.intervalPromise = $interval(consuming, 1500);
