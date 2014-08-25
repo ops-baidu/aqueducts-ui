@@ -1,7 +1,7 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('UserServiceController', ['$modal', '$route','$log','$scope', '$routeParams', '$location','Restangular', '$window', function($modal, $route, $log, $scope, $routeParams, $location, Restangular, $window) {
+aqueductsApp.controller('UserServiceController', ['$modal', '$route','$scope', '$routeParams', '$location','Restangular', '$window', function($modal, $route, $scope, $routeParams, $location, Restangular, $window) {
   $scope.create = function () {
     var services = Restangular.all('user').all('services');
     var name = $scope.service.name ;

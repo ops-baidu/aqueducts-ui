@@ -26,11 +26,11 @@ aqueductsApp.controller('OrgConsoleController', ['$scope', '$routeParams',
     $scope.live = false;
     $scope.msg = [];
     var consuming = function(){
-      // Restangular.all('kafka').customGET('consume', {product: $scope.orgname, service: service_name, area: 'HB'}).then(function(msg){
-      //   $scope.msg.push(msg);
-      // });
+      Restangular.all('kafka').customGET('consume', {product: $scope.orgname, service: service_name, area: 'HB'}).then(function(msg){
+        $scope.msg.push(msg);
+      });
     };
-    $scope.intervalPromise = $interval(consuming, 1000);
+    $scope.intervalPromise = $interval(consuming, 1500);
   };
 }]);
 

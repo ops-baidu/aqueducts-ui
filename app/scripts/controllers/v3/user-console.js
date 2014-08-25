@@ -30,7 +30,7 @@ aqueductsApp.controller('UserConsoleController', ['$scope', '$routeParams',
         $scope.msg.push(msg);
       });
     };
-    $scope.intervalPromise = $interval(consuming, 1000);
+    $scope.intervalPromise = $interval(consuming, 1500);
   };
 
 }]);

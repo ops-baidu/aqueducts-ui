@@ -20,7 +20,7 @@ aqueductsApp.directive('hiChart', function() {
     link: function(scope, elm, attrs) {
       scope.$watch('val', function(value) {
         value.chart.renderTo = elm[0] ;
-        value.chart.width = 1100;
+        value.chart.width = 950;
         new Highcharts.Chart(value);
       });
     }

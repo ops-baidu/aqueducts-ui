@@ -33,7 +33,7 @@
           <th>Operation</th>
         </tr>
       </thead>
-      <tbody ng-repeat="job in jobs | filter:search" ng-init="initJob(job)">
+      <tbody ng-repeat="job in jobs | filter:search" ng-controller="UserJobController"ng-init="initJob(job)">
         <tr>
           <td>{{job.name}}</td>
           <td>{{item.name}}</td>

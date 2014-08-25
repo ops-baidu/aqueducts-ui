@@ -15,8 +15,6 @@ angular.module('webApp').controller('GuestController', ['$scope', '$location', '
         $location.path('/users/' + data.name);
       }).error(function(status, data) {
         $scope.wrongCredentials = true;
-        // console.log(status);
-        // console.log(data);
       });
     }
   };

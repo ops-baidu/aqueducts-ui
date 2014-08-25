@@ -1,7 +1,7 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope', '$routeParams', '$location','Restangular', function($modal, $route, $log, $scope, $routeParams, $location, Restangular) {
+aqueductsApp.controller('UserJobController', ['$modal', '$route', '$scope', '$routeParams', '$location','Restangular', function($modal, $route, $scope, $routeParams, $location, Restangular) {
 
     var username = $routeParams.username;
     var service_name = $routeParams.service_name ;
@@ -85,7 +85,6 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
                 + "_" +  $routeParams.service_name
                 + "_" + job.item.name
                 + "_" + job.calc.name ;
-       // console.log(job);
 
 
        var jobs = Restangular.all('user').one('services', service_name).all('jobs') ;

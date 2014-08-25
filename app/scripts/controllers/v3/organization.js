@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('webApp').controller('OrganizationController', ['$route','$scope', '$routeParams', '$location', 'Restangular', 'tokenService', function($route, $scope, $routeParams, $location, Restangular, tokenService) {
+angular.module('webApp').controller('OrganizationController', ['$scope', '$location', 'Restangular', function($scope, $location, Restangular) {
   $scope.create = function (name, desc) {
     var orgs = Restangular.all('orgs');
 

@@ -14,24 +14,4 @@ angular.module('webApp').service('tokenService', function(){
   };
 
 
-  // this.validateToken = function(token){
-  //   var promise = $http.post('/v3/validate_token', {token: token});
-  //   promise.then(success, error);
-
-  // };
-
-  // this.resetToken = function(token){
-
-  // };
-
-  // var success = function(response){
-  //   setToken(response.data.token);
-  //   $location.path('/');
-  // };
-
-  // var error = function(response){
-  //   $scope.wrongCredentials = true;
-  // };
-
-
 });

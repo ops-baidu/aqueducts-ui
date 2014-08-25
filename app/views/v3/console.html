@@ -4,8 +4,8 @@
       <div class="container" style="padding-right:0px;padding-left:0px;">
 
         <div class="btn-group dropdown">
-          <button type="button" class="btn btn-lg btn-default dropdown-toggle"data-toggle="dropdown">{{serviceContext}}
-            <span class="caret"></span>
+          <button type="button" style="color:#777;border:none;"class="btn btn-lg btn-default dropdown-toggle"data-toggle="dropdown">{{serviceContext}}
+            <span style="color:#777;"class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu" role="menu">
@@ -15,17 +15,20 @@
             </div>
           </div>
         </div>
-        <a ng-if="pause"href="javascript:void(0);" ng-click="stopEvents()" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
+        <a ng-show="pause"href="javascript:void(0);" ng-click="stopEvents()" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
           PAUSE<span class="glyphicon glyphicon-pause" style="padding-left:10px;"></span>
         </a>
-        <a ng-if="live" href="javascript:void(0);" ng-click="consume(serviceContext)" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
+        <a ng-show="live" href="javascript:void(0);" ng-click="consume(serviceContext)" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
           LIVE<span class="glyphicon glyphicon-play" style="padding-left:10px;"></span>
         </a>
       </div>
     </div>
     <perfect-scrollbar class="panel-body scroller" wheel-propagation="true" wheel-speed="50" refresh-on-change="msg">
-      <div ng-repeat="m in msg">
-        <p>{{m[0].event_time | date:'yyyy-MM-dd HH:mm:ss'}} <span style="color:#B58900">page_view </span>{{m[0].page_view}} <span style="color:#258CCD">idc</span> {{m[0].idc}}</p>
+      <div ng-repeat="m in msg" style="padding-bottom:10px;">
+        <span ng-repeat="(key, val) in m[0]" ng-show="key!='@timestamp' && key!='@version'">
+          <span style="color: #B58900">{{key}}</span>
+          <span style="color:#258CCD">{{val}}</span>
+        </span>
       </div>
     </perfect-scrollbar>
   </div>

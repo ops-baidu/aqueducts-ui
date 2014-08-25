@@ -1,5 +1,5 @@
 <div class="section" >
-  <div class="container vcard with-margin"  ng-init="init()">
+  <div class="container vcard with-margin">
     <div class="row">
       <div class="col-xs-6 col-md-3">
         <img class="avatar" ng-src="{{randomImgArray[0]}}" height="230" width="230">
@@ -23,12 +23,12 @@
             <h3 class="panel-title">Private services<a href="#/new" class="glyphicon glyphicon-plus pull-right"></a></h3>
           </div>
           <div class="panel-body">
-            <div style="padding:30px;border-bottom:solid 1px #e4e4e4;" class="" role="" ng-repeat="service in user.services" ng-init="getJobNum(service.name)">
+            <div style="padding:30px;border-bottom:solid 1px #e4e4e4;" class="" role="" ng-repeat="service in user.services" >
               <a ng-href="#/users/{{user.name}}/{{service.name}}">{{service.name}}</a>
               <div class="pull-right">
                   <span class="bg-success" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;"ng-if="service.flows.huabei">华北</span>
                   <span class="bg-warning" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;"ng-if="service.flows.huadong">华东</span>
-                  <span style="padding-left:20px;">{{jobNum}}</span>
+                  <span style="padding-left:20px;"ng-controller="UserHomeController"ng-init="getJobNum(service.name)">{{jobNum}}</span>
                   <span style="color:#999;padding-left:4px;">Jobs</span>
               </div>
             </div>

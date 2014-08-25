@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('webApp').factory('tokenInterceptor', ['$q', '$window', '$location', 'authenticationService', 'tokenService', function ($q, $window, $location, authenticationService, tokenService) {
+angular.module('webApp').factory('tokenInterceptor', ['$q', '$location', 'authenticationService', 'tokenService', function ($q, $location, authenticationService, tokenService) {
   return {
     request: function (config) {
       config.headers = config.headers || {};

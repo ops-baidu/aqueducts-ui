@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('webApp').controller('NavbarController', ['$scope', 'authenticationService', 'tokenService', '$location','$routeParams', 'Restangular',function ($scope, authenticationService, tokenService, $location, $routeParams, Restangular) {
+angular.module('webApp').controller('NavbarController', ['$scope', 'authenticationService', 'tokenService',
+  '$location', '$routeParams', 'Restangular',function ($scope, authenticationService, tokenService, $location, $routeParams, Restangular) {
   $scope.isLoggedIn = function(){
     return authenticationService.isAuthenticated;
   };

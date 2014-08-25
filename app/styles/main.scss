@@ -384,8 +384,17 @@ ul ul, ol ul {
 }
 
 .owner {
+  color: #F38630;
+}
+.normal {
+  color: #6A4A3C;
+}
+.admin {
   color: #9AB270;
 }
-.notowner {
+.guest {
   color: #999;
+}
+.help-block {
+  font-size: 14px;
 }
