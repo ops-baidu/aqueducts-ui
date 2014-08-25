@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('webApp').controller('UserController', ['$scope', '$location', '$window', 'userService', 'authenticationService',
-    'tokenService', function ($scope, $location, $window, userService, authenticationService, tokenService) {
+angular.module('webApp').controller('UserController', ['$scope', '$location', 'userService', 'authenticationService',
+    'tokenService', function ($scope, $location, userService, authenticationService, tokenService) {
   $scope.login = function login(key, password) {
     if (key != null && password != null) {
 
@@ -12,8 +12,6 @@ angular.module('webApp').controller('UserController', ['$scope', '$location', '$
         $location.path('/users/' + data.name);
       }).error(function(status, data) {
         $scope.wrongCredentials = true;
-        // console.log(status);
-        // console.log(data);
       });
     }
   };
@@ -32,8 +30,6 @@ angular.module('webApp').controller('UserController', ['$scope', '$location', '$
       }).error(function(status, data) {
         $scope.wrongCredentials = true;
 
-        // console.log(status);
-        // console.log(data);
       });
     }
   };

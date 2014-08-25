@@ -1,14 +1,22 @@
-<div class="section" ng-init="init()">
+<div class="section">
   <div class="container with-margin no">
     <div class="row">
       <div class="col-xs-8 col-md-7">
         <div class="panel panel-default services">
           <div class="panel-heading">
-            <h3 class="panel-title">Services<a href="#/orgs/{{org.name}}/services/new" class="glyphicon glyphicon-plus pull-right"></a></h3>
+            <h3 class="panel-title">Services<a ng-href="#/orgs/{{org.name}}/services/new" class="glyphicon glyphicon-plus pull-right"></a></h3>
           </div>
           <div class="panel-body">
-            <div style="padding:30px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="service in org.services" ng-init="getJobNum(service.name)">
-              <div><a href="#/orgs/{{org.name}}/{{service.name}}">{{service.name}}</a><span class="pull-right">{{jobNum}}<span style="color:#999;padding-left:10px;">Jobs</span></span></div>
+            <div style="padding:30px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="service in org.services">
+              <div>
+                <a ng-href="#/orgs/{{org.name}}/{{service.name}}">{{service.name}}</a>
+                <div class="pull-right">
+                  <span class="bg-success" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;"ng-if="service.flows.huabei">华北</span>
+                  <span class="bg-warning" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;"ng-if="service.flows.huadong">华东</span>
+                  <span style="padding-left:20px;"ng-controller="OrgHomeController" ng-init="getJobNum(service.name)">{{jobNum}}</span>
+                  <span style="color:#999;padding-left:4px;">Jobs</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -16,11 +24,24 @@
       <div class="col-xs-6 col-md-3 col-md-offset-1">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">People</h3>
+            <h3 class="panel-title">People
+              <span class="badge pull-right">{{org.people.length}}</span>
+            </h3>
           </div>
           <div class="panel-body">
+            <div style="padding-bottom:20px;padding-left:10px;">
+              <span class="owner">Owner</span>
+              <span class="admin">Admin</span>
+              <span class="normal">Normal</span>
+              <span class="guest">Guest</span>
+            </div>
+            <div class="alert alert-danger" ng-show="removeMemberFailed">
+                Failed
+              </div>
             <div style="padding:10px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="person in org.people">
-              <div><span class="glyphicon glyphicon-user" style="padding-right:20px;color:#999"></span>{{person.name}}</div>
+              <div ng-controller="OrgHomeController"ng-init="getRole(person)"><span ng-class="{owner: isOwner, admin: isAdmin, normal: isNormal, guest: isGuest}"class="glyphicon glyphicon-user" style="padding-right:20px;"></span>{{person.name}}
+                <a href="javascript:void(0);"ng-click="remove(person.name)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+              </div>
             </div>
           </div>
         </div>
@@ -34,7 +55,7 @@
               </div>
               <input type="text" class="form-control" ng-model="search.name" placeholder="Find a person">
               <div style="padding:10px;border-bottom:solid 1px #e4e4e4;"ng-repeat="user in users | filter:search">
-                <div><a ng-click="add(user.name)" href="javascript:void(0);">{{ user.name }}<span class="glyphicon glyphicon-plus pull-right"></span></a></div>
+                <div>{{ user.name }}<a ng-click="add(user.name)" href="javascript:void(0);"><span class="glyphicon glyphicon-plus pull-right"></span></a></div>
               </div>
             </form>
           </div>

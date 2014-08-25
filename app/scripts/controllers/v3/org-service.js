@@ -1,7 +1,7 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('OrgServiceController', ['$modal', '$route','$log','$scope', '$routeParams', '$location','Restangular', '$window', function($modal, $route, $log, $scope, $routeParams, $location, Restangular, $window) {
+aqueductsApp.controller('OrgServiceController', ['$modal', '$route','$scope', '$routeParams', '$location','Restangular', function($modal, $route, $scope, $routeParams, $location, Restangular) {
   $scope.create = function () {
 
     var services = Restangular.one('orgs', $scope.orgname).all('services');

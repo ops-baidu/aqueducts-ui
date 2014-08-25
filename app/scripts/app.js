@@ -29,6 +29,11 @@ angular.module('webApp', [
         controller: 'UserController',
         access: { requiredAuthentication: false }
       })
+      .when('/guest', {
+        templateUrl: 'views/v3/login.html',
+        controller: 'GuestController',
+        access: { requiredAuthentication: false }
+      })
       .when('/join', {
         templateUrl: 'views/v3/join.html',
         controller: 'UserController',
@@ -88,6 +93,16 @@ angular.module('webApp', [
       .when('/console/:orgname', {
         templateUrl: 'views/v3/console.html',
         controller: 'OrgConsoleController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/charts', {
+        templateUrl: 'views/v3/user_charts.html',
+        controller: 'UserChartController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/charts/:orgname', {
+        templateUrl: 'views/v3/org_charts.html',
+        controller: 'OrgChartController',
         access: { requiredAuthentication: true }
       })
 

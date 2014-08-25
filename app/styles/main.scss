@@ -303,6 +303,10 @@ html, body {
   // padding-bottom: 40px;
 }
 
+ul ul, ol ul {
+  list-style-type: none;
+}
+
 #footer {
   height: 60px;
   box-sizing: border-box;
@@ -333,7 +337,7 @@ html, body {
 }
 .scroller {
   height: 600px;
-  width: 570px;
+  width: 100%;
   overflow-y: hidden;
   position: relative;
 }
@@ -368,5 +372,29 @@ html, body {
 
 .panel-title {
   font-size: 18px;
+}
 
+.panel-default > .console-heading {
+  background-color: #9AB270;
+  border: none;
+}
+.navbar-right a {
+  text-align: left;
+  padding-right: 0;
+}
+
+.owner {
+  color: #F38630;
+}
+.normal {
+  color: #6A4A3C;
+}
+.admin {
+  color: #9AB270;
+}
+.guest {
+  color: #999;
+}
+.help-block {
+  font-size: 14px;
 }

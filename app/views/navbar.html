@@ -17,7 +17,25 @@
             <!-- <li><a href="/tour">TOUR</a></li> -->
 
 
-            <li ng-if="isLoggedIn()"><a href="#/home">HOME</a></li>
+            <li ng-if="isLoggedIn()" class="dropdown" ng-init="getContext()">
+              <a role="button" id="drop0" data-toggle="dropdown" href="#" class="dropdown-toggle" aria-describedby="">
+                {{context}}
+                <span class="caret"></span>
+              </a>
+              <div class="dropdown-menu" role="menu">
+                <div class="list-group" style="margin:0px;">
+                  <a style="border-radius:0;border-top:none;"class="list-group-item" ng-href="#/home" ng-click="setContext(username)">
+                  {{username}}
+                  </a>
+                  <div ng-repeat="org in orgs">
+                    <a style="border-left:none; border-right:none;border-bottom:none;border-radius:0"class="list-group-item" ng-href="#/orgs/{{org.name}}" ng-click="setContext(org.name)">
+                    {{org.name}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToConsole()">CONSOLE</a></li>
 
             <li ng-if="isLoggedIn()" class="dropdown">
               <a role="button" id="drop1" data-toggle="dropdown" href="#" class="dropdown-toggle" aria-describedby="Create new...">
@@ -25,7 +43,7 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#/new">New service</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#/new">New private service</a></li>
                 <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#/demo/new">New demo service</a></li> -->
 
                 <li role="presentation" class="divider"></li>
@@ -35,10 +53,13 @@
 
 
             </li>
-            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToConsole()">CONSOLE</a></li>
-            <li ng-if="isLoggedIn()"><a href="#/settings">SETTINGS</a></li>
+            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToCharts()"><span class="glyphicon glyphicon-stats"></span></a></li>
 
-            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()">LOGOUT</a></li>
+            <li ng-if="isLoggedIn()"><a href="#/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+
+            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></a></li>
+
+            <li ng-if="!isLoggedIn()"><a href="#/guest">GUEST</a></li>
 
             <li ng-if="!isLoggedIn()"><a href="#/login">LOGIN</a></li>
             <li ng-if="!isLoggedIn()"><a href="#/join">SIGN UP</a></li>

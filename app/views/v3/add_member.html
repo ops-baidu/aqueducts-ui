@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h3>Add member</h3>
+</div>
+<form name="addForm">
+<fieldset>
+<div class="modal-body">
+  <input type="radio" ng-model="member.role" value="1">
+  <span class="glyphicon glyphicon-user admin"></span> Admin <br/>
+  <p class="help-block"> Write and read access to all services</p><br/>
+  <input type="radio" ng-model="member.role" value="2">
+  <span class="glyphicon glyphicon-user normal"></span> Normal <br/>
+  <p class="help-block"> Read access to all services and write access to services ones created</p><br/>
+  <input type="radio" ng-model="member.role" value="3"> 
+  <span class="glyphicon glyphicon-user guest"></span> Guest <br/>
+  <p class="help-block"> Read access to all services</p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
+</fieldset>
+</form>

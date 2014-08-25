@@ -1,18 +1,8 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope', '$routeParams', '$location','Restangular', function($modal, $route, $log, $scope, $routeParams, $location, Restangular) {
-    $scope.chartConfig = {
-     useHighStocks : true,
-     credits : true,
-     rangeSelector : {
-       selected : 1
-     },
-     title : {
-       text : 'placeholder'
-     },
-     series : [],
-    };
+aqueductsApp.controller('UserJobController', ['$modal', '$route', '$scope', '$routeParams', '$location','Restangular', function($modal, $route, $scope, $routeParams, $location, Restangular) {
+
     var username = $routeParams.username;
     var service_name = $routeParams.service_name ;
 
@@ -20,7 +10,9 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
     $scope.service_name = service_name;
 
     var jobs = Restangular.all('user').one('services', service_name).all('jobs');
-
+    jobs.getList().then(function(jobs) {
+      $scope.jobs = jobs;
+    });
 
     Restangular.all('items').getList().then(function(items) {
       $scope.items = items ;
@@ -32,17 +24,22 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
       $scope.tags = tags ;
     });
 
-    // $scope.apply = function(product, service) {
-    //    Restangular.one('products',product.id).one('services',service.id).getList('apply_jobs');
-    // };
-
-    jobs.getList().then(function(jobs) {
-      $scope.jobs = jobs;
-    });
+    $scope.apply = function(service_name) {
+       Restangular.all('user').one('services',service_name).customPOST({}, 'apply').then(function(){
+          $scope.jobApplySuccess = true;
+          $route.reload();
+       }, function(response){
+          $scope.jobApplyFailed = true;
+          $scope.jobApplyFailedMsg = response.data.message;
+       });
+    };
 
     $scope.destroy = function(job) {
       job.remove().then(function() {
         $route.reload();
+      }, function (response) {
+        $scope.jobRemoveFailed = true;
+        $scope.jobRemoveFailedMsg = response.data.message;
       });
     };
 
@@ -88,12 +85,16 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route','$log','$scope'
                 + "_" +  $routeParams.service_name
                 + "_" + job.item.name
                 + "_" + job.calc.name ;
-       // console.log(job);
 
 
        var jobs = Restangular.all('user').one('services', service_name).all('jobs') ;
+       // jobs.customPOST({name: job.name, calculation_id: job.calculation_id, item_id:job.item_id, tag_ids:job.tag_ids}, '').then(function() {
        jobs.post(job).then(function() {
+
          $route.reload();
+       }, function(response){
+         $scope.jobCreateFailed = true;
+         $scope.jobCreatFailedMsg = response.data.message;
        });
      });
    };
