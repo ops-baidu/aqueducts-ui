@@ -13,7 +13,7 @@
   <label>Tags:</label>
   <input type="text" class="form-control" ng-model="search" placeholder="Filter">
   <div ng-repeat="tag in tags | filter:search">
-    <input type="checkbox" ng-model="ids[tag.id]"/>{{ tag.name }} ( {{ tag.description }} )
+    <input type="checkbox" ng-model="ids[tag.id]"/> {{ tag.name }} ( {{ tag.description }} )
   </div>
 </div>
 <div class="modal-footer">
