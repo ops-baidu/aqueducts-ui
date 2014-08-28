@@ -27,16 +27,18 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
   
 
   $scope.showCharts = function(service_name){
+
     clearInterval($scope.page.intervalId);
-    $scope.show = true;
+    // $scope.page.showDynamic = false;
     $scope.page.serviceContext = service_name;
 
     var jobs = Restangular.one('orgs', orgname).one('services', service_name).all('jobs');
     jobs.getList().then(function(jobs) {
       $scope.jobs = jobs;
+      $scope.show = true;
+      // $scope.page.showDynamic = true;
+
     });
-
-
   };
 
 }]);
