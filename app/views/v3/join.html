@@ -9,7 +9,7 @@
 
         <form class="form" name="joinForm" novalidate ng-submit="join(user.email, user.name, pw1)">
           <div class="alert alert-danger" ng-show="wrongCredentials">
-            Email or username already be taken
+            Email or username has already been taken
           </div>
 
           <div class="form-group" ng-class="{'has-error': joinForm.email.$invalid && joinForm.email.$dirty, 'has-success' : joinForm.email.$vaild && joinForm.email.$dirty}">
