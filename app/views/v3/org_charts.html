@@ -1,10 +1,10 @@
 <div style="padding-top:80px;">
-  <div class="panel panel-default"style="min-height:900px;background-color:#f8f8f8;">
+  <div class="panel panel-default" style="min-height:900px;background-color:#f8f8f8;">
     <div class="panel-heading console-heading">
       <div class="container" style="padding-right:0px;padding-left:0px;">
 
         <div class="btn-group dropdown">
-          <button type="button" style="color:#777;border:none;"class="btn btn-lg btn-default dropdown-toggle"data-toggle="dropdown">{{page.serviceContext}}
+          <button type="button" style="color:#777;border:none;"class="btn btn-lg btn-default dropdown-toggle"data-toggle="dropdown">{{serviceContext}}
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
@@ -20,11 +20,11 @@
     </div>
 
     <div class="panel-body" ng-if="show">
-      <div ng-controller="DynamicChartController"class="container"style="background: #F8F8F8;padding-top:100px;padding-bottom: 100px;">
-        <hi-chart style=""val="page.data" product="{{orgname}}" service="{{page.serviceContext}}" class="span10"></hi-chart>
+      <div class="container" style="background: #F8F8F8;padding-top:100px;padding-bottom: 100px;">
+        <hi-chart val="data" product="{{orgname}}" service="{{serviceContext}}" class="span10"></hi-chart>
       </div>
       <div class="container">
-        <div ng-repeat="job in jobs | filter:search" ng-controller="OrgChartDetailController" ng-init='initConfig(chartConfig, orgname, page.serviceContext, job)'>
+        <div ng-repeat="job in jobs | filter:search" ng-controller="OrgStaticChartController" ng-init='initConfig(chartConfig, orgname, serviceContext, job)'>
           <highchart id="chart1" config="config" class="span10"></highchart>
         </div>
       </div>

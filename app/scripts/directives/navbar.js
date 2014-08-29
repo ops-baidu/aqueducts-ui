@@ -23,11 +23,6 @@ aqueductsApp.directive('hiChart', function() {
         value.chart.width = 950;
         new Highcharts.Chart(value);
       });
-      scope.$watch('service', function() {
-        // scope.val.chart.renderTo = elm[0] ;
-        scope.val.chart.width = 950;
-        new Highcharts.Chart(scope.val);
-      });
     }
   };
 });

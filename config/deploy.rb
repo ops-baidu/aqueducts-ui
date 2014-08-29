@@ -6,7 +6,7 @@ set :deploy_to, "/home/#{user}/local/#{application}/"
 set :use_sudo, false
 
 set :scm, :none
-set :repository,  "/home/#{user}/ci/jenkins/workspace/aqueducts-deploy_ui"
+set :repository,  "./dist"
 set :deploy_via, :copy
 set :copy_compression, :gzip
 set :keep_releases, 5
