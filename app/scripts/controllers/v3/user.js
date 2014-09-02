@@ -1,18 +1,18 @@
 'use strict';
 
 
-angular.module('webApp').controller('UserController', ['$scope', '$location', 'userService', 'authenticationService',
-    'tokenService', function ($scope, $location, userService, authenticationService, tokenService) {
+angular.module('webApp').controller('UserController', ['$scope', '$location', 'Restangular', 'authenticationService',
+    'tokenService', function ($scope, $location, Restangular, authenticationService, tokenService) {
   $scope.login = function login(key, password) {
     if (key != null && password != null) {
-
-      userService.login(key, password).success(function(data) {
-        authenticationService.isAuthenticated = true;
-        tokenService.setToken(data.token);
-        $location.path('/users/' + data.name);
-      }).error(function(status, data) {
-        $scope.wrongCredentials = true;
-      });
+      // Restangular.customPOST({})
+      // userService.login(key, password).success(function(data) {
+      //   authenticationService.isAuthenticated = true;
+      //   tokenService.setToken(data.token);
+      //   $location.path('/users/' + data.name);
+      // }).error(function(status, data) {
+      //   $scope.wrongCredentials = true;
+      // });
     }
   };
 
@@ -23,14 +23,23 @@ angular.module('webApp').controller('UserController', ['$scope', '$location', 'u
       $location.path('/');
     }
     else {
-      userService.join(email, name, password).success(function(data) {
+      var user = {
+        email: email,
+        name: name,
+        password: password
+      };
+      Restangular.all('', '').customPOST(user, "join").then(function(data){
         tokenService.setToken(data.token);
         authenticationService.isAuthenticated = true;
         $location.path('/users/' + data.name);
-      }).error(function(status, data) {
+      }, function(status, data){
         $scope.wrongCredentials = true;
-
       });
+      // userService.join(email, name, password).success(function(data) {
+
+      // }).error(function(status, data) {
+
+      // });
     }
   };
 }]);

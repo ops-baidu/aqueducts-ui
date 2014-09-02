@@ -9,7 +9,7 @@ angular.module('webApp').factory('userService', ['$http', 'ApiBaseUrl', function
 
 
     join: function(email, name, password) {
-      return $http.post(ApiBaseUrl + 'join', {name: name, password: password, email: email});
+      return $http.post(ApiBaseUrl + 'join', {user[email]: email, user[name]: name, user[password]: password});
     },
 
 
