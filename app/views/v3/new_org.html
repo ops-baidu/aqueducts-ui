@@ -14,7 +14,7 @@
           </div>
           <div class="form-group" ng-class="{'has-error': form.name.$invalid && form.name.$dirty, 'has-success' : form.name.$vaild && form.name.$dirty}">
               <label for="name">Name:</label>
-              <input placeholder="must be unique" id="name" name="name" type='text' required class="form-control" ng-model="org.name"/><br/>
+              <input placeholder="must be unique among both users and organizations" id="name" name="name" type='text' required class="form-control" ng-model="org.name"/><br/>
           </div>
           <div class="form-group">
               <label for="">Description:</label>

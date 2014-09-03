@@ -398,3 +398,27 @@ ul ul, ol ul {
 .help-block {
   font-size: 14px;
 }
+a {
+  color: #F38630;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #E15E32;
+  text-decoration: none;
+
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+  color: white;
+  background-color: #789048;
+  border: none;
+}
+.btn-primary {
+  color: white;
+  background-color: #9AB270;
+  border: none;
+}
+.btn-warning {
+  border: none;
+}
