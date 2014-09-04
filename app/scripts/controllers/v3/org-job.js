@@ -27,7 +27,6 @@ aqueductsApp.controller('OrgJobController', ['$modal', '$route','$scope', '$rout
     $scope.apply = function(orgname, service_name) {
        Restangular.one('orgs',orgname).one('services', service_name).customPOST({}, 'apply').then(function(){
           $scope.jobApplySuccess = true;
-          $route.reload();
        }, function(response){
           $scope.jobApplyFailed = true;
        });
