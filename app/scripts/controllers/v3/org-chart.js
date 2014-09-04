@@ -2,7 +2,7 @@
 
 var aqueductsApp = angular.module('webApp');
 aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeParams', 'Restangular', 'EventsApiBaseUrl' , function ($scope,$http,$q,$routeParams,Restangular,EventsApiBaseUrl) {
-  
+
   $scope.serviceContext = "Services";
   var orgname = $routeParams.orgname;
   $scope.orgname = orgname;
@@ -24,19 +24,36 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
     series : [],
   };
 
+  $scope.showCharts = function(service_name, service_flows){
+    var default_area = '';
+    if (service_flows.huadong) {
+      $scope.huadong = true;
+      default_area = 'huadong';
+    }else{
+      $scope.huadong = false;
+    };
+    if (service_flows.huabei) {
+      $scope.huabei = true;
+      default_area = 'huabei';
+    }else{
+      $scope.huabei = false;
+    };
+    
+    $scope.serviceContext = service_name;
+    $scope.show = true;
+    $scope.showAreaCharts(service_name, default_area);
 
-  
-
-  $scope.showCharts = function(service_name){
+  };
+  $scope.showAreaCharts = function(service_name, area){
 
     clearInterval($scope.intervalId);
-    $scope.serviceContext = service_name;
+    $scope.area = area;
+
 
     var jobs = Restangular.one('orgs', orgname).one('services', service_name).all('jobs');
     jobs.getList().then(function(jobs) {
       $scope.jobs = jobs;
-      $scope.show = true;
-
+      
       var credits =  {
         enabled: true,
         href: "http://7.genius.in.baidu.com:8080",
@@ -45,7 +62,7 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
         },
         text: "Aqueducts"
       };
-      var promise = [ $http.get(EventsApiBaseUrl + 'events?product=' + orgname + '&service=' + service_name + '&item=page_view&calculation=count&from=-16s&to=now')] ;
+      var promise = [ $http.get(EventsApiBaseUrl + 'events?product=' + orgname + '&service=' + service_name + '&item=page_view&calculation=count&from=-16s&to=now&area=' + area)] ;
       $q.all(promise).then(function (response) {
         var result = [];
         var o_data = response[0].data ;
@@ -134,7 +151,7 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
                 // set up the updating of the chart each second
                 var series = this.series[0];
                 $scope.intervalId = setInterval(function() {
-                  var request = EventsApiBaseUrl + 'events?product=' + orgname + '&service=' + service_name + '&item=page_view&calculation=count&from=-16s&to=now' ;
+                  var request = EventsApiBaseUrl + 'events?product=' + orgname + '&service=' + service_name + '&item=page_view&calculation=count&from=-16s&to=now&area=' + area ;
                   $http.get(request).success(function (data, status, headers, config) {
                     if ( data[data.length - 1] != series[series.length - 1]) {
                       series.addPoint( [data[data.length -1][0], data[data.length -1][1] ], true, true) ;

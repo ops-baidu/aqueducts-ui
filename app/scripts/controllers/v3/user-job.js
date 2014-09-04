@@ -27,7 +27,6 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route', '$scope', '$ro
     $scope.apply = function(service_name) {
        Restangular.all('user').one('services',service_name).customPOST({}, 'apply').then(function(){
           $scope.jobApplySuccess = true;
-          $route.reload();
        }, function(response){
           $scope.jobApplyFailed = true;
           $scope.jobApplyFailedMsg = response.data.message;

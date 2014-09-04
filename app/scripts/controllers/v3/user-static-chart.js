@@ -4,7 +4,7 @@ var aqueductsApp = angular.module('webApp');
 
 aqueductsApp.controller('UserStaticChartController', [ '$scope','$http', '$q', 'Restangular', 'EventsApiBaseUrl' , function ($scope,$http,$q,Restangular,EventsApiBaseUrl) {  
 
-  $scope.initConfig=function(config,username,service_name,job) {
+  $scope.initConfig=function(config, username, service_name, job, area) {
     
     var promises = [
       Restangular.one('items', job.item_id).get(),
@@ -14,9 +14,9 @@ aqueductsApp.controller('UserStaticChartController', [ '$scope','$http', '$q', '
       var item = results[0] ;
       var calc = results[1] ;
       var series = [
-        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-24h&to=now&period=60&name=today&diff=0',
-        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-48h&to=-24h&period=60&name=yesterday&diff=86400',
-        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-168h&to=-144h&period=60&name=lastweek&diff=518400',
+        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-24h&to=now&period=60&name=today&diff=0&area=' + area,
+        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-48h&to=-24h&period=60&name=yesterday&diff=86400&area=' + area,
+        EventsApiBaseUrl + 'events?product=' + username + '&service=' + service_name + '&item=' + item.name + '&calculation=' + calc.name + '&from=-168h&to=-144h&period=60&name=lastweek&diff=518400&area=' + area,
       ] ;
       function getJsonFromUrl(url) {
         var query = url ;

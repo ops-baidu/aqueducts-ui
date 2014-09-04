@@ -6,8 +6,8 @@
       </div>
       <div class="panel-body">
         <form role="form" class="form" name="loginForm" novalidate ng-submit="login(key, password)">
-          <div class="alert alert-danger" ng-show="wrongCredentials">
-            Wrong credentials
+          <div class="alert alert-danger" ng-show="loginFailed">
+            {{loginFailedMsg}}
           </div>
 
           <div class="form-group" ng-class="{'has-error': loginForm.key.$invalid && loginForm.key.$dirty, 'has-success' : loginForm.email.$vaild && loginForm.key.$dirty}">
