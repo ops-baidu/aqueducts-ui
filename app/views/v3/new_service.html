@@ -13,7 +13,7 @@
             </div>
           <div class="form-group " ng-class="{'has-error': newServiceForm.serviceName.$invalid && newServiceForm.serviceName.$dirty, 'has-success' : newServiceForm.serviceName.$vaild && newServiceForm.serviceName.$dirty}">
               <label>Name:</label>
-              <input type='text'name="serviceName"class="form-control"required ng-disabled="service.demo"ng-model="service.name"/><br/>
+              <input placeholder="must be unique among all your private services"type='text'name="serviceName"class="form-control"required ng-disabled="service.demo"ng-model="service.name"/><br/>
           </div>
           <div class="container">
             <div class='row'>
