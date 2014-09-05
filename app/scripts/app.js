@@ -23,6 +23,11 @@ angular.module('webApp', [
         controller: 'MainController',
         access: { requiredLogin: false }
       })
+      .when('/oauth', {
+        templateUrl: 'views/main.html',
+        controller: 'MainController',
+        access: { requiredLogin: false }
+      })
 
       .when('/login', {
         templateUrl: 'views/v3/login.html',
@@ -155,7 +160,7 @@ angular.module('webApp', [
       .otherwise({
         redirectTo: '/'
       });
-    // $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
   })
   .run(['$rootScope', '$location', 'authenticationService', 'tokenService', function($rootScope, $location, authenticationService, tokenService) {
     $rootScope.$on('$routeChangeStart', function(event, nextRoute) {
