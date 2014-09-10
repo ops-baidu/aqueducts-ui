@@ -7,18 +7,22 @@ angular.module('webApp').controller('MainController', ['authenticationService', 
 
   if (authenticationService.isAuthenticated) {
     $location.path('/home');
-  }
-  var code = $routeParams.code;
-  if (code) {
+  } else {
+    var code = $routeParams.code;
+    if (code) {
     $http.post(ApiBaseUrl + 'auth/github?code=' + code) 
     .success(function(data, status, headers, config) {
       authenticationService.isAuthenticated = true;
       tokenService.setToken(data.token);
-      $location.path('/users/' + data.name);
-
+      $location.url($location.path());
+      $location.path('/home');
     })
     .error(function(data, status, headers, config) {
+      $location.url($location.path());
+      $location.path('/login')
     });
   };
 
+  }
+  
 }]);

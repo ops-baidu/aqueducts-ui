@@ -1,15 +1,28 @@
 'use strict';
 
-angular.module('webApp').controller('UserHomeController', ['$scope', 'Restangular', function($scope, Restangular) {
+angular.module('webApp').controller('UserHomeController', ['$modal', '$scope', 'Restangular', '$route', function($modal, $scope, Restangular, $route) {
 
   var randomImgArray = [];
-  randomImgArray.push("/images/banners/"+ Math.floor(Math.random() * 7 + 1) + ".jpg");
+  randomImgArray.push("/images/banners/" + Math.floor(Math.random() * 7 + 1) + ".jpg");
   Restangular.all('user').customGET('info').then(function(user){
     $scope.user = user;
+    if (user.sign_in_count == 0) {
+      //modal
+      var modalInstance = $modal.open({
+        templateUrl: 'views/v3/pick_username.html' ,
+        controller: ModalInstanceCtrl,
+      });
+      modalInstance.result.then(function($scope) {
+        $route.reload();
+       
+      });
+
+
+    };
     Restangular.all('orgs').getList().then(function(orgs) {
       $scope.user.orgs = orgs;
       for (var i = orgs.length - 1; i >= 0; i--) {
-        randomImgArray.push("/images/banners/"+ Math.floor(Math.random() * 7 + 1) + ".jpg");
+        randomImgArray.push("/images/banners/" + Math.floor(Math.random() * 7 + 1) + ".jpg");
       };
       $scope.randomImgArray = randomImgArray;
 
@@ -28,5 +41,18 @@ angular.module('webApp').controller('UserHomeController', ['$scope', 'Restangula
     });
   };
 
+
+  var ModalInstanceCtrl = function($scope,$modalInstance,$routeParams,Restangular,$q) {
+    $scope.ok = function(username) {
+      Restangular.all('user').customPOST({name: username}, "change_name", {}, {}).then(function(){
+        $modalInstance.close($scope);
+      }, function(response) {
+        $scope.changeUsernameFailed = true;
+        $scope.changeUsernameFailedMsg = response.data.message;
+      });
+    };
+  };
+
+  ModalInstanceCtrl.$inject = ['$scope','$modalInstance','$routeParams','Restangular','$q'];
 
 }]);
