@@ -139,13 +139,15 @@ angular.module('webApp', [
         controller: 'UserServiceController',
         access: { requiredAuthentication: true }
       })
-
-
-
       .when('/settings', {
         templateUrl: 'views/v3/settings.html',
         controller: 'SettingsController',
         access: { requiredAuthentication: true }
+      })
+      .when('/zipkin', {
+        templateUrl: 'views/v3/zipkin_home.html',
+        controller: 'ZipkinHomeController',
+        access: { requiredAuthentication: false }
       })
 
 
