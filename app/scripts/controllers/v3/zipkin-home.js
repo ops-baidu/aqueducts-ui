@@ -2,14 +2,18 @@
 * @Author: john
 * @Date:   2014-09-11 13:20:14
 * @Last Modified by:   john
-* @Last Modified time: 2014-09-11 16:57:04
+* @Last Modified time: 2014-09-12 17:25:41
 */
 'use strict';
 
 angular.module('webApp').controller('ZipkinHomeController', ['$scope', 'Restangular', '$routeParams','$route', function($scope, Restangular, $routeParams, $route) {
+  var now = new Date();
+  $scope.endDate = (now.getMonth() + 1) + '-' + now.getDate() + '-' + now.getFullYear();
+  $scope.endTime = now.getHours() + ':' + now.getMinutes();
+
   $scope.services = [{name: 'zipkin'}, {name: 'test'}];
   $scope.spanNames = [{name: 'get'}];
-  $scope.timestamp = 1410364800000000;
+  $scope.timestamp = now.getTime() * 1000;
   $scope.limit = 100;
 
   $scope.count = 1;
