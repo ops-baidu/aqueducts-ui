@@ -23,8 +23,22 @@
         <!-- timestamp start -->
         <div id="time-stamp" class="form-group">
           <label for="timeStamp">End time</label>
-          <input class="form-control input-sm date-input" type="text">
-          <input class="form-control input-sm time-input" type="text">
+          <input class="form-control input-sm date-input" type="text" value='{{endDate}}'>
+          <script type="text/javascript">
+          $('.date-input').datepicker({format: 'mm-dd-yyyy'}).on("changeDate", function(e){
+            var ms = e.date.getTime() * 1000;
+            var last_timestamp = $('#timestamp').attr('value');
+            var timestamp = (ms/1000000)*1000000 + (last_timestamp%1000000);
+            $('#timestamp').attr('value', timestamp);
+            $(this).datepicker('hide');
+          });
+          </script>
+          <input class="form-control input-sm time-input" type="text" value='{{endTime}}'>
+          <script type="text/javascript">
+          $('.time-input').on('change', function(){
+            var datetime = new Date();
+          });
+          </script>
           <input class="" id="timestamp" name="timestamp" type="hidden" value="{{timestamp}}">
         </div>
         <!-- timestamp end -->
