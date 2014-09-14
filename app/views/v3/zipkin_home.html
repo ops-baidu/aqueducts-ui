@@ -1,11 +1,11 @@
 <div class="section" style="padding-top: 100px;">
-  <div class="container">
+  <div class="container" ng-controller="ZipkinHomeController">
     <!-- zipkin home page start -->
     <div class="row well well-sm">
       <form class="form-inline" role="form">
         <!-- servicename start -->
         <div class="form-group">
-          <select data-placeholder="Service Name" class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName">
+          <select data-placeholder="Service Name" ng-model="serviceName" class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName">
           <option value="{{service.name}}" ng-repeat="service in services">{{service.name}}</option>
           </select>
         </div>
@@ -13,7 +13,7 @@
 
         <!-- span name start -->
         <div class="form-group">
-          <select data-placeholder="Span Name" class="form-control input-sm" style="width: 180px;" name="spanName" id="spanName">
+          <select data-placeholder="Span Name" ng-model="spanName" class="form-control input-sm" style="width: 180px;" name="spanName" id="spanName">
             <option value="all">all</option>
             <option value="{{span.name}}" ng-repeat="span in spanNames">{{span.name}}</option>
           </select>
@@ -23,7 +23,7 @@
         <!-- timestamp start -->
         <div id="time-stamp" class="form-group">
           <label for="timeStamp">End time</label>
-          <input class="form-control input-sm date-input" type="text" value='{{endDate}}'>
+          <input class="form-control input-sm date-input" ng-model="endDate" type="text" value='{{endDate}}'>
           <script type="text/javascript">
           $('.date-input').datepicker({format: 'mm-dd-yyyy'}).on("changeDate", function(e){
             var ms = e.date.getTime() * 1000;
@@ -33,25 +33,30 @@
             $(this).datepicker('hide');
           });
           </script>
-          <input class="form-control input-sm time-input" type="text" value='{{endTime}}'>
+          <input class="form-control input-sm time-input" ng-model="endTime" type="text" value='{{endTime}}'>
           <script type="text/javascript">
-          $('.time-input').on('change', function(){
-            var datetime = new Date();
+          $('.time-input').on('change', function(e){
+            var date = $('.date-input').attr('value');
+            var dateArray = date.split('-');
+            var time = $('.time-input').val();
+            var timeArray = time.split(':');
+            var datetime = new Date(dateArray[2], dateArray[1], dateArray[0], timeArray[0], timeArray[1]);
+            alert(datetime);
           });
           </script>
-          <input class="" id="timestamp" name="timestamp" type="hidden" value="{{timestamp}}">
+          <input class="" ng-model="timestamp" id="timestamp" name="timestamp" type="hidden">
         </div>
         <!-- timestamp end -->
 
         <!-- limit start -->
         <div class="form-group">
           <label for="limit">Limit</label>
-          <input class="form-control input-sm" id="limit" name="limit" type="text" value="{{limit}}">
+          <input class="form-control input-sm" ng-model="limit" id="limit" name="limit" type="text">
         </div>
         <!-- limit end -->
 
         <!-- find traces start -->
-        <button type="submit" class="btn btn-default btn-sm">Find Traces</button>
+        <button type="submit" class="btn btn-default btn-sm" ng-click="findTraces()">Find Traces</button>
         <button type="button" class="btn btn-default btn-sm info-request">
           <span class="glyphicon glyphicon-question-sign"></span>
         </button>
