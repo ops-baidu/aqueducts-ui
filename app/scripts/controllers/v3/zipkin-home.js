@@ -2,7 +2,7 @@
 * @Author: john
 * @Date:   2014-09-11 13:20:14
 * @Last Modified by:   john
-* @Last Modified time: 2014-09-12 17:25:41
+* @Last Modified time: 2014-09-14 15:20:01
 */
 'use strict';
 
@@ -19,8 +19,14 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', 'Restangu
   $scope.count = 1;
   $scope.serviceName = 'zipkin'
 
-  $scope.traces = [
-    {traceId: 1, duration: 10, timestamp1: 100, serviceName: 'zipkin', width: 100, durationStr: '123', spanCount: 1, startTime: 1410364800000000, serviceCounts: [{name: 'zipkin', count: 1}] },
-    {traceId: 2, duration: 10, timestamp1: 100, serviceName: 'zipkin', width: 100, durationStr: '12', spanCount: 1, startTime: 1410364800000000, serviceCounts: [{name: 'zipkin', count: 1}] }
-  ];
+  $scope.traces = [];
+
+  $scope.findTraces = function() {
+    $scope.traces = [
+      {traceId: 1, duration: 10, timestamp: 100, serviceName: 'zipkin', width: 100, durationStr: '123', spanCount: 1, startTime: 1410364800000000, serviceCounts: [{name: 'zipkin', count: 1}] },
+      {traceId: 2, duration: 10, timestamp: 100, serviceName: 'zipkin', width: 100, durationStr: '12', spanCount: 1, startTime: 1410364800000000, serviceCounts: [{name: 'zipkin', count: 1}] }
+    ];
+    // TODO
+    // get trace summaries over api
+  };
 }]);
