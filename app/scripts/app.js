@@ -10,7 +10,8 @@ angular.module('webApp', [
   'ui.dashboard',
   'highcharts-ng',
   'headroom',
-  'perfect_scrollbar'
+  'perfect_scrollbar',
+  'btford.markdown'
 ])
   .config(function($httpProvider){
     $httpProvider.interceptors.push('tokenInterceptor');
@@ -21,6 +22,11 @@ angular.module('webApp', [
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainController',
+        access: { requiredLogin: false }
+      })
+      .when('/wait', {
+        templateUrl: 'views/v3/wait.html',
+        controller: 'AuthController',
         access: { requiredLogin: false }
       })
 
@@ -51,16 +57,14 @@ angular.module('webApp', [
       // })
 
 
-      // .when('/about', {
-      //   templateUrl: 'views/about.html',
-      //   controller: 'AboutController',
-      //   access: { requiredAuthentication: false }
-      // })
-      // .when('/tour', {
-      //   templateUrl: 'views/tour.html',
-      //   controller: 'TourController',
-      //   access: { requiredAuthentication: false }
-      // })
+      .when('/about', {
+        templateUrl: 'views/v3/about.html',
+        access: { requiredAuthentication: false }
+      })
+      .when('/guide', {
+        templateUrl: 'views/v3/guide.html',
+        access: { requiredAuthentication: false }
+      })
       // .when('/live_demo', {
       //   templateUrl: 'views/live_demo.html',
       //   controller: 'LiveDemoController',
