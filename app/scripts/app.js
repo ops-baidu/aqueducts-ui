@@ -11,7 +11,7 @@ angular.module('webApp', [
   'highcharts-ng',
   'headroom',
   'perfect_scrollbar',
-  'btford.markdown'
+  'hc.marked'
 ])
   .config(function($httpProvider){
     $httpProvider.interceptors.push('tokenInterceptor');
@@ -50,11 +50,6 @@ angular.module('webApp', [
       //   controller: 'UserController',
       //   access: { requiredAuthentication: false }
       // })
-      // .when('/logout', {
-      //   templateUrl: 'views/logout.html',
-      //   controller: 'UserController',
-      //   access: { requiredAuthentication: true }
-      // })
 
 
       .when('/about', {
@@ -65,11 +60,6 @@ angular.module('webApp', [
         templateUrl: 'views/v3/guide.html',
         access: { requiredAuthentication: false }
       })
-      // .when('/live_demo', {
-      //   templateUrl: 'views/live_demo.html',
-      //   controller: 'LiveDemoController',
-      //   access: { requiredAuthentication: false }
-      // })
 
 
       .when('/users/:username', {
@@ -110,11 +100,6 @@ angular.module('webApp', [
         access: { requiredAuthentication: true }
       })
 
-      // .when('/demo/new', {
-      //   templateUrl: 'views/new-service.html',
-      //   controller: 'DemoController',
-      //   access: { requiredAuthentication: true }
-      // })
 
       .when('/orgs/:orgname', {
         templateUrl: 'views/v3/org_home.html',
