@@ -1,0 +1,131 @@
+<div class="section" style="padding-top: 100px;">
+  <div class="container" ng-controller="ZipkinHomeController">
+    <!-- zipkin home page start -->
+    <div class="row well well-sm">
+      <form class="form-inline" role="form">
+        <!-- servicename start -->
+        <div class="form-group">
+          <select data-placeholder="Service Name" ng-model="serviceName" ng-change="getSpanNames(serviceName)" class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName">
+          <option value="{{service.name}}" ng-repeat="service in services">{{service.name}}</option>
+          </select>
+        </div>
+        <!-- servicename end -->
+
+        <!-- span name start -->
+        <div class="form-group">
+          <select data-placeholder="Span Name" ng-model="spanName" class="form-control input-sm" style="width: 180px;" name="spanName" id="spanName">
+            <option value="ALL">ALL</option>
+            <option value="{{span.name}}" ng-repeat="span in spanNames">{{span.name}}</option>
+          </select>
+        </div>
+        <!-- span name end -->
+
+        <!-- timestamp start -->
+        <div id="time-stamp" class="form-group">
+          <label for="timeStamp">End time</label>
+          <input class="form-control input-sm date-input" ng-model="endDate" type="text" value='{{endDate}}'>
+          <script type="text/javascript">
+          $('.date-input').datepicker({format: 'mm-dd-yyyy'}).on("changeDate", function(e){
+            var ms = e.date.getTime() * 1000;
+            var last_timestamp = $('#timestamp').attr('value');
+            var timestamp = (ms/1000000)*1000000 + (last_timestamp%1000000);
+            $('#timestamp').attr('value', timestamp);
+            $(this).datepicker('hide');
+          });
+          </script>
+          <input class="form-control input-sm time-input" ng-model="endTime" type="text" value='{{endTime}}'>
+          <script type="text/javascript">
+          $('.time-input').on('change', function(e){
+            var date = $('.date-input').attr('value');
+            var dateArray = date.split('-');
+            var time = $('.time-input').val();
+            var timeArray = time.split(':');
+            if (timeArray.length === 2) {
+              var datetime = new Date(
+                dateArray[2], (dateArray[0] - 1), dateArray[1],
+                timeArray[0], timeArray[1]);
+            } else {
+              var datetime = new Date()
+            }
+
+            var ms = datetime.getTime();
+            var timestamp = ms * 1000;
+            $('#timestamp').attr('value', timestamp);
+          });
+          </script>
+          <input class="" ng-model="timestamp" id="timestamp" name="timestamp" type="hidden" value="{{timestamp}}">
+        </div>
+        <!-- timestamp end -->
+
+        <!-- limit start -->
+        <div class="form-group">
+          <label for="limit">Limit</label>
+          <input class="form-control input-sm" ng-model="limit" id="limit" name="limit" type="text">
+        </div>
+        <!-- limit end -->
+
+        <!-- find traces start -->
+        <button type="submit" class="btn btn-default btn-sm" ng-click="findTraces(serviceName, spanName, timestamp, limit, annotationQuery)">Find Traces</button>
+        <button type="button" class="btn btn-default btn-sm info-request">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </button>
+        <!-- find traces end -->
+
+        <!-- annotationQuery start -->
+        <input type="text" ng-model="annotationQuery" class="form-control input-sm" id="annotationQuery" name="annotationQuery" style="width: 100%" placeholder='Annotations Query (e.g. "finagle.timeout", "http.uri=/foo/bar/ and cluster=foo and cache.miss")'>
+        <!-- annotationQuery end -->
+
+      </form>
+      <!-- form end -->
+
+      <div id="trace-filters">
+        <div class="pull-left">
+          <span>
+            Showing:  <span class="filter-current">{{count}}</span>
+            of <span class="filter-total">{{count}}</span>
+          </span>
+        </div>
+        <div class="pull-right">
+          <span class="selector">Sort:
+            <select class="sort-order js-sort-order">
+              <option selected value="duration-desc">Longest First</i></span>
+              <option value="duration-asc">Shortest First</span>
+              <option value="timestamp-desc">Newest First</span>
+              <option value="timestamp-asc">Oldest First</span>
+            </select>
+          </span>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="service-tags">
+          Services:
+          <span class='label service-tag-filtered' data-service-name="{{serviceName}}">{{serviceName}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- trace list start -->
+    <div class="row">
+      <ul id="traces">
+        <li class="trace" data-traceId="{{trace.traceId}}" data-duration="{{trace.duration}}" data-timestamp="{{trace.timestamp}}" ng-repeat="trace in traces">
+          <a href="/traces/{{trace.traceId}}?serviceName={{trace.serviceName}}">
+            <div class="bar-block">
+              <span class="bar-graphic" style="width:{{trace.width}}%;"></span>
+              <span class="bar-label">{{trace.durationStr}}</span>
+              <span class="bar-label">{{trace.spanCount}} spans</span>
+            </div>
+          </a>
+          <div class="trace-details services" style="min-height:23px">
+            <span class="label label-default service-filter-label" data-service-name="{{name}}" ng-repeat="serviceCount in trace.serviceCounts">{{serviceCount.name}} x{{serviceCount.count}}</span>
+          </div>
+          <div class="trace-details timestamp pull-right">
+            <time class="label" datetime="{{trace.startTime}}">{{trace.timeago}}</time>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- trace list end -->
+
+    <!-- zipkin home page end -->
+  </div>
+</div>
