@@ -2,7 +2,7 @@
 * @Author: john
 * @Date:   2014-09-11 13:20:14
 * @Last Modified by:   john
-* @Last Modified time: 2014-09-15 19:23:46
+* @Last Modified time: 2014-09-16 16:08:14
 */
 'use strict';
 
@@ -48,7 +48,9 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
       // body...
       $scope.traces = [];
       for (var i = response.length - 1; i >= 0; i--) {
-        $scope.traces.push(response[i])
+        var timeago = jQuery.timeago(new Date(response[0]['startTime']/1000));
+        response[i]['timeago'] = timeago;
+        $scope.traces.push(response[i]);
       };
     });
   };
