@@ -119,7 +119,7 @@
             <span class="label label-default service-filter-label" data-service-name="{{name}}" ng-repeat="serviceCount in trace.serviceCounts">{{serviceCount.name}} x{{serviceCount.count}}</span>
           </div>
           <div class="trace-details timestamp pull-right">
-            <time class="label timeago" datetime="{{trace.startTime}}">{{trace.startTime}}</time>
+            <time class="label" datetime="{{trace.startTime}}">{{trace.timeago}}</time>
           </div>
         </li>
       </ul>
