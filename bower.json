@@ -20,7 +20,6 @@
     "restangular": "1.4.0",
     "headroom.js": "0.6.0",
     "angular-perfect-scrollbar": "0.1.4",
-    "angular-marked": "0.0.12",
     "angular-dialog-service": "5.1.2"
   },
   "devDependencies": {
