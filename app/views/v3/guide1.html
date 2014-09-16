@@ -1,0 +1,388 @@
+<h1 class="note-title"style="color:#000;">A-Stream 用户指南</h1>
+<hr>
+<p><strong>A-Stream</strong> 是一个免费的、灵活的、简单易用的消息实时聚合、计算服务。它的全称是Aggregated Stream。我们为用户提供了多种方式的接入，帮助用户在尽量短的时间内上手，迅速获取聚合、计算结果，并对结果同时提供灵活的API调用以及可视化的图形展示。可定制的图形展示功能会在下一版本推出。        </p>
+<h2 style="padding-top:50px;color:#000;">目录</h2>
+<hr>
+<ul>
+<li><a href="#/guide?scrollTo=features">功能特色</a></li>
+<li><a href="#/guide?scrollTo=concepts">核心概念</a></li>
+<li><a href="#/guide?scrollTo=help">使用帮助</a></li>
+<li><a href="#/guide?scrollTo=api">API 调用</a></li>
+<li><a href="#/guide?scrollTo=current">接入现状</a></li>
+</ul>
+<h2 style="padding-top:50px;color:#000;"id="features">功能特色</h2>
+<hr>
+<h4>实时聚合、准确计算</h4>
+<hr>
+<p>对于用户发送的日志，我们可以保证准实时的计算，延时控制在15秒左右（从日志被打印到计算完毕）。并按照日志打印时间进行精确的聚合计算，默认提供按照1s为周期和60s为周期的聚合计算结果。</p>
+<h4>按维度聚合</h4>
+<hr>
+<p>我们为用户提供了很多常用的聚合方法 （如：count,average,max,min,sum,topN等）常见的聚合方法不需要自己实现；同时支持按维度的聚合，不仅能看到 整体的平均响应时间，也能够看到按idc，来源，位置等等自定义的tag统计的响应时间。另外tag相加的聚合方式（如：idc+prod） 我们也在后台提供了，如有需要请<a href="#/about?scrollTo=contact" target="_blank">联系我们</a>，这一功能会在下个版本上线。</p>
+<h4>灵活的API</h4>
+<hr>
+<p>用户除了可以在网页上看到可视化的聚合结果（静态图表、动态图表）之外，还可以通过调用events查询API获取详细结果用于近一步的分析和自定义展现。可定制的图形展示功能会在下一版本推出。</p>
+<h2 style="padding-top:50px;color:#000;"id="concepts">核心概念</h2>
+<hr>
+<ul>
+<li>user : 用户，游客可以通过注册或第三方账号登录成为A-Stream用户，从而使用A-Stream的服务。</li>
+<li>guest ：游客账号，想要马上体验A-Stream的游客可以使用guest账号登录，体验A-Stream的<strong>一些</strong>功能，想要体验全部功能请注册或使用第三方账号登录。</li>
+<li>service : 服务，是部署计算任务的最小单位，包括private service和organization service。</li>
+<li>private service : 用户私人的服务，<strong>只有用户自己</strong>可以进行访问、管理。</li>
+<li>organization : 项目组/团队，与GitHub的organization概念相似。在公司内部，organization可以对应一个产品线，比如www、im、sf。用户可以创建organization，加入其他用户创建的organization。而在一个organization中，用户有四种角色：<ol>
+<li>owner，创建organization的用户，<strong>只有owner</strong>可以向organization中添加其他用户，并且拥有<strong>所有的</strong>权限。</li>
+<li>admin，可以管理organization下的所有services，即，对所有services拥有<strong>读写权限</strong>。</li>
+<li>normal，可以添加以及修改/删除自己创建的services，即，对<strong>所有services有读权限 &amp; 属于自己的services有写权限</strong>。</li>
+<li>guest，与系统的guest用户不同，这是针对organization的，对organization下所有的services<strong>仅有读权限</strong>。</li>
+</ol>
+</li>
+<li>organization service : organization下的services，用户加入一个organization后，只要角色不是guest，即可在此organization下创建service，organization下的所有services<strong>均属于organization</strong>，即倘若organization被其owner删除，其下所有services也会被删除。</li>
+<li>item : 计算项，一个待计算的内容，如：page_view、response_time。用户发送过来的日志中需要包含此计算项的名称和值。</li>
+<li>calculation : 计算方法，如：count、average、percent80。</li>
+<li>tag : 维度，系统会按照tag对item进行分维度计算。如：按照不同的idc进行page_view的计算。</li>
+<li>job : 计算任务。用户可以在一个service下创建多个jobs，但一个job仅包含一个item、一个calculation、零个或者多个tag。目前暂不支持用户创建自定义item、tag和calculation，需要自定义的用户可以联系我们。</li>
+</ul>
+<h2 style="padding-top:50px;color:#000;"id="help">使用帮助</h2>
+<hr>
+<h3>Web界面</h3>
+<hr>
+<h4>创建账户</h4>
+<p>在<a href="#/join" target="_blank">A-Stream注册页</a>进行注册，或者在<a href="#/login" target="_blank">登陆页</a>使用第三方账号登录。（<strong>需要注意的是</strong>，为了保证用户名的唯一性，倘若第三方账号用户名与系统内用户名重复，系统在用户<strong>第一次登录时</strong>会提示用户更改用户名。）</p>
+<h4>创建organization</h4>
+<p>对于百度内部用户，为了便于管理，接入的产品线需要创建对应的organization，如sf、im。登录后点击导航栏“+”即可创建organization或private service。</p>
+<h4>创建service</h4>
+<h5>private service</h5>
+<p>登录后点击导航栏“+”选择private service或者在<a href="#/home" target="_blank">用户首页</a>右侧Private Service面板右侧的“+”即可创建private service。创建service时请根据需要选择华东或者华北机房以及对应的流量，<strong>请尽量接近</strong>产品的现有流量状态，以免浪费资源。机房的选择决定service下的jobs部署在哪里。</p>
+<h5>organization service</h5>
+<p>创建organization service需要先创建organization，创建后在导航栏最左侧的下拉菜单选择进入organization首页并在Service面板右侧点击”+“即可创建organization service。流量的选择参考private service。</p>
+<blockquote>
+<p>private service的名称不得与用户自己其他的private service重复，organization service名称不得与organization下其他service名称重复，但用户可以创建同名的private service和organization service。</p>
+</blockquote><h4>创建job</h4>
+<p>在service面板点击对应的service名称进入service详情页面，点击右侧的“New Job”即可新建job。请根据需要计算的项选择item，选择了item后calculation下拉菜单会出现适用于此item的计算方法，最后选择对应的tag即可。需要增加item、calculation、tag请<a href="#/about?scrollTo=contact" target="_blank">联系我们</a>。</p>
+<blockquote>
+<ul>
+<li>新增service、新增或删除job并不会使计算任务上线。只有点击“Apply Jobs"按钮才会部署或重新部署计算任务。在没有变更的情况下，<strong>请勿频繁点击</strong>“Apply Jobs”。</li>
+<li>删除service会将service下包含的jobs<strong>全部下线</strong>。</li>
+</ul>
+</blockquote><h4>用户设置</h4>
+<h5>更改用户名、密码</h5>
+<p>登录后点击导航栏锯齿按钮或者访问<a href="#/settings" target="_blank">设置页</a>即可更改用户设置，点击Account Settings即可更改用户名、密码。</p>
+<h5>查看、重置Token</h5>
+<p>点击Access Token即可查看或重置Token。<strong>需要注意的是</strong>，除非Token外泄，一般情况下<strong>请勿重置Token</strong>，重置后需要及时在<strong>接入端更新Token</strong>，否则无法进行正常的计算。</p>
+<h3>接入</h3>
+<hr>
+<h4>Step 0 : 创建相关organization、service、job</h4>
+<p>具体操作请参照上一节。<strong>需要注意的是</strong>，如果是测试需要，可以新建private service。</p>
+<h4>HTTP接入</h4>
+<hr>
+<h4>Step 1 ：发送日志</h4>
+<p>发送日志的HTTP接口为：</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">POST</span> <span class="hljs-url">http://hd.collector.aqueducts.baidu.com:8080/publish</span>
+</code></pre>
+<p>POST的内容为：</p>
+<pre class="hljs-light"><code class="hljs objectivec">message={
+            <span class="hljs-string">"username"</span>/<span class="hljs-string">"organization"</span>: <span class="hljs-string">"[name]"</span>, 
+            <span class="hljs-string">"service"</span>: <span class="hljs-string">"[service name]"</span>, 
+            <span class="hljs-string">"[item name]"</span>: <span class="hljs-string">"[item value]"</span>, 
+            <span class="hljs-string">"[tag name]"</span>: <span class="hljs-string">"[tag value]"</span>
+        }
+</code></pre>
+<p>http://hd.collector.aqueducts.baidu.com:8080/publish 为华东机房的API地址，如需发送到华北机房请替换成：http://hb.collector.aqueducts.baidu.com:8080/publish<br>另外需要在header部分添加Authorization字段，如：Authorization: Token [your token]，否则会发送失败。</p>
+<p>以下是一个完整的使用curl发送日志的样例：</p>
+<ol>
+<li>网站上新建一个名为test的private service，机房仅选择华东。</li>
+<li>在test中新建一个job，item选择page_view，calculation选择count，tag选择idc，然后点击“Apply Jobs”按钮。</li>
+<li>终端下载并执行日志发送的脚本：<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">wget</span> <span class="hljs-url">http://download.aqueducts.baidu.com/demo_log_maker/demo_log_maker.sh</span>
+</code></pre>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">chmod</span> u+x demo_log_maker.sh &amp;&amp; ./demo_log_maker.sh
+</code></pre>
+<pre class="hljs-light"><code class="hljs bash">./demo_log_maker.sh <span class="hljs-variable">${your username}</span> test <span class="hljs-variable">${your token}</span>
+</code></pre>
+把${your username}换成你的用户名，${your token}换成你的Token</li>
+<li>若终端持续收到{"response":"ok"}表示发送成功，不要中断。</li>
+</ol>
+<h4>Step 2 ：查看聚合结果</h4>
+<h5>Console实时查看抽样日志</h5>
+<p>发送日志后可以在网页上看到日志的抽样。点击页面导航栏的“CONSOLE”即可进入Console。在个人主页点击“CONSOLE”会显示所有的<strong>private services</strong>，只有在<strong>organization的主页点击“CONSOLE”</strong>才会显示organization下的services。<br>左侧的下来菜单选择某个service后可以看到实时发送的消息，切换华东华北可以看到华东华北收到的消息，切换service可以查看不同的service消息抽样，点击右边的“PAUSE”可以暂停，点击“LIVE”会重新显示。<br>在上一个示例中，当你在Console里选择test后看到抽样的消息则说明消息被成功地聚合、计算了。</p>
+<h5>Chart查看聚合图表</h5>
+<p>与Console<strong>上下文的概念</strong>相同，在个人主页点击导航栏的图标按钮会显示private services的图表，在organization主页点击会显示organization下的services。<br>点击下拉菜单选择不同的services，可以看到service下所有job的聚合结果图表，包括动态图和静态图。如果创建service时选择了在华东华北两个机房部署，则可以选择查看华东或华北的聚合结果图。<br>静态图提供了当日、同比、环比三条曲线，清晰明了便于对比分析。<br>动态图每秒刷新一次，实时性很强。</p>
+<blockquote>
+<p>更详细的聚合结果请<strong>通过API获取</strong>，参见API部分。</p>
+</blockquote><h4>Logstash接入</h4>
+<hr>
+<h4>Step 1 ：安装Logstash</h4>
+<hr>
+<p><a href="http://logstash.net/" target="_blank">Logstash</a>是一个消息/日志的收集、解析工具，A-Stream使用Logstash作为发送日志的客户端。下载最新版的Logstash客户端到需要采集日志的机器上，Logstash负责采集日志字段，唯一的依赖是Java runtime。Logstash官方推荐使用最新版的Java，我们这里要求是Java 1.6以上。使用如下命令查看Java版本：</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">java</span> -version
+</code></pre>
+<p>百度内部用户使用work帐号执行以下命令：</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">wget</span> <span class="hljs-url">http://download.aqueducts.baidu.com/logstash_install.sh</span> -O logstash_install.sh
+</code></pre>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">sh</span> logstash_install.sh
+</code></pre>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">cd</span> /home/work/opbin/logstash
+</code></pre>
+<p>外部用户可以执行以下命令：</p>
+<pre class="hljs-light"><code class="hljs ruby">curl -<span class="hljs-constant">O</span> <span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/download.elasticsearch.org/logstash</span><span class="hljs-regexp">/logstash/logstash</span>-<span class="hljs-number">1.4</span>.<span class="hljs-number">2</span>.tar.gz
+</code></pre>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">tar</span> zxvf logstash-<span class="hljs-number">1</span>.<span class="hljs-number">4</span>.<span class="hljs-number">2</span>.tar.gz
+</code></pre>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">cd</span> logstash-<span class="hljs-number">1</span>.<span class="hljs-number">4</span>.<span class="hljs-number">2</span>
+</code></pre>
+<blockquote>
+<p>查看<a href="http://wiki.aqueducts.baidu.com/logstash%20%20kafka%20performance%20test" target="_blank">Logstash性能测试报告</a></p>
+<p>在流量较大，且日志格式复杂的情况下，对单机性能消耗较大。针对这种情况，我们提供了集中解析日志服务，agent只负责发送消息，解析由后端计算系统完成。这个功能正在和minos联合开发，如果有需求，请<a href="#/about?scrollTo=contact" target="_blank">联系我们</a>。</p>
+</blockquote><h4>Step 2 ：配置Logstash，发送日志</h4>
+<p>只有保证Logstash被正确配置了，提交的日志才能被计算。提交的日志需要保证被提取字段和item名称一致。比如：在web上注册的item名字叫page_view，则agent的format字段需要提取出page_view: (?&lt;page_view&gt;NOTICE:)</p>
+<p>以下是一个配置样例。用于提取organization im下router service的page_view和response _time。</p>
+<pre class="hljs-light"><code class="hljs coffeescript">input {
+  file {
+    <span class="hljs-comment"># 详细配置项请参考 http://logstash.net/docs/1.3.3/inputs/file</span>
+    path<span class="hljs-function"> =&gt;</span> <span class="hljs-string">"/home/work/local/imas.log"</span>
+
+    <span class="hljs-comment"># 附加自定义字段</span>
+    <span class="hljs-comment"># add_field =&gt; { "input_a" =&gt; "input_a"</span>
+    <span class="hljs-comment">#                "input_b" =&gt; "input_b"</span>
+    <span class="hljs-comment">#              }</span>
+  }
+}
+
+filter {
+  <span class="hljs-comment"># 通过正则提取需要计算的字段</span>
+  grok {
+    <span class="hljs-comment"># 详细配置项请参考 http://logstash.net/docs/1.3.3/filters/grok</span>
+    match<span class="hljs-function"> =&gt;</span> [ <span class="hljs-string">"message"</span>, <span class="hljs-string">"^(?&lt;page_view&gt;NOTICE):.*tt=(?&lt;response_time&gt;[0-9]*) (?&lt;timestamp&gt;\d\d\d\d-\d\d-\d\d-\d\d-\d\d-\d\d)"</span> ]
+  }
+
+  <span class="hljs-comment"># 定义日志中的时间戳格式</span>
+  date {
+    match<span class="hljs-function"> =&gt;</span> [ <span class="hljs-string">"timestamp"</span>, <span class="hljs-string">'YYYY-MM-dd-HH-mm-ss'</span> ]
+  }
+}
+output {
+<span class="hljs-comment">#  stdout { debug =&gt; true }</span>
+    kafka {
+      product<span class="hljs-function"> =&gt;</span> <span class="hljs-string">"aqueducts"</span>
+      service<span class="hljs-function"> =&gt;</span> <span class="hljs-string">"logstash"</span>
+    }
+}
+</code></pre>
+<p><strong>需要注意的是</strong>，如果是用户的private service，product的值为用户名，若是organization下的service，product的值为organization的名称。</p>
+<blockquote>
+<ul>
+<li>关于Logstash的详细文档请参考<a href="http://logstash.net/docs/1.3.3/" target="_blank">Logstash配置</a></li>
+<li>需要手工配置的说明在样例的注释中说明，<strong>其余的不需要修改</strong></li>
+<li>用于验证grok正则表达式正确性的web service: <a href="http://grokdebug.herokuapp.com/" target="_blank">grokdebug</a></li>
+</ul>
+</blockquote><h4>Step 3 ：查看聚合结果</h4>
+<p>具体操作参照上一节。</p>
+<h2 id="api" style="color:#000;">API 调用</h2>
+<hr>
+<p>由于新版的API需要权限认证，所有V3版本的API除特殊几个外都需要在HTTP请求的header添加Authorization项。下面有详细示例。</p>
+<blockquote>
+<p>另外<strong>需要注意</strong>的是，所有API返回值均为JSON格式。</p>
+</blockquote><p>我们还提供了一个特殊的API用于测试连通性(无需Token验证)：</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">GET</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/answer</span>
+</code></pre>
+<p>可以正确连接的话返回：</p>
+<pre class="hljs-light"><code class="hljs json">{
+    "<span class="hljs-attribute">answer to universe, life and everything</span>": <span class="hljs-value"><span class="hljs-number">42</span>
+</span>}
+</code></pre>
+<p>状态码为200，反之为400。</p>
+<h3>基本信息获取</h3>
+<hr>
+<h5>验证Token是否合法</h5>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">GET</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/user/validate_token</span>
+</code></pre>
+<p>参数说明：</p>
+<table class="table table-bordered table-condensed">
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">参数类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">token</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">用户的Token值，可以在用户管理页面查看。</td>
+</tr>
+</tbody>
+</table>
+<p>返回值：<br>若是Token合法，返回：</p>
+<pre class="hljs-light"><code class="hljs json">{
+    "<span class="hljs-attribute">message</span>": <span class="hljs-value"><span class="hljs-string">"validate token"</span></span>,
+    "<span class="hljs-attribute">user</span>": <span class="hljs-value"><span class="hljs-string">"[your username]"</span>
+</span>}
+</code></pre>
+<p>HTTP状态码为200。<br>若Token不合法，返回：</p>
+<pre class="hljs-light"><code class="hljs json">{
+    "<span class="hljs-attribute">message</span>": <span class="hljs-value"><span class="hljs-string">"invalid token"</span>
+</span>}
+</code></pre>
+<p>状态码为400。</p>
+<h5>获取用户所有的private services</h5>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">GET</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/user/services</span>
+</code></pre>
+<p>使用curl的例子：</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">curl</span> -H <span class="hljs-string">"Authorization: Token [your token]"</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/user/services</span>
+</code></pre>
+<h5>获取用户加入的所有的organization</h5>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">GET</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/orgs</span>
+</code></pre>
+<p>使用curl的例子：</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">curl</span> -H <span class="hljs-string">"Authorization: Token [your token]"</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/orgs</span>
+</code></pre>
+<h5>获取某organization下所有的service</h5>
+<p>调用此API的前提是用户是此organization的成员。</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">GET</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/orgs/[org_name]/services</span>
+</code></pre>
+<p>org_name为此organization的名字。</p>
+<h3>events查询</h3>
+<hr>
+<h4>v1</h4>
+<p>为了向下兼容，之前V1版本的events相关API仍然可用：</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">GET</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v1/events</span>
+</code></pre>
+<p>参数说明：</p>
+<table class="table table-bordered table-condensed">
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">参数类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">product</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。由于历史原因，V1中没有organization的概念，但两者在使用上没有区别，可以直接把organization的名称作为product的值传递。</td>
+</tr>
+<tr>
+<td style="text-align:center">service</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。要查询的service的名称。</td>
+</tr>
+<tr>
+<td style="text-align:center">item</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。要查询的item的名称。</td>
+</tr>
+<tr>
+<td style="text-align:center">calculation</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。要查询的calculation的名称。</td>
+</tr>
+<tr>
+<td style="text-align:center">from</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。时间区间起始，如表示从上一分钟开始：-1m，详细对应关系参见下面的说明。</td>
+</tr>
+<tr>
+<td style="text-align:center">to</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。时间区间终止，如表示到现在为止：now，详细对应关系参见下面的说明。</td>
+</tr>
+<tr>
+<td style="text-align:center">detail</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">可选。参数存在时，则返回详细的结果，包括所有字段名称和值，缺省情况下仅返回部分字段的值。</td>
+</tr>
+<tr>
+<td style="text-align:center">area</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">可选。若是查询华北机房的结果则值为huabei，若是查询华东的结果则值为huadong，缺省情况下查询的是华北机房。</td>
+</tr>
+<tr>
+<td style="text-align:center">period</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">可选。表示查询的精度，有两个值：1或60，分别表示：获取按秒聚合的结果、获取按分钟聚合的结果，缺省情况下是1。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>查询区间与返回精度对应关系</strong>:<br> &lt; 1 hour, 返回秒级精度（1-second 1-point）<br> &gt; 1 hour, 返回分钟级精度（1-minute 1-point）</p>
+<p><strong>时间区间表示格式</strong>：</p>
+<p><strong><em>Absolute Dates</em></strong><br> yyyy-MM-dd HH:mm:ss.SSS     :  2013-08-11 00:00:00.000<br> yyyy-MM-ddTHH:mm:ss.SSSZ  :  2013-08-13T18:45:00.000Z</p>
+<p><strong><em>Relative Dates</em></strong><br> now                     : now<br> Last 12 hours       : -12h<br> Last 5 minutes      : -5m<br> Last 30 seconds   : -30s</p>
+</blockquote><p>使用curl获取organization im下router service近一分钟的page_view:</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">curl</span> <span class="hljs-string">"http://api.aqueducts.baidu.com/v1/events?product=im&amp;service=router&amp;item=page_view&amp;calculation=count&amp;from=-1m&amp;to=now&amp;detail=true&amp;area=huabei&amp;period=1"</span>
+</code></pre>
+<p>除个别参数外，V1 与 V3 版本大致相同。</p>
+<p>另外，由于V1缺乏权限验证，出于安全性的考虑在不久的将来很可能会<strong>废弃</strong>，所以<strong>强烈建议</strong>新用户直接使用V3 API。</p>
+<h4>v3</h4>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">GET</span> <span class="hljs-url">http://api.aqueducts.baidu.com/v3/events</span>
+</code></pre>
+<p>参数说明：</p>
+<table class="table table-bordered table-condensed">
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">参数类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">username</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">若service为用户的private service，则username必选，organization不选。</td>
+</tr>
+<tr>
+<td style="text-align:center">organization</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">若service为organization下的service，则organization必选，username不选。</td>
+</tr>
+<tr>
+<td style="text-align:center">service</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。要查询的service的名称。</td>
+</tr>
+<tr>
+<td style="text-align:center">item</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。要查询的item的名称。</td>
+</tr>
+<tr>
+<td style="text-align:center">calculation</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。要查询的calculation的名称。</td>
+</tr>
+<tr>
+<td style="text-align:center">from</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。时间区间起始，如表示从上一分钟开始：-1m，详细对应关系参见上面的说明。</td>
+</tr>
+<tr>
+<td style="text-align:center">to</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">必选。时间区间终止，如表示到现在为止：now，详细对应关系参见上面的说明。</td>
+</tr>
+<tr>
+<td style="text-align:center">detail</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">可选。参数存在时，则返回详细的结果，包括所有字段名称和值，缺省情况下仅返回部分字段的值。</td>
+</tr>
+<tr>
+<td style="text-align:center">area</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">可选。若是查询华北机房的结果则值为huabei，若是查询华东的结果则值为huadong，缺省情况下查询的是华北机房。</td>
+</tr>
+<tr>
+<td style="text-align:center">period</td>
+<td style="text-align:center">string</td>
+<td style="text-align:left">可选。表示查询的精度，有两个值：1或60，分别表示：获取按秒聚合的结果、获取按分钟聚合的结果，缺省情况下是1。</td>
+</tr>
+</tbody>
+</table>
+<p>使用curl获取organization im下router service近一分钟的page_view（前提是你在im organization下面）:</p>
+<pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">curl</span> -H <span class="hljs-string">"Authorization: Token [your token]"</span> <span class="hljs-string">"http://api.aqueducts.baidu.com/v3/events?organization=im&amp;service=router&amp;item=page_view&amp;calculation=count&amp;from=-1m&amp;to=now&amp;detail=true&amp;area=huabei&amp;period=1"</span>
+</code></pre>
+<h2 style="padding-top:50px;color:#000;"id="current">接入现状</h2>
+<hr>
+<p>在百度内部，目前已有  <strong>7</strong>  个产品线接入 A-Stream，创建超过  <strong>50</strong>  个 services，<strong>100</strong>  个计算任务。<br>A-Stream每秒处理超过 <strong>300,000</strong> 条消息，稳定性达到 <strong>99.998%</strong> 。<br>如在使用或接入过程中遇到任何问题，欢迎 <a href="#/about?scrollTo=contact"target="_blank">联系我们</a>。</p>
+<hr>
+<h4>Happy A-Streaming!</h4>

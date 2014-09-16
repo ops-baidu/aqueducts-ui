@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h3>Pick a username</h3>
+</div>
+<form name="form">
+<fieldset>
+<div class="modal-body">
+  <div class="alert alert-danger" ng-show="changeUsernameFailed">
+    {{changeUsernameFailedMsg}}
+  </div>
+  <div class="form-group" ng-class="{'has-error': form.name.$invalid && form.name.$dirty, 'has-success' : form.name.$vaild && form.name.$dirty}">
+    <label for="name">Name:</label>
+    <input placeholder="must be unique among both users and organizations" id="name" name="name" type='text' required class="form-control" ng-model="username"/><br/>
+    <p class="help-block"> May only contain numbers or small letters or dashes and cannot begin with a dash</p><br/>
+
+  </div>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="ok(username)">OK</button>
+</div>
+</fieldset>
+</form>

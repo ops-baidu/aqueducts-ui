@@ -1,7 +1,7 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('UserJobController', ['$modal', '$route', '$scope', '$routeParams', '$location','Restangular', function($modal, $route, $scope, $routeParams, $location, Restangular) {
+aqueductsApp.controller('UserJobController', ['$modal', '$route', '$scope', '$routeParams', '$location','Restangular', 'dialogs',function($modal, $route, $scope, $routeParams, $location, Restangular, dialogs) {
 
     var username = $routeParams.username;
     var service_name = $routeParams.service_name ;
@@ -31,6 +31,22 @@ aqueductsApp.controller('UserJobController', ['$modal', '$route', '$scope', '$ro
           $scope.jobApplyFailed = true;
           $scope.jobApplyFailedMsg = response.data.message;
        });
+    };
+
+    $scope.deleteService = function(username, service_name) {
+      var dlg = dialogs.confirm('Delete Service','This will delete all the jobs. Are you sure?');
+      dlg.result.then(function(btn){
+      
+        Restangular.all('user').one('services', service_name).remove().then(function(){
+          $location.path('/home');
+         }, function(response){
+          $scope.serviceDeleteFailed = true;
+          $scope.serviceDeleteFailedMsg = response.data.message;
+        });
+      },function(btn){
+
+      });
+        
     };
 
     $scope.destroy = function(job) {

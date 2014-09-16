@@ -1,6 +1,8 @@
 <div class="section" style="padding-top:80px;min-height:800px;">
   <div class="container">
-    <h1 class="page-header"><a href="#/home">{{username}}</a> / {{service_name}}
+    <h1 class="page-header">
+      <a href="#/home">{{username}}</a> / {{service_name}}
+      <span style="padding-left:20px;"><a type="button" class="btn btn-danger" ng-click="deleteService(username, service_name)">Delete Service</a></span>
       <a type="button" class="btn btn-warning pull-right" ng-click="apply(service_name)">Apply Jobs</a>
       <a type="button" style="margin-right:20px;"class="btn btn-primary pull-right" ng-click="new()">New Job</a>
 
@@ -8,6 +10,9 @@
 
     <div class="alert alert-danger" ng-show="jobApplyFailed">
       Failed
+    </div>
+    <div class="alert alert-danger" ng-show="serviceDeleteFailed">
+      {{serviceDeleteFailedMsg}}
     </div>
     <div class="alert alert-success" ng-show="jobApplySuccess">
       Successfully applied, please wait 20s to watch console or charts

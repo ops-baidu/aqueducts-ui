@@ -2,32 +2,47 @@
   <div class="panel panel-default console">
     <div class="panel-heading console-heading">
       <div class="container" style="padding-right:0px;padding-left:0px;">
-
-        <div class="btn-group dropdown">
-          <button type="button" style="color:#777;border:none;"class="btn btn-lg btn-default dropdown-toggle"data-toggle="dropdown">{{serviceContext}}
-            <span style="color:#777;"class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <div class="dropdown-menu" role="menu">
-            <div ng-repeat="service in services" class="list-group" style="margin:0px;">
-              <a style="border-left:none; border-right:none;border-top:none;border-radius:0"class="list-group-item"href="javascript:void(0);"ng-click="consume(service.name)">{{service.name}}
-              </a>
+        <div class="row">
+          <div class="btn-group dropdown col-md-2">
+            <button type="button" style="color:#777;border:none;"class="btn btn-lg btn-default dropdown-toggle"data-toggle="dropdown">{{serviceContext}}
+              <span style="color:#777;"class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <div ng-repeat="service in services" class="list-group" style="margin:0px;">
+                <a style="border-left:none; border-right:none;border-top:none;border-radius:0"class="list-group-item"href="javascript:void(0);"ng-click="consumeControl(service.name, service.flows)">{{service.name}}
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <a ng-show="pause"href="javascript:void(0);" ng-click="stopEvents()" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
-          PAUSE<span class="glyphicon glyphicon-pause" style="padding-left:10px;"></span>
-        </a>
-        <a ng-show="live" href="javascript:void(0);" ng-click="consume(serviceContext)" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
-          LIVE<span class="glyphicon glyphicon-play" style="padding-left:10px;"></span>
-        </a>
+          <div class="col-md-4">
+            <form class="form-inline" style="padding-top:10px;">
+              <div ng-if="huabei" class="form-group">
+                <input type="radio" ng-model="area" value="HB" ng-click="consume(serviceContext, 'HB')">
+                <span style="padding-left: 5px;font-size:16px;">华北</span>
+              </div>
+              <div ng-if="huadong" class="form-group"style="padding-left:20px;">
+                <input type="radio" ng-model="area" value="HD" ng-click="consume(serviceContext, 'HD')">
+                <span style="padding-left: 5px;font-size:16px;">华东</span>
+              </div>
+            </form>
+          </div>
+          <div class="pull-right">
+            <a ng-show="pause"href="javascript:void(0);" ng-click="stopEvents()" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
+              PAUSE<span class="glyphicon glyphicon-pause" style="padding-left:10px;"></span>
+            </a>
+            <a ng-show="live" href="javascript:void(0);" ng-click="consume(serviceContext, area)" class="pull-right" style="padding-top:10px;padding-right:0px;color:#fff;font-size: 20px;">
+              LIVE<span class="glyphicon glyphicon-play" style="padding-left:10px;"></span>
+            </a>
+          </div>
+        </div>  
       </div>
     </div>
     <perfect-scrollbar class="panel-body scroller" wheel-propagation="true" wheel-speed="50" refresh-on-change="msg">
       <div ng-repeat="m in msg" style="padding-bottom:10px;">
         <span ng-repeat="(key, val) in m[0]" ng-show="key!='@timestamp' && key!='@version'">
           <span style="color: #B58900">{{key}}</span>
-          <span style="color:#258CCD">{{val}}</span>
+          <span style="color:#258CCD">{{val}} </span>
         </span>
       </div>
     </perfect-scrollbar>
