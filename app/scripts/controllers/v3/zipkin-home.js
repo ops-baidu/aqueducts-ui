@@ -2,11 +2,11 @@
 * @Author: john
 * @Date:   2014-09-11 13:20:14
 * @Last Modified by:   john
-* @Last Modified time: 2014-09-16 16:08:14
+* @Last Modified time: 2014-09-16 16:42:45
 */
 'use strict';
 
-angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', function($scope, $http) {
+angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 'ApiBaseUrl', function($scope, $http, ApiBaseUrl) {
   $scope.services  = [];
   $scope.spanNames = [];
   $scope.traces    = [];
@@ -14,7 +14,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
   function getServiceNames () {
     // TODO
     // change http url to config
-    $http.get("http://127.0.0.1:3000/v3/zipkin/get_service_names").success(function (response) {
+    $http.get(ApiBaseUrl + "zipkin/get_service_names").success(function (response) {
       $scope.services = [];
       for (var i = response.length - 1; i >= 0; i--) {
         $scope.services.push({name: response[i]});
@@ -37,7 +37,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
                                 timestamp, limit, annotationQuery) {
     // TODO
     // get trace summaries over api
-    var findTracesUrl = "http://127.0.0.1:3000/v3/zipkin/find_traces"
+    var findTracesUrl = ApiBaseUrl + "zipkin/find_traces"
     + "?service_name=" + serviceName
     + "&span_name=" + spanName
     + "&end_ts=" + timestamp
@@ -45,7 +45,6 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
     + "&annotation_query=" + annotationQuery;
 
     $http.get(findTracesUrl).success(function (response) {
-      // body...
       $scope.traces = [];
       for (var i = response.length - 1; i >= 0; i--) {
         var timeago = jQuery.timeago(new Date(response[0]['startTime']/1000));
@@ -56,7 +55,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
   };
 
   $scope.getSpanNames = function(serviceName) {
-    $http.get("http://127.0.0.1:3000/v3/zipkin/get_span_names?service_name=" + serviceName)
+    $http.get(ApiBaseUrl + "zipkin/get_span_names?service_name=" + serviceName)
     .success(function (response) {
       $scope.spanNames = [];
       for (var i = response.length - 1; i >= 0; i--) {
