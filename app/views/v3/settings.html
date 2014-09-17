@@ -8,7 +8,7 @@
           </div>
           <div class="panel-body">
             <div class="list-group">
-              <a href="javascript:void(0);" class="list-group-item" ng-class="{active: account}" ng-click="account=true">
+              <a href="javascript:void(0);" class="list-group-item" ng-class="{active: account}" ng-click="account=true"ng-show="!guest">
                 Account settings
               </a>
               <a href="javascript:void(0);" ng-click="account=false" ng-class="{active: !account}" class="list-group-item">Access token</a>
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="col-xs-6 col-md-8 col-md-offset-1">
-        <div ng-show="account">
+        <div ng-show="account&&!guest">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Change password</h3>

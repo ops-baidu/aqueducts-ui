@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('webApp').controller('SettingsController', ['$scope','Restangular', 'tokenService', '$route', function($scope, Restangular, tokenService, $route) {
-  $scope.account = true;
+  $scope.account = false;
   $scope.changePasswordFailed = false;
   $scope.changeEmailFailed = false;
   $scope.changeUsernameFailed = false;
+  $scope.guest = false;
   Restangular.all('user').customGET('info').then(function(user){
     $scope.user = user;
+    if (user.name == "guest") {$scope.guest = true;};
   });
   $scope.resetToken = function(){
     Restangular.all('').customGET('reset_token').then(function(token){
       tokenService.setToken(token.token);
       $scope.user.authentication_token = token.token;
     });
-
-
   };
 
   $scope.changePassword = function(old, new_pass){
