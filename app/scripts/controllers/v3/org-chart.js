@@ -5,6 +5,7 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
 
   $scope.serviceContext = "Services";
   var orgname = $routeParams.orgname;
+  var service_name = $routeParams.service_name;
   $scope.orgname = orgname;
   $scope.data = { chart: {} };
   var services = Restangular.one('orgs', orgname).all('services');
@@ -22,6 +23,11 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
       text : 'placeholder'
     },
     series : [],
+  };
+  if (service_name) {
+    Restangular.one('orgs', orgname).one('services', service_name).get().then(function(service){
+      $scope.showCharts(service_name, service.flows);
+    });
   };
 
   $scope.showCharts = function(service_name, service_flows){

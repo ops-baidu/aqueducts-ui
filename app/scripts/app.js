@@ -86,7 +86,17 @@ angular.module('webApp', [
         controller: 'UserConsoleController',
         access: { requiredAuthentication: true }
       })
-      .when('/console/:orgname', {
+      .when('/console/:service_name', {
+        templateUrl: 'views/v3/console.html',
+        controller: 'UserConsoleController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/console/orgs/:orgname', {
+        templateUrl: 'views/v3/console.html',
+        controller: 'OrgConsoleController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/console/orgs/:orgname/:service_name', {
         templateUrl: 'views/v3/console.html',
         controller: 'OrgConsoleController',
         access: { requiredAuthentication: true }
@@ -96,7 +106,17 @@ angular.module('webApp', [
         controller: 'UserChartController',
         access: { requiredAuthentication: true }
       })
-      .when('/charts/:orgname', {
+      .when('/charts/:service_name', {
+        templateUrl: 'views/v3/user_charts.html',
+        controller: 'UserChartController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/charts/orgs/:orgname', {
+        templateUrl: 'views/v3/org_charts.html',
+        controller: 'OrgChartController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/charts/orgs/:orgname/:service_name', {
         templateUrl: 'views/v3/org_charts.html',
         controller: 'OrgChartController',
         access: { requiredAuthentication: true }
