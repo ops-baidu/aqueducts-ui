@@ -17,22 +17,42 @@ angular.module('webApp').controller('NavbarController', ['$scope', 'authenticati
   };
   
   $scope.redirectToConsole = function(){
-    if ($routeParams.orgname != undefined) {
-      $scope.orgname = $routeParams.orgname;
-      $location.path('/console/' + $scope.orgname);
+    var orgname = $routeParams.orgname;
+    var service_name = $routeParams.service_name;
+
+    if (orgname != undefined) {
+      if (service_name != undefined) {
+        $location.path('/console/orgs/' + orgname + '/' + service_name);
+      } else{
+        $location.path('/console/orgs/' + orgname);
+      };
     }
     else{
-      $location.path('/console');
+      if (service_name != undefined) {
+        $location.path('/console/' + service_name);
+      } else{
+        $location.path('/console');
+      };
 
     }
   };
   $scope.redirectToCharts = function(){
-    if ($routeParams.orgname != undefined) {
-      $scope.orgname = $routeParams.orgname;
-      $location.path('/charts/' + $scope.orgname);
+    var orgname = $routeParams.orgname;
+    var service_name = $routeParams.service_name;
+
+    if (orgname != undefined) {
+      if (service_name != undefined) {
+        $location.path('/charts/orgs/' + orgname + '/' + service_name);
+      } else{
+        $location.path('/charts/orgs/' + orgname);
+      };
     }
     else{
-      $location.path('/charts');
+      if (service_name != undefined) {
+        $location.path('/charts/' + service_name);
+      } else{
+        $location.path('/charts');
+      };
 
     }
   };
