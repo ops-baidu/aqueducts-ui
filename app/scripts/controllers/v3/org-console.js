@@ -12,6 +12,12 @@ aqueductsApp.controller('OrgConsoleController', ['$scope', '$routeParams',
   $scope.serviceContext = "Services";
   $scope.live = false;
   $scope.pause = false;
+  var service_name = $routeParams.service_name;
+  if (service_name) {
+    Restangular.one('orgs', orgname).one('services', service_name).get().then(function(service){
+      $scope.consumeControl(service_name, service.flows);
+    });
+  };
 
   $scope.stopEvents = function(){
     $scope.live = true;
