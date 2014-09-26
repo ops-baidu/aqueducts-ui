@@ -1,8 +1,8 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('OrgConsoleController', ['$scope', '$routeParams',
-  'Restangular', '$interval', function($scope, $routeParams, Restangular, $interval) {
+aqueductsApp.controller('OrgConsoleController', ['$location', '$scope', '$routeParams',
+  'Restangular', '$interval', function($location, $scope, $routeParams, Restangular, $interval) {
   var orgname = $routeParams.orgname;
   $scope.orgname = orgname;
   var services = Restangular.one('orgs', orgname).all('services');
@@ -41,6 +41,7 @@ aqueductsApp.controller('OrgConsoleController', ['$scope', '$routeParams',
     };
     
     $scope.serviceContext = service_name;
+    $location.url('/console/orgs/' + $scope.orgname + '/' + service_name);
     $scope.show = true;
     $scope.consume(service_name, default_area);
   };
