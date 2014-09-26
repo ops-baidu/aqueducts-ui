@@ -1,7 +1,7 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('UserChartController', [ '$routeParams', '$scope','$http', '$q', 'Restangular', 'EventsApiBaseUrl' , function ($routeParams, $scope,$http,$q,Restangular,EventsApiBaseUrl) {
+aqueductsApp.controller('UserChartController', [ '$routeParams', '$scope','$http', '$q', 'Restangular', 'EventsApiBaseUrl','$location', function ($routeParams, $scope,$http,$q,Restangular,EventsApiBaseUrl, $location) {
 
   $scope.serviceContext = "Services";
   var service_name = $routeParams.service_name;
@@ -48,6 +48,7 @@ aqueductsApp.controller('UserChartController', [ '$routeParams', '$scope','$http
     };
     
     $scope.serviceContext = service_name;
+    $location.url('/charts/' + service_name);
     $scope.show = true;
     $scope.showAreaCharts(service_name, default_area);
 
