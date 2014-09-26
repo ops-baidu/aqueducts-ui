@@ -2,7 +2,7 @@
 
 var aqueductsApp = angular.module('webApp');
 aqueductsApp.controller('UserConsoleController', ['$scope', '$routeParams',
-  'Restangular', '$interval', function($scope, $routeParams, Restangular, $interval) {
+  'Restangular', '$interval', '$location', function($scope, $routeParams, Restangular, $interval, $location) {
   Restangular.all('user').all('services').getList().then(function(services){
     $scope.services = services;
   });
@@ -41,6 +41,7 @@ aqueductsApp.controller('UserConsoleController', ['$scope', '$routeParams',
     };
     
     $scope.serviceContext = service_name;
+    $location.url('/console/' + service_name);
     $scope.show = true;
     $scope.consume(service_name, default_area);
   };
