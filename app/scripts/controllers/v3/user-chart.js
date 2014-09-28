@@ -1,9 +1,11 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('UserChartController', [ '$scope','$http', '$q', 'Restangular', 'EventsApiBaseUrl' , function ($scope,$http,$q,Restangular,EventsApiBaseUrl) {
+aqueductsApp.controller('UserChartController', [ '$routeParams', '$scope','$http', '$q', 'Restangular', 'EventsApiBaseUrl','$location', function ($routeParams, $scope,$http,$q,Restangular,EventsApiBaseUrl, $location) {
 
   $scope.serviceContext = "Services";
+  var service_name = $routeParams.service_name;
+
   Restangular.all('user').customGET('info').then(function(user){
     $scope.username = user.name;
   });
@@ -24,6 +26,11 @@ aqueductsApp.controller('UserChartController', [ '$scope','$http', '$q', 'Restan
     },
     series : [],
   };
+  if (service_name) {
+    Restangular.all('user').one('services', service_name).get().then(function(service){
+      $scope.showCharts(service_name, service.flows);
+    });
+  };
 
   $scope.showCharts = function(service_name, service_flows){
     var default_area = '';
@@ -41,6 +48,7 @@ aqueductsApp.controller('UserChartController', [ '$scope','$http', '$q', 'Restan
     };
     
     $scope.serviceContext = service_name;
+    $location.url('/charts/' + service_name);
     $scope.show = true;
     $scope.showAreaCharts(service_name, default_area);
 

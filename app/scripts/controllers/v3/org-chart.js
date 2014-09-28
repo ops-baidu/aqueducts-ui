@@ -1,10 +1,11 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeParams', 'Restangular', 'EventsApiBaseUrl' , function ($scope,$http,$q,$routeParams,Restangular,EventsApiBaseUrl) {
+aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeParams', 'Restangular', 'EventsApiBaseUrl', '$location', function ($scope,$http,$q,$routeParams,Restangular,EventsApiBaseUrl, $location) {
 
   $scope.serviceContext = "Services";
   var orgname = $routeParams.orgname;
+  var service_name = $routeParams.service_name;
   $scope.orgname = orgname;
   $scope.data = { chart: {} };
   var services = Restangular.one('orgs', orgname).all('services');
@@ -23,6 +24,11 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
     },
     series : [],
   };
+  if (service_name) {
+    Restangular.one('orgs', orgname).one('services', service_name).get().then(function(service){
+      $scope.showCharts(service_name, service.flows);
+    });
+  };
 
   $scope.showCharts = function(service_name, service_flows){
     var default_area = '';
@@ -40,6 +46,7 @@ aqueductsApp.controller('OrgChartController', [ '$scope','$http', '$q', '$routeP
     };
     
     $scope.serviceContext = service_name;
+    $location.url('/charts/orgs/' + $scope.orgname + '/' + service_name);
     $scope.show = true;
     $scope.showAreaCharts(service_name, default_area);
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var aqueductsApp = angular.module('webApp');
-aqueductsApp.controller('OrgJobController', ['$modal', '$route','$scope', '$routeParams', '$location','Restangular', function($modal, $route, $scope, $routeParams, $location, Restangular) {
+aqueductsApp.controller('OrgJobController', ['$modal', '$route','$scope', '$routeParams', '$location','Restangular', 'dialogs', function($modal, $route, $scope, $routeParams, $location, Restangular, dialogs) {
     var orgname = $routeParams.orgname;
     var service_name = $routeParams.service_name ;
 
@@ -30,6 +30,22 @@ aqueductsApp.controller('OrgJobController', ['$modal', '$route','$scope', '$rout
        }, function(response){
           $scope.jobApplyFailed = true;
        });
+    };
+
+    $scope.deleteService = function(orgname, service_name) {
+      var dlg = dialogs.confirm('Delete Service','This will delete all the jobs. Are you sure?');
+      dlg.result.then(function(btn){
+      
+        Restangular.one('orgs',orgname).one('services', service_name).remove().then(function(){
+          $location.path('/orgs/' + orgname);
+        }, function(response){
+          $scope.serviceDeleteFailed = true;
+          $scope.serviceDeleteFailedMsg = response.data.message;
+        });
+      },function(btn){
+
+      });
+      
     };
 
     $scope.destroy = function(job) {

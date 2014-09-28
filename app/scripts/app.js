@@ -10,7 +10,10 @@ angular.module('webApp', [
   'ui.dashboard',
   'highcharts-ng',
   'headroom',
-  'perfect_scrollbar'
+  'perfect_scrollbar',
+  'dialogs.main',
+  'pascalprecht.translate',
+  'dialogs.default-translations'
 ])
   .config(function($httpProvider){
     $httpProvider.interceptors.push('tokenInterceptor');
@@ -21,6 +24,11 @@ angular.module('webApp', [
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainController',
+        access: { requiredLogin: false }
+      })
+      .when('/wait', {
+        templateUrl: 'views/v3/wait.html',
+        controller: 'AuthController',
         access: { requiredLogin: false }
       })
 
@@ -44,28 +52,16 @@ angular.module('webApp', [
       //   controller: 'UserController',
       //   access: { requiredAuthentication: false }
       // })
-      // .when('/logout', {
-      //   templateUrl: 'views/logout.html',
-      //   controller: 'UserController',
-      //   access: { requiredAuthentication: true }
-      // })
 
 
-      // .when('/about', {
-      //   templateUrl: 'views/about.html',
-      //   controller: 'AboutController',
-      //   access: { requiredAuthentication: false }
-      // })
-      // .when('/tour', {
-      //   templateUrl: 'views/tour.html',
-      //   controller: 'TourController',
-      //   access: { requiredAuthentication: false }
-      // })
-      // .when('/live_demo', {
-      //   templateUrl: 'views/live_demo.html',
-      //   controller: 'LiveDemoController',
-      //   access: { requiredAuthentication: false }
-      // })
+      .when('/about', {
+        templateUrl: 'views/v3/about.html',
+        access: { requiredAuthentication: false }
+      })
+      .when('/guide', {
+        templateUrl: 'views/v3/guide.html',
+        access: { requiredAuthentication: false }
+      })
 
 
       .when('/users/:username', {
@@ -90,7 +86,17 @@ angular.module('webApp', [
         controller: 'UserConsoleController',
         access: { requiredAuthentication: true }
       })
-      .when('/console/:orgname', {
+      .when('/console/:service_name', {
+        templateUrl: 'views/v3/console.html',
+        controller: 'UserConsoleController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/console/orgs/:orgname', {
+        templateUrl: 'views/v3/console.html',
+        controller: 'OrgConsoleController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/console/orgs/:orgname/:service_name', {
         templateUrl: 'views/v3/console.html',
         controller: 'OrgConsoleController',
         access: { requiredAuthentication: true }
@@ -100,17 +106,22 @@ angular.module('webApp', [
         controller: 'UserChartController',
         access: { requiredAuthentication: true }
       })
-      .when('/charts/:orgname', {
+      .when('/charts/:service_name', {
+        templateUrl: 'views/v3/user_charts.html',
+        controller: 'UserChartController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/charts/orgs/:orgname', {
+        templateUrl: 'views/v3/org_charts.html',
+        controller: 'OrgChartController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/charts/orgs/:orgname/:service_name', {
         templateUrl: 'views/v3/org_charts.html',
         controller: 'OrgChartController',
         access: { requiredAuthentication: true }
       })
 
-      // .when('/demo/new', {
-      //   templateUrl: 'views/new-service.html',
-      //   controller: 'DemoController',
-      //   access: { requiredAuthentication: true }
-      // })
 
       .when('/orgs/:orgname', {
         templateUrl: 'views/v3/org_home.html',
@@ -150,14 +161,10 @@ angular.module('webApp', [
         access: { requiredAuthentication: false }
       })
 
-
-
-
-
       .otherwise({
         redirectTo: '/'
       });
-    // $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
   })
   .run(['$rootScope', '$location', 'authenticationService', 'tokenService', function($rootScope, $location, authenticationService, tokenService) {
     $rootScope.$on('$routeChangeStart', function(event, nextRoute) {
@@ -166,5 +173,46 @@ angular.module('webApp', [
         $location.path('/login');
       }
     });
+  }])
+  .run(['$rootScope', '$location', '$anchorScroll', '$routeParams', function($rootScope, $location, $anchorScroll, $routeParams) {
+    //when the route is changed scroll to the proper element.
+    $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
+      $location.hash($routeParams.scrollTo);
+      $anchorScroll();  
+    });
   }]);
+
+angular.module('dialogs.default-translations',['pascalprecht.translate'])
+ /**
+   * Default translations in English.
+   * 
+   * Use angular-translate's $translateProvider to provide translations in an
+   * alternate language.
+   *
+   * $translateProvider.translations('[lang]',{[translations]});
+   * To use alternate translations set the preferred language to your desired
+   * language.
+   * $translateProvider.preferredLanguage('[lang]');
+   */
+  .config(['$translateProvider',function($translateProvider){
+    $translateProvider.translations('en-US',{
+      DIALOGS_ERROR: "Error",
+      DIALOGS_ERROR_MSG: "An unknown error has occurred.",
+      DIALOGS_CLOSE: "Close",
+      DIALOGS_PLEASE_WAIT: "Please Wait",
+      DIALOGS_PLEASE_WAIT_ELIPS: "Please Wait...",
+      DIALOGS_PLEASE_WAIT_MSG: "Waiting on operation to complete.",
+      DIALOGS_PERCENT_COMPLETE: "% Complete",
+      DIALOGS_NOTIFICATION: "Notification",
+      DIALOGS_NOTIFICATION_MSG: "Unknown application notification.",
+      DIALOGS_CONFIRMATION: "Confirmation",
+      DIALOGS_CONFIRMATION_MSG: "Confirmation required.",
+      DIALOGS_OK: "OK",
+      DIALOGS_YES: "Yes",
+      DIALOGS_NO: "No"
+    });
+
+    $translateProvider.preferredLanguage('en-US');
+  }]); // end config
+
 

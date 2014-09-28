@@ -22,6 +22,19 @@
         </div>
       </div>
       <div class="col-xs-6 col-md-3 col-md-offset-1">
+        <div class="panel panel-default panel-mini"ng-show="owner">
+          <div class="panel-heading">
+            <h3 class="panel-title">Management</h3>
+          </div>
+          <div class="panel-body">
+              <div class="alert alert-danger" ng-show="destroyOrgFailed">
+                {{destroyOrgFailedMsg}}
+              </div>
+              <a type="button" class="btn btn-danger" ng-click="destroyOrg(org.name)">Destroy Organization</a>
+              <p class="help-block">This will destroy all services and jobs, please be cautious!</p>
+            </form>
+          </div>
+        </div>
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">People
@@ -40,7 +53,7 @@
               </div>
             <div style="padding:10px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="person in org.people">
               <div ng-controller="OrgHomeController"ng-init="getRole(person)"><span ng-class="{owner: isOwner, admin: isAdmin, normal: isNormal, guest: isGuest}"class="glyphicon glyphicon-user" style="padding-right:20px;"></span>{{person.name}}
-                <a href="javascript:void(0);"ng-click="remove(person.name)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                <a ng-show="owner" href="javascript:void(0);"ng-click="remove(person.name)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
               </div>
             </div>
           </div>
@@ -61,6 +74,7 @@
           </div>
         </div>
       </div>
+
 
 
     </div>

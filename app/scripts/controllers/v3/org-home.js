@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('webApp').controller('OrgHomeController', ['$scope', '$modal','Restangular', '$routeParams','$route', function($scope, $modal, Restangular, $routeParams, $route) {
+angular.module('webApp').controller('OrgHomeController', ['$scope', '$location', '$modal','Restangular', '$routeParams','$route', 'dialogs', function($scope, $location, $modal, Restangular, $routeParams, $route, dialogs) {
   $scope.owner = false;
   var otherUsers = [];
   $scope.addMemberFailed = false;
@@ -41,7 +41,20 @@ angular.module('webApp').controller('OrgHomeController', ['$scope', '$modal','Re
     });
 
   });
+  $scope.destroyOrg = function(orgname){
 
+    var dlg = dialogs.confirm('Delete Organization','This will delete all the services. Are you sure?');
+    dlg.result.then(function(btn){
+      Restangular.one('orgs', orgname).remove().then(function(){
+        $location.path('/home');
+      }, function(response){
+        $scope.destroyOrgFailed = true;
+        $scope.destroyOrgFailedMsg = response.data.message;
+      });
+    },function(btn){
+    });
+    
+  }
   $scope.getRole = function(person){
     $scope.isOwner = false;
     $scope.isAdmin = false;
