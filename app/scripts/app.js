@@ -150,11 +150,20 @@ angular.module('webApp', [
         controller: 'UserServiceController',
         access: { requiredAuthentication: true }
       })
-
       .when('/settings', {
         templateUrl: 'views/v3/settings.html',
         controller: 'SettingsController',
         access: { requiredAuthentication: true }
+      })
+      .when('/zipkin', {
+        templateUrl: 'views/v3/zipkin_home.html',
+        controller: 'ZipkinHomeController',
+        access: { requiredAuthentication: false }
+      })
+      .when('/traces/:traceId', {
+        templateUrl: 'views/v3/traces.html',
+        controller: 'TracesController',
+        access: { requiredAuthentication: false }
       })
 
       .otherwise({
@@ -174,14 +183,14 @@ angular.module('webApp', [
     //when the route is changed scroll to the proper element.
     $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
       $location.hash($routeParams.scrollTo);
-      $anchorScroll();  
+      $anchorScroll();
     });
   }]);
 
 angular.module('dialogs.default-translations',['pascalprecht.translate'])
  /**
    * Default translations in English.
-   * 
+   *
    * Use angular-translate's $translateProvider to provide translations in an
    * alternate language.
    *
