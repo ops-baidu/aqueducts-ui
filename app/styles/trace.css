@@ -9,7 +9,7 @@
 
 #trace-container .span {
   cursor: pointer;
-  display: none;
+  /*display: none;*/
   position: relative;
   border-bottom: solid 1px #fff;
   border-top: solid 1px #fff;
