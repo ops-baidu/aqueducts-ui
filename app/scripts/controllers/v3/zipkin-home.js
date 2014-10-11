@@ -2,7 +2,7 @@
 * @Author: john
 * @Date:   2014-09-11 13:20:14
 * @Last Modified by:   john
-* @Last Modified time: 2014-09-16 16:42:45
+* @Last Modified time: 2014-10-10 10:55:14
 */
 'use strict';
 
@@ -12,8 +12,6 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
   $scope.traces    = [];
 
   function getServiceNames () {
-    // TODO
-    // change http url to config
     $http.get(ApiBaseUrl + "zipkin/get_service_names").success(function (response) {
       $scope.services = [];
       for (var i = response.length - 1; i >= 0; i--) {
@@ -35,8 +33,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
 
   $scope.findTraces = function (serviceName, spanName,
                                 timestamp, limit, annotationQuery) {
-    // TODO
-    // get trace summaries over api
+
     var findTracesUrl = ApiBaseUrl + "zipkin/find_traces"
     + "?service_name=" + serviceName
     + "&span_name=" + spanName
