@@ -158,12 +158,12 @@ angular.module('webApp', [
       .when('/zipkin', {
         templateUrl: 'views/v3/zipkin_home.html',
         controller: 'ZipkinHomeController',
-        access: { requiredAuthentication: false }
+        access: { requiredAuthentication: true }
       })
       .when('/traces/:traceId', {
         templateUrl: 'views/v3/traces.html',
         controller: 'TracesController',
-        access: { requiredAuthentication: false }
+        access: { requiredAuthentication: true }
       })
 
       .otherwise({
