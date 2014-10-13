@@ -1,0 +1,40 @@
+<!-- spanPanel begin  -->
+  <div class='modal-header'>
+    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+    <h4 class='modal-title'></h4>
+  </div>
+  <div class='modal-body'>
+    <table id='annotations' class='table table-striped'>
+      <thead><tr>
+        <th>Relative Time</th>
+        <th>Duration</th>
+        <th>Service</th>
+        <th>Annotation</th>
+        <th>Host</th>
+      </tr></thead>
+      <tbody>
+        <tr ng-repeat="a in annos">
+          <td data-key='relativeTime'>{{a.relativeTime}}</td>
+          <td data-key='duration'>{{a.duration}}</td>
+          <td data-key='serviceName'>{{a.serviceName}}</td>
+          <td data-key='value'>{{a.value}}</td>
+          <td data-key='endpoint'>{{a.endpoint}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table id='binaryAnnotations' class='table table-striped'>
+      <thead><tr>
+        <th>Key</th>
+        <th>Value</th>
+      </tr></thead>
+      <tbody>
+        <tr ng-repeat="ba in binaAnnos">
+          <td class='key' data-key='key'>{{ba.key}}</td>
+          <td class='value' data-key='value'>{{ba.value}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<!-- spanPanel end -->
