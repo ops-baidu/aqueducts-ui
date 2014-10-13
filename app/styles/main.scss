@@ -225,7 +225,7 @@ h4 {
   margin-right: 0;
   padding-left: 0;
   padding-right: 0;
-  min-height: 550px;
+  min-height: 800px;
   padding-bottom: 100px;
 }
 .container {
@@ -343,18 +343,10 @@ ul ul, ol ul {
   overflow-y: hidden;
   position: relative;
 }
-.panel-default {
-  min-height: 350px;
-}
-
-.panel-mini {
-  min-height: 170px;
-}
 .services {
   min-height: 600px;
 }
 .settings {
-  min-height: 600px;
 }
 .list-group {
   border: none;
@@ -397,6 +389,9 @@ ul ul, ol ul {
 .guest {
   color: #999;
 }
+.guestSetting {
+  border-radius: 4px;
+}
 .help-block {
   font-size: 14px;
 }
@@ -430,7 +425,10 @@ a.list-group-item.active, a.list-group-item.active:focus, a.list-group-item.acti
   border-color: #F38630;
 }
 
-
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+  color: #fff;
+  background-color: #F38630;
+}
 .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
   background-color: #9AB270;
   border-color: #9AB270;

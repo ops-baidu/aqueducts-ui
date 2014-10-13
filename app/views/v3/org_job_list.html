@@ -18,10 +18,10 @@
       Successfully applied, please wait 20s to watch console or charts 
     </div>
     <div class="alert alert-danger" ng-show="jobRemoveFailed">
-      Failed
+      {{jobRemoveFailedMsg}}
     </div>
     <div class="alert alert-danger" ng-show="jobCreateFailed">
-      Failed
+      {{jobCreateFailedMsg}}
     </div>
     <div class="input-group-lg" style="padding-top:20px;padding-bottom:30px;">
       <input type="text" class="form-control" ng-model="search" placeholder="Search">
@@ -46,7 +46,7 @@
             <td>
               <div class="btn-group btn-group-sm">
 
-                <a href="javascript:void(0);"><span class="glyphicon glyphicon-trash" ng-click="destroy(job)"></span><a>
+                <a href="javascript:void(0);"><span popover-placement="right" popover="Delete job, be cautious!" popover-trigger="mouseenter"class="glyphicon glyphicon-trash" ng-click="destroy(job)"></span><a>
 
               </div>
             </td>
