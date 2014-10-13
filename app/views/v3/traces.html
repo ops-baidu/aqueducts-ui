@@ -50,6 +50,7 @@
         data-children='{{span.children}}'
         id='{{span.spanId}}'
         ng-repeat='span in spans'
+        ng-click="showModal(span)"
       >
         <div class='handle'>
           <div class='service-name' style='margin-left: {{span.depth}}px'>
@@ -89,54 +90,6 @@
       </div>
     </div>
     <!-- trace-container end -->
-
-    <!-- spanPanel begin  -->
-    <div class='modal fade' id='spanPanel'>
-      <div class='modal-dialog modal-lg'>
-        <div class='modal-content'>
-          <div class='modal-header'>
-            <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-            <h4 class='modal-title'></h4>
-          </div>
-          <div class='modal-body'>
-            <table id='annotations' class='table table-striped'>
-              <thead><tr>
-                <th>Relative Time</th>
-                <th>Duration</th>
-                <th>Service</th>
-                <th>Annotation</th>
-                <th>Host</th>
-              </tr></thead>
-              <tbody>
-                <tr>
-                  <td data-key='relativeTime'></td>
-                  <td data-key='duration'></td>
-                  <td data-key='serviceName'></td>
-                  <td data-key='value'></td>
-                  <td data-key='endpoint'></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table id='binaryAnnotations' class='table table-striped'>
-              <thead><tr>
-                <th>Key</th>
-                <th>Value</th>
-              </tr></thead>
-              <tbody>
-                <tr>
-                  <td class='key' data-key='key'></td>
-                  <td class='value' data-key='value'></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- spanPanel begin -->
-
 
   </div>
 </div>
