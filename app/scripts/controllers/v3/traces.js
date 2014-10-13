@@ -2,7 +2,7 @@
 * @Author: john
 * @Date:   2014-09-28 11:37:44
 * @Last Modified by:   john
-* @Last Modified time: 2014-10-13 14:32:50
+* @Last Modified time: 2014-10-13 14:55:45
 */
 
 'use strict';
@@ -48,6 +48,7 @@ angular.module('webApp').controller('TracesController', ['$scope', '$http', 'Api
 
     $scope.annos = span.annotations;
     $scope.binaAnnos = span.binaryAnnotations;
+    $scope.serviceNames = span.serviceNames;
 
 
     $scope.ok = function() {
