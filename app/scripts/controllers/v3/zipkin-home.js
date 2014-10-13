@@ -2,22 +2,40 @@
 * @Author: john
 * @Date:   2014-09-11 13:20:14
 * @Last Modified by:   john
-* @Last Modified time: 2014-10-10 10:55:14
+* @Last Modified time: 2014-10-13 16:08:42
 */
 'use strict';
 
-angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 'ApiBaseUrl', function($scope, $http, ApiBaseUrl) {
+angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 'ApiBaseUrl', 'Restangular', function($scope, $http, ApiBaseUrl, Restangular) {
   $scope.services  = [];
   $scope.spanNames = [];
   $scope.traces    = [];
 
   function getServiceNames () {
+    // access authority
+    var orgs = [];
+    Restangular.all('orgs').getList().then(function(response) {
+      for (var i = response.length - 1; i >= 0; i--) {
+        orgs.push(response[i]["name"]);
+      };
+    });
+
     $http.get(ApiBaseUrl + "zipkin/get_service_names").success(function (response) {
       $scope.services = [];
       for (var i = response.length - 1; i >= 0; i--) {
-        $scope.services.push({name: response[i]});
+        var serviceName = response[i];
+        var org_name = serviceName.split(":");
+
+        if (org_name.length === 2) {
+          if ($.inArray(org_name[0], orgs) >= 0) {
+            $scope.services.push({name: serviceName});
+          };
+        } else{
+          // $scope.services.push({name: response[i]});
+        };
       };;
     });
+
   };
   getServiceNames();
 
