@@ -1,0 +1,147 @@
+<div class="section" style="padding-top: 100px;">
+  <div class="container" ng-controller="ZipkinHomeController">
+
+    <!-- trace controls begin -->
+    <div id='trace-controls' class='row well well-sm'>
+      <ul class='nav nav-pills'>
+        <li class=''><a href='#'><strong>Duration:</strong> <span class='badge'>{{duration}}</span></a></li>
+        <li class=''><a href='#'><strong>Services:</strong> <span class='badge'>{{servicesNumber}}</span></a></li>
+        <li class=''><a href='#'><strong>Depth:</strong> <span class='badge'>{{depth}}</span></a></li>
+        <li class=''><a href='#'><strong>Total Spans:</strong> <span class='badge'>{{totalSpans}}</span></a></li>
+      </ul>
+
+      <!-- trace form begin -->
+      <form class='form-inline' role='form'>
+        <div class='btn-group btn-group-sm' id='filterAllServices'>
+          <button type='button' class='btn btn-default' value='uiExpandAllSpans'>Expand All</button>
+          <button type='button' class='btn btn-default active' value='uiCollapseAllSpans'>Collapse All</button>
+          <script type="text/javascript">
+            $('.btn-default').click(function () {
+              var button = $(this);
+              if (button.attr('value') === 'uiExpandAllSpans') {
+                $('.btn.active').toggleClass('active');
+                button.toggleClass('active');
+
+                $('.service-filter-label').each(function () {
+                  $(this).addClass('service-tag-filtered');
+                });
+
+                $('.service-span').each(function () {
+                  $(this).addClass('highlight');
+                });
+              } else {
+                $('.btn.active').toggleClass('active');
+                button.toggleClass('active');
+
+                $('.service-filter-label').each(function () {
+                  $(this).removeClass('service-tag-filtered');
+                });
+
+                $('.service-span').each(function () {
+                  $(this).removeClass('highlight');
+                });
+              }
+            });
+          </script>
+        </div>
+        <select data-placeholder='Filter Service Search' class='form-control input-sm' name='serviceFilterSearch' id='serviceFilterSearch'>
+          <option value=''></option>
+          <option value="{{service.name}}" ng-repeat="service in serviceCounts">{{service.name}}</option>
+        </select>
+        <script type="text/javascript">
+        $('#serviceFilterSearch').on('change', function () {
+          var value = $(this).val();
+
+          $('.service-filter-label').each(function () {
+            var self = $(this);
+            if (self.attr('data-service-name') === value) {
+              self.addClass('service-tag-filtered');
+            } else{
+              self.removeClass('service-tag-filtered');
+            };
+          });
+
+          $('.service-span').each(function () {
+            var self = $(this);
+
+            if (self.attr('data-service-names') === value) {
+              self.addClass('highlight');
+            } else{
+              self.removeClass('highlight');
+            };
+          });
+        });
+        </script>
+      </form>
+      <!-- trace form end -->
+
+      <div class='trace-details'>
+        <span ng-repeat="service in serviceCounts" class='label label-default service-filter-label' data-service-name='{{service.name}}' finish-render-service-counts>{{service.name}} x{{service.count}}</span>
+      </div>
+    </div>
+    <!-- trace controls end -->
+
+    <!-- trace-container begin -->
+    <div class='row' id='trace-container'>
+      <div id='timeLabel' class='span'>
+        <div class='handle'>Services</div>
+        <div class='duration-container'>
+          <div ng-repeat='tm in timeMarkers' class='time-marker time-marker-{{$index}}'>{{tm}}</div>
+        </div>
+      </div>
+
+      <div
+        class='span service-span depth-{{span.depthClass}}'
+        data-keys='id,spanName,serviceNames,durationStr,duration'
+        data-id='{{span.spanId}}'
+        data-parent-id='{{span.parentId}}'
+        data-span-name='{{span.spanName}}'
+        data-service-names='{{span.serviceNames}}'
+        data-duration-str='{{span.durationStr}}'
+        data-duration='{{span.duration}}'
+        data-children='{{span.children}}'
+        id='{{span.spanId}}'
+        ng-repeat='span in spans'
+        ng-click="showModal(span)"
+      >
+        <div class='handle'>
+          <div class='service-name' style='margin-left: {{span.depth}}px'>
+            <span class='expander'>+</span>
+            {{span.serviceNames}}
+          </div>
+        </div>
+
+        <div class='duration-container'>
+          <div ng-repeat='tm in timeMarkers' class='time-marker time-marker-{{$index}}'>.</div>
+
+          <div class='duration' style='left: {{span.left}}%; width: {{span.width}}%'>
+            {{span.durationStr}} : {{span.spanName}}
+            <div
+              ng-repeat='annotation in span.annotations'
+              class='annotation core'
+              style='left: {{annotation.left}}%; width: {{annotation.width}}px'
+              title='{{annotation.value}}'
+              data-keys='endpoint,value,timestamp,relativeTime,serviceName,duration'
+              data-endpoint='{{annotation.endpoint}}'
+              data-value='{{annotation.value}}'
+              data-timestamp='{{annotation.timestamp}}'
+              data-relative-time='{{annotation.relativeTime}}'
+              data-service-name='{{annotation.serviceName}}'
+              data-duration='{{annotation.duration}}'
+            ></div>
+          </div>
+        </div>
+
+        <div ng-repeat='ba in span.binaryAnnotations'
+          class='binary-annotation'
+          data-keys='key,value,type'
+          data-key='{{ba.key}}'
+          data-value='{{ba.value}}'
+          data-type='{{ba.annotationType}}'
+        ></div>
+      </div>
+    </div>
+    <!-- trace-container end -->
+
+  </div>
+</div>
