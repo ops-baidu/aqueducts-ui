@@ -2,12 +2,13 @@
 * @Author: john
 * @Date:   2014-09-28 11:37:44
 * @Last Modified by:   john
-* @Last Modified time: 2014-10-13 15:06:35
+* @Last Modified time: 2014-10-14 15:02:37
 */
 
 'use strict';
 
-angular.module('webApp').controller('TracesController', ['$scope', '$http', 'ApiBaseUrl', '$routeParams', '$modal', function($scope, $http, ApiBaseUrl, $routeParams, $modal) {
+angular.module('webApp')
+    .controller('TracesController', ['$scope', '$http', 'ApiBaseUrl', '$routeParams', '$modal', function($scope, $http, ApiBaseUrl, $routeParams, $modal) {
 
   var traceId = $routeParams.traceId;
   var serviceName = $routeParams.serviceName;
@@ -40,9 +41,8 @@ angular.module('webApp').controller('TracesController', ['$scope', '$http', 'Api
     }
     });
 
-    modalInstance.result.then(function() {
-   });
- };
+    modalInstance.result.then(function() {});
+  };
 
   var ModalInstanceCtrl = function($scope, $modalInstance, span) {
 
@@ -63,4 +63,61 @@ angular.module('webApp').controller('TracesController', ['$scope', '$http', 'Api
 
 
 
-}]);
+
+}])
+    .directive('finishRenderServiceCounts', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout( function () {
+                        $('.service-filter-label').click(function () {
+                            $(this).toggleClass('service-tag-filtered');
+                            var serviceName = $(this).attr('data-service-name');
+                            var spans = $('.service-span');
+
+                            $.each(spans, function () {
+                                if (serviceName === $(this).attr('data-service-names')) {
+                                    $(this).toggleClass('highlight');
+                                };
+                            });
+                        });
+                    });
+                }
+            }
+        }
+    })
+
+    .directive('finishRenderOptions', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout( function () {
+                        $('.service-filter-label').click(function () {
+                            $(this).toggleClass('service-tag-filtered');
+                            var serviceName = $(this).attr('data-service-name');
+                            var spans = $('.service-span');
+
+                            $.each(spans, function () {
+                                if (serviceName === $(this).attr('data-service-names')) {
+                                    $(this).toggleClass('highlight');
+                                };
+                            });
+                        });
+                    });
+                }
+            }
+        }
+    })
+;
+
+
+
+
+
+
+
+
+
+
