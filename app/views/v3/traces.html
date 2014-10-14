@@ -15,16 +15,68 @@
         <div class='btn-group btn-group-sm' id='filterAllServices'>
           <button type='button' class='btn btn-default' value='uiExpandAllSpans'>Expand All</button>
           <button type='button' class='btn btn-default active' value='uiCollapseAllSpans'>Collapse All</button>
+          <script type="text/javascript">
+            $('.btn-default').click(function () {
+              var button = $(this);
+              if (button.attr('value') === 'uiExpandAllSpans') {
+                $('.btn.active').toggleClass('active');
+                button.toggleClass('active');
+
+                $('.service-filter-label').each(function () {
+                  $(this).addClass('service-tag-filtered');
+                });
+
+                $('.service-span').each(function () {
+                  $(this).addClass('highlight');
+                });
+              } else {
+                $('.btn.active').toggleClass('active');
+                button.toggleClass('active');
+
+                $('.service-filter-label').each(function () {
+                  $(this).removeClass('service-tag-filtered');
+                });
+
+                $('.service-span').each(function () {
+                  $(this).removeClass('highlight');
+                });
+              }
+            });
+          </script>
         </div>
         <select data-placeholder='Filter Service Search' class='form-control input-sm' name='serviceFilterSearch' id='serviceFilterSearch'>
           <option value=''></option>
           <option value="{{service.name}}" ng-repeat="service in serviceCounts">{{service.name}}</option>
         </select>
+        <script type="text/javascript">
+        $('#serviceFilterSearch').on('change', function () {
+          var value = $(this).val();
+
+          $('.service-filter-label').each(function () {
+            var self = $(this);
+            if (self.attr('data-service-name') === value) {
+              self.addClass('service-tag-filtered');
+            } else{
+              self.removeClass('service-tag-filtered');
+            };
+          });
+
+          $('.service-span').each(function () {
+            var self = $(this);
+
+            if (self.attr('data-service-names') === value) {
+              self.addClass('highlight');
+            } else{
+              self.removeClass('highlight');
+            };
+          });
+        });
+        </script>
       </form>
       <!-- trace form end -->
 
       <div class='trace-details'>
-        <span ng-repeat="service in serviceCounts" class='label label-default service-filter-label' data-service-name='{{service.name}}'>{{service.name}} x{{service.count}}</span>
+        <span ng-repeat="service in serviceCounts" class='label label-default service-filter-label' data-service-name='{{service.name}}' finish-render-service-counts>{{service.name}} x{{service.count}}</span>
       </div>
     </div>
     <!-- trace controls end -->
