@@ -87,7 +87,10 @@
         </div>
         <div class="pull-right">
           <span class="selector">Sort:
-            <select class="sort-order js-sort-order">
+            <select
+              class="sort-order js-sort-order"
+              ng-model="ZipkinHomeController.currentValue"
+              ng-change="order(ZipkinHomeController.currentValue)">
               <option selected value="duration-desc">Longest First</i></span>
               <option value="duration-asc">Shortest First</span>
               <option value="timestamp-desc">Newest First</span>

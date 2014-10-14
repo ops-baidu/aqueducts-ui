@@ -2,14 +2,15 @@
 * @Author: john
 * @Date:   2014-09-11 13:20:14
 * @Last Modified by:   john
-* @Last Modified time: 2014-10-13 16:08:42
+* @Last Modified time: 2014-10-14 16:21:02
 */
 'use strict';
 
-angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 'ApiBaseUrl', 'Restangular', function($scope, $http, ApiBaseUrl, Restangular) {
+angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 'ApiBaseUrl', 'Restangular', '$filter', function($scope, $http, ApiBaseUrl, Restangular, $filter) {
   $scope.services  = [];
   $scope.spanNames = [];
   $scope.traces    = [];
+  var orderBy = $filter('orderBy');
 
   function getServiceNames () {
     // access authority
@@ -62,7 +63,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
     $http.get(findTracesUrl).success(function (response) {
       $scope.traces = [];
       for (var i = response.length - 1; i >= 0; i--) {
-        var timeago = jQuery.timeago(new Date(response[0]['startTime']/1000));
+        var timeago = jQuery.timeago(new Date(response[i]['startTime']/1000));
         response[i]['timeago'] = timeago;
         $scope.traces.push(response[i]);
       };
@@ -78,6 +79,23 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
       };;
     });
   };
+
+  $scope.selectChange = function (value) {
+    console.log(value);
+  };
+
+  $scope.order = function (predicateReverse) {
+    var predicate = predicateReverse.split("-")[0];
+    var reverse;
+    if (predicateReverse.split("-")[1] === 'desc') {
+      reverse = true;
+    } else{
+      reverse = false;
+    };
+    $scope.traces = orderBy($scope.traces, predicate, reverse);
+  };
+
+  // $scope.order('duration', true);
 
 
 
