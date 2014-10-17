@@ -160,7 +160,7 @@ angular.module('webApp', [
       .when('/logstash', {
         templateUrl: 'html/logstash_guide.html',
         controller: 'SettingsController',
-        access: { requiredAuthentication: true }
+        access: { requiredAuthentication: false }
       })
 
       .otherwise({
