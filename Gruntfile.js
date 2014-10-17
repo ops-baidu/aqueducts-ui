@@ -46,6 +46,10 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
+      markdown: {
+        files: ['<%= yeoman.app %>/docs/src/*', '<%= yeoman.app %>/docs/*.jst'],
+        tasks: ['markdown']
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -381,6 +385,41 @@ module.exports = function (grunt) {
         // 'svgmin'
       ]
     },
+    // markdown
+    markdown: {
+      all: {
+        files: [{
+          expand: true,
+          src: '<%= yeoman.app %>/docs/src/*.md',
+          dest: '<%= yeoman.app %>/html',
+          ext: '.html',
+          rename : function ( dest, src ) {
+              var parts = src.split( '/' ),
+                  file = parts[ parts.length -1 ],
+                  final = dest + '/' +  file;
+
+              grunt.log.writeln( 'File created at: ' + final );
+
+              return final;
+          }
+        }],
+        options: {
+          template: '<%= yeoman.app %>/docs/Template.jst',
+          // preCompile: function(src, context) {},
+          // postCompile: function(src, context) {},
+          templateContext: {},
+          markdownOptions: {
+            gfm: true,
+            highlight: 'manual',
+            codeLines: {
+              before: '<span>',
+              after: '</span>'
+            }
+          }
+        }
+      }
+    },
+    // markdown end
 
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
@@ -417,13 +456,13 @@ module.exports = function (grunt) {
     }
   });
 
-
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
 
     grunt.task.run([
+      'markdown:all',
       'clean:server',
       'bower-install',
       'concurrent:server',

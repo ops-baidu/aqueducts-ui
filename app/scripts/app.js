@@ -157,6 +157,12 @@ angular.module('webApp', [
         access: { requiredAuthentication: true }
       })
 
+      .when('/logstash', {
+        templateUrl: 'html/logstash_guide.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: false }
+      })
+
       .otherwise({
         redirectTo: '/'
       });
