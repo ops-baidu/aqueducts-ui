@@ -210,14 +210,14 @@ filter {
 output {
   if "ui" in [tags] {
     kafka {
-      product => "sarch"
+      product => "search"
       service => "ui"
     }
   }
 
   if "api" in [tags] {
     kafka {
-      product => "sarch"
+      product => "search"
       service => "api"
     }
   }
