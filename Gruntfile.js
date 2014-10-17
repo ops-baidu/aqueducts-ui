@@ -10,7 +10,7 @@
 module.exports = function (grunt) {
 
 
-  // var modRewrite = require('connect-modrewrite');
+  var modRewrite = require('connect-modrewrite');
 
 
   // Load grunt tasks automatically
@@ -45,6 +45,10 @@ module.exports = function (grunt) {
       },
       gruntfile: {
         files: ['Gruntfile.js']
+      },
+      markdown: {
+        files: ['<%= yeoman.app %>/docs/src/*', '<%= yeoman.app %>/docs/*.jst'],
+        tasks: ['markdown']
       },
       livereload: {
         options: {
@@ -381,6 +385,32 @@ module.exports = function (grunt) {
         // 'svgmin'
       ]
     },
+    // markdown
+    markdown: {
+      all: {
+        files: [{
+          expand: true,
+          src: '<%= yeoman.app %>/docs/src/*.md',
+          dest: '<%= yeoman.app %>/html',
+          ext: '.html'
+        }],
+        options: {
+          template: '<%= yeoman.app %>/docs/Template.jst',
+          // preCompile: function(src, context) {},
+          // postCompile: function(src, context) {},
+          templateContext: {},
+          markdownOptions: {
+            gfm: true,
+            highlight: 'manual',
+            codeLines: {
+              before: '<span>',
+              after: '</span>'
+            }
+          }
+        }
+      }
+    },
+    // markdown end
 
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
@@ -416,7 +446,7 @@ module.exports = function (grunt) {
       }
     }
   });
-
+  // grunt.loadNpmTasks('grunt-markdown');
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -424,6 +454,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'markdown:all',
       'clean:server',
       'bower-install',
       'concurrent:server',
