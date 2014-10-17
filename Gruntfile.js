@@ -392,7 +392,16 @@ module.exports = function (grunt) {
           expand: true,
           src: '<%= yeoman.app %>/docs/src/*.md',
           dest: '<%= yeoman.app %>/html',
-          ext: '.html'
+          ext: '.html',
+          rename : function ( dest, src ) {
+              var parts = src.split( '/' ),
+                  file = parts[ parts.length -1 ],
+                  final = dest + '/' +  file;
+
+              grunt.log.writeln( 'File created at: ' + final );
+
+              return final;
+          }
         }],
         options: {
           template: '<%= yeoman.app %>/docs/Template.jst',
