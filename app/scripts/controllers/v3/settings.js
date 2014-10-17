@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('webApp').controller('SettingsController', ['$scope','Restangular', 'tokenService', '$route', function($scope, Restangular, tokenService, $route) {
+
   $scope.changePasswordFailed = false;
   $scope.changeEmailFailed = false;
   $scope.changeUsernameFailed = false;
@@ -22,6 +23,7 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
   Restangular.all('tags').getList().then(function(tags) {
     $scope.sysTags = tags;
   });
+
   Restangular.all('user').customGET('info').then(function(user){
     $scope.user = user;
     if (user.name == "guest") {$scope.guest = true;};
