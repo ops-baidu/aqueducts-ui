@@ -488,6 +488,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'markdown:all',
     'clean:dist',
     'bower-install',
     'useminPrepare',
