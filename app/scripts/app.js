@@ -157,9 +157,10 @@ angular.module('webApp', [
         access: { requiredAuthentication: true }
       })
 
-      .when('/logstash', {
-        templateUrl: 'html/logstash_guide.html',
-        controller: 'SettingsController',
+      .when('/guides/:guideName', {
+        templateUrl: function (params) {
+          return 'html/' + params.guideName + '.html';
+        },
         access: { requiredAuthentication: false }
       })
 
