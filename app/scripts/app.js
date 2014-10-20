@@ -217,7 +217,7 @@ angular.module('webApp', [
       link: function ($scope, element, attrs) {
         var anchorValue = attrs.myNgAnchor;
         var path = $location.$$path;
-        element.attr('href', path + '#' + anchorValue);
+        element.attr('href', path + anchorValue);
       }
     }
   });
