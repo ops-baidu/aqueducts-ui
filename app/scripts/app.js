@@ -180,6 +180,13 @@ angular.module('webApp', [
         access: { requiredAuthentication: true }
       })
 
+      .when('/guides/:guideName', {
+        templateUrl: function (params) {
+          return 'html/' + params.guideName + '.html';
+        },
+        access: { requiredAuthentication: false }
+      })
+
       .otherwise({
         redirectTo: '/'
       });
