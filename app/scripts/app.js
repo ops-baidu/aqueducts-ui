@@ -181,14 +181,28 @@ angular.module('webApp', [
     //when the route is changed scroll to the proper element.
     $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
       $location.hash($routeParams.scrollTo);
-      $anchorScroll();  
+      $anchorScroll();
     });
-  }]);
+  }])
+
+  // Handle anchor hash linking in AngularJS
+  // Usage:
+  // <a my-ng-anchor="#input">input</a>
+  // => <a my-ng-anchor="#input" href="location/path/to/page#input">input</a>
+  .directive('myNgAnchor', function ($location) {
+    return {
+      link: function ($scope, element, attrs) {
+        var anchorValue = attrs.myNgAnchor;
+        var path = $location.$$path;
+        element.attr('href', path + '#' + anchorValue);
+      }
+    }
+  });
 
 angular.module('dialogs.default-translations',['pascalprecht.translate'])
  /**
    * Default translations in English.
-   * 
+   *
    * Use angular-translate's $translateProvider to provide translations in an
    * alternate language.
    *
