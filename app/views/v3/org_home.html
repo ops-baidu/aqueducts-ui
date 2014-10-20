@@ -4,7 +4,7 @@
       <div class="col-xs-8 col-md-7">
         <div class="panel panel-default services">
           <div class="panel-heading">
-            <h3 class="panel-title">Services<a ng-href="#/orgs/{{org.name}}/services/new" class="glyphicon glyphicon-plus pull-right"></a></h3>
+            <h3 class="panel-title">Services<a ng-href="#/orgs/{{org.name}}/services/new" class="pull-right"><span class="glyphicon glyphicon-plus"></span><span> add</span></a></h3>
           </div>
           <div class="panel-body">
             <div style="padding:30px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="service in org.services">
@@ -27,12 +27,16 @@
             <h3 class="panel-title">Management</h3>
           </div>
           <div class="panel-body">
+            <div style="padding:10px;border-bottom:solid 1px #e4e4e4;">
               <div class="alert alert-danger" ng-show="destroyOrgFailed">
                 {{destroyOrgFailedMsg}}
               </div>
               <a type="button" class="btn btn-danger" ng-click="destroyOrg(org.name)">Destroy Organization</a>
               <p class="help-block">This will destroy all services and jobs, please be cautious!</p>
-            </form>
+            </div>
+            <div style="padding: 10px 0 10px 10px">
+              <a ng-href="/settings">Manage Organization Tags</a>
+            </div>
           </div>
         </div>
         <div class="panel panel-default">
@@ -43,17 +47,17 @@
           </div>
           <div class="panel-body">
             <div style="padding-bottom:20px;padding-left:10px;">
-              <span class="owner">Owner</span>
-              <span class="admin">Admin</span>
-              <span class="normal">Normal</span>
-              <span class="guest">Guest</span>
+              <span popover-placement="top" popover="Person who created this organization" popover-trigger="mouseenter"class="owner">Owner</span>
+              <span popover-placement="top" popover="Person who has write and read access to all services" popover-trigger="mouseenter"class="admin">Admin</span>
+              <span popover-placement="top" popover="Person who has read access to all services and write access to services ones created" popover-trigger="mouseenter"class="normal">Normal</span>
+              <span popover-placement="top" popover="Person who only has read access to all services" popover-trigger="mouseenter"class="guest">Guest</span>
             </div>
             <div class="alert alert-danger" ng-show="removeMemberFailed">
                 Failed
               </div>
             <div style="padding:10px;border-bottom:solid 1px #e4e4e4;"class="" role="" ng-repeat="person in org.people">
               <div ng-controller="OrgHomeController"ng-init="getRole(person)"><span ng-class="{owner: isOwner, admin: isAdmin, normal: isNormal, guest: isGuest}"class="glyphicon glyphicon-user" style="padding-right:20px;"></span>{{person.name}}
-                <a ng-show="owner" href="javascript:void(0);"ng-click="remove(person.name)"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                <a ng-show="owner" href="javascript:void(0);"ng-click="remove(person.name)"><span popover-placement="right" popover="Remove this person from this organization" popover-trigger="mouseenter"class="glyphicon glyphicon-remove pull-right"></span></a>
               </div>
             </div>
           </div>
@@ -68,7 +72,7 @@
               </div>
               <input type="text" class="form-control" ng-model="search.name" placeholder="Find a person">
               <div style="padding:10px;border-bottom:solid 1px #e4e4e4;"ng-repeat="user in users | filter:search">
-                <div>{{ user.name }}<a ng-click="add(user.name)" href="javascript:void(0);"><span class="glyphicon glyphicon-plus pull-right"></span></a></div>
+                <div>{{ user.name }}<a ng-click="add(user.name)" href="javascript:void(0);"><span popover-placement="right" popover="Add this person to this organization" popover-trigger="mouseenter"class="glyphicon glyphicon-plus pull-right"></span></a></div>
               </div>
             </form>
           </div>
