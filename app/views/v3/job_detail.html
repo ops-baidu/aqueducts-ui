@@ -1,24 +1,44 @@
 <div class="modal-header">
-    <h3>New Job</h3>
+  <h3>New Job</h3>
 </div>
-<form name="jobForm">
-<fieldset>
 <div class="modal-body">
-  <label>Item:</label>
-  <select class="form-control" name="item" ng-change="change_calc()" ng-model="job.item" ng-options="i.name for i in items" required></select>
-  </br>
-  <label>Calculation:</label>
-  <select class="form-control" name="calc" ng-model="job.calc" ng-options="c.name for c in calcs" required></select>
-  </br>
-  <label>Tags:</label>
-  <input type="text" class="form-control" ng-model="search" placeholder="Filter">
-  <div ng-repeat="tag in tags | filter:search">
-    <input type="checkbox" ng-model="ids[tag.id]"/> {{ tag.name }} ( {{ tag.description }} )
-  </div>
+
+  <form name="jobForm">
+
+    <div class="form-group">
+      <label>Item:</label>
+      <select class="form-control" name="item" ng-change="change_calc()" ng-model="job.item" ng-options="i.name for i in items" required></select>
+    </div>
+    <div class="form-group">
+      <label>Calculation:</label>
+      <select class="form-control" name="calc" ng-model="job.calc" ng-options="c.name for c in calcs" required></select>
+    </div>
+    <div class="form-group">
+      <label>Tags: (choose one or more tags then click "Select")</label>
+      <button class="btn btn-primary pull-right" ng-click="addTags(ids)">Select</button>
+    </div>
+    <div class="form-group col-md-12">
+
+      <div style="padding-bottom:10px;" class="col-md-4" ng-repeat="tag in tagSelected">
+        <a ng-click="removeTag($index)" class="bg-warning" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;">
+          <span ng-repeat="id in tag"popover="click to delete" popover-trigger="mouseenter">
+            {{tags[id].name}}
+            <span ng-show="!$last"> & </span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="form-group col-md-12">
+
+      <div ng-repeat="tag in tags"class="col-md-4" style="margin-bottom:20px;padding-top:10px;">
+        <input style="margin-bottom: 10px;"type="checkbox" ng-model="ids[$index]"/>
+        <span popover="{{tag.description}}" popover-trigger="mouseenter" class="bg-success" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;">{{tag.name}}</span>
+      </div>
+    </div>
+  </form>
 </div>
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-disabled="jobForm.$invalid || require()" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+
+<div class="modal-footer" style="border-top: none">
+  <button class="btn btn-primary" ng-disabled="jobForm.$invalid || require()" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
-</fieldset>
-</form>

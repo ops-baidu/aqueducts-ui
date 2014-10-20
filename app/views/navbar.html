@@ -12,12 +12,12 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/about">ABOUT</a></li>
-            <li><a href="/guide">GUIDE</a></li>
+            <li><a href="/about"><span popover-placement="bottom" popover="All about us" popover-trigger="mouseenter">ABOUT</span></a></li>
+            <li><a href="/guide"><span popover-placement="bottom" popover="User guide" popover-trigger="mouseenter">GUIDE</span></a></li>
 
             <li ng-if="isLoggedIn()" class="dropdown" ng-init="getContext()">
               <a role="button" id="drop0" data-toggle="dropdown" href="#" class="dropdown-toggle" aria-describedby="">
-                {{context}}
+                <span popover-placement="bottom" popover="Change your context" popover-trigger="mouseenter">{{context}}</span>
                 <span class="caret"></span>
               </a>
               <div class="dropdown-menu" role="menu">
@@ -33,11 +33,11 @@
                 </div>
               </div>
             </li>
-            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToConsole()">CONSOLE</a></li>
+            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToConsole()"><span popover-placement="bottom" popover="Observe events in realtime" popover-trigger="mouseenter">CONSOLE</span></a></li>
 
             <li ng-if="isLoggedIn()" class="dropdown">
               <a role="button" id="drop1" data-toggle="dropdown" href="#" class="dropdown-toggle" aria-describedby="Create new...">
-                <span class="glyphicon glyphicon-plus"></span>
+                <span popover-placement="bottom" popover="Create new..." popover-trigger="mouseenter"class="glyphicon glyphicon-plus"></span>
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
@@ -50,11 +50,11 @@
 
 
             </li>
-            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToCharts()"><span class="glyphicon glyphicon-stats"></span></a></li>
+            <li ng-if="isLoggedIn()"><a href="javascript:void(0);" ng-click="redirectToCharts()"><span popover-placement="bottom" popover="Check out realtime aggregation result charts" popover-trigger="mouseenter"class="glyphicon glyphicon-stats"></span></a></li>
 
-            <li ng-if="isLoggedIn()"><a href="#/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+            <li ng-if="isLoggedIn()"><a href="#/settings"><span popover-placement="bottom" popover="Settings" popover-trigger="mouseenter"class="glyphicon glyphicon-cog"></span></a></li>
 
-            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></a></li>
+            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()"><span popover-placement="bottom" popover="Logout" popover-trigger="mouseenter" class="glyphicon glyphicon-log-out"></span></a></li>
 
             <li ng-if="!isLoggedIn()"><a href="#/guest">GUEST</a></li>
 

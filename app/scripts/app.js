@@ -121,8 +121,6 @@ angular.module('webApp', [
         controller: 'OrgChartController',
         access: { requiredAuthentication: true }
       })
-
-
       .when('/orgs/:orgname', {
         templateUrl: 'views/v3/org_home.html',
         controller: 'OrgHomeController',
@@ -156,10 +154,35 @@ angular.module('webApp', [
         controller: 'SettingsController',
         access: { requiredAuthentication: true }
       })
+      .when('/settings/account', {
+        templateUrl: 'views/v3/settings.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/settings/token', {
+        templateUrl: 'views/v3/settings.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/settings/organization', {
+        templateUrl: 'views/v3/settings.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/orgs/:orgname/settings', {
+        templateUrl: 'views/v3/settings.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: true }
+      })
+      .when('/orgs/:orgname/settings/tags', {
+        templateUrl: 'views/v3/settings.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: true }
+      })
 
       .when('/guides/:guideName', {
         templateUrl: function (params) {
-          return 'html/' + params.guideName + '.html';
+          return 'views/guides/output/' + params.guideName + '.html';
         },
         access: { requiredAuthentication: false }
       })
