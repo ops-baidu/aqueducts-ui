@@ -17,7 +17,7 @@
 <p>对于用户发送的日志，我们可以保证准实时的计算，延时控制在15秒左右（从日志被打印到计算完毕）。并按照日志打印时间进行精确的聚合计算，默认提供按照1s为周期和60s为周期的聚合计算结果。</p>
 <h4>按维度聚合</h4>
 <hr>
-<p>我们为用户提供了很多常用的聚合方法 （如：count,average,max,min,sum,topN等）常见的聚合方法不需要自己实现；同时支持按维度的聚合，不仅能看到 整体的平均响应时间，也能够看到按idc，来源，位置等等自定义的tag统计的响应时间。另外tag相加的聚合方式（如：idc+prod） 我们也在后台提供了，如有需要请<a href="#/about?scrollTo=contact" target="_blank">联系我们</a>，这一功能会在下个版本上线。</p>
+<p>我们为用户提供了很多常用的聚合方法 （如：count,average,max,min,sum,topN等）常见的聚合方法不需要自己实现；同时支持按维度的聚合，不仅能看到 整体的平均响应时间，也能够看到按idc，来源，位置等等自定义的tag统计的响应时间。另外我们还支持多维tag交叉的聚合方式，如：idc &amp; prod，详见下面的介绍。</p>
 <h4>灵活的API</h4>
 <hr>
 <p>用户除了可以在网页上看到可视化的聚合结果（静态图表、动态图表）之外，还可以通过调用events查询API获取详细结果用于近一步的分析和自定义展现。可定制的图形展示功能会在下一版本推出。</p>
@@ -38,8 +38,8 @@
 <li>organization service : organization下的services，用户加入一个organization后，只要角色不是guest，即可在此organization下创建service，organization下的所有services<strong>均属于organization</strong>，即倘若organization被其owner删除，其下所有services也会被删除。</li>
 <li>item : 计算项，一个待计算的内容，如：page_view、response_time。用户发送过来的日志中需要包含此计算项的名称和值。</li>
 <li>calculation : 计算方法，如：count、average、percent80。</li>
-<li>tag : 维度，系统会按照tag对item进行分维度计算。如：按照不同的idc进行page_view的计算。</li>
-<li>job : 计算任务。用户可以在一个service下创建多个jobs，但一个job仅包含一个item、一个calculation、零个或者多个tag。目前暂不支持用户创建自定义item、tag和calculation，需要自定义的用户可以联系我们。</li>
+<li>tag : 维度，系统会按照tag对item进行分维度计算。如：按照不同的idc进行page_view的计算。用户可以在设置页面添加自定义的tag用于计算。另外，tag之间可以进行交叉，详见后面的介绍。</li>
+<li>job : 计算任务。用户可以在一个service下创建多个jobs，但一个job仅包含一个item、一个calculation、零个或者多个tag。目前暂不支持用户创建自定义item和calculation，需要自定义的用户可以联系我们。</li>
 </ul>
 <h2 style="padding-top:50px;color:#000;"id="help">使用帮助</h2>
 <hr>
@@ -57,7 +57,7 @@
 <blockquote>
 <p>private service的名称不得与用户自己其他的private service重复，organization service名称不得与organization下其他service名称重复，但用户可以创建同名的private service和organization service。</p>
 </blockquote><h4>创建job</h4>
-<p>在service面板点击对应的service名称进入service详情页面，点击右侧的“New Job”即可新建job。请根据需要计算的项选择item，选择了item后calculation下拉菜单会出现适用于此item的计算方法，最后选择对应的tag即可。需要增加item、calculation、tag请<a href="#/about?scrollTo=contact" target="_blank">联系我们</a>。</p>
+<p>在service面板点击对应的service名称进入service详情页面，点击右侧的“New Job”即可新建job。请根据需要计算的项选择item，选择了item后calculation下拉菜单会出现适用于此item的计算方法，最后选择tag。需要增加item、calculation请<a href="#/about?scrollTo=contact" target="_blank">联系我们</a>。<br>选择tag时，若是独立的tag，如idc，只需勾选后点击“Select”即可，若是交叉tag，如idc &amp; uri &amp; lidc，需要勾选三者后再点击“Select”。对于已选的tag，单击标签即可删除。请勿重复选择tag，重复的tag会被剔除。</p>
 <blockquote>
 <ul>
 <li>新增service、新增或删除job并不会使计算任务上线。只有点击“Apply Jobs"按钮才会部署或重新部署计算任务。在没有变更的情况下，<strong>请勿频繁点击</strong>“Apply Jobs”。</li>
@@ -65,9 +65,11 @@
 </ul>
 </blockquote><h4>用户设置</h4>
 <h5>更改用户名、密码</h5>
-<p>登录后点击导航栏锯齿按钮或者访问<a href="#/settings" target="_blank">设置页</a>即可更改用户设置，点击Account Settings即可更改用户名、密码。</p>
+<p>登录后点击导航栏锯齿按钮或者访问<a href="#/settings" target="_blank">设置页</a>即可更改用户以及所加入的organization的设置（如果有权限的话），点击用户名下的Account Settings即可更改用户名、密码。</p>
 <h5>查看、重置Token</h5>
-<p>点击Access Token即可查看或重置Token。<strong>需要注意的是</strong>，除非Token外泄，一般情况下<strong>请勿重置Token</strong>，重置后需要及时在<strong>接入端更新Token</strong>，否则无法进行正常的计算。</p>
+<p>点击用户名下的Access Token即可查看或重置Token。<strong>需要注意的是</strong>，除非Token外泄，一般情况下<strong>请勿重置Token</strong>，重置后需要及时在<strong>接入端更新Token</strong>，否则无法进行正常的计算。</p>
+<h5>查看、创建自定义Tag</h5>
+<p>点击用户名或organization下的Tag即可查看系统默认tag和增加自定义tag。用户可以随意增加自己账户的自定义tag，但不允许与系统默认tag重名，也不能与已有的自定义tag重名。用户的自定义tag会在其创建private service下面的job时提供选择。<br>对于organization的tag，需要用户在organization中的角色为owner或admin或normal才可以创建。organization下的自定义tag会在创建organization下面的job时提供选择。</p>
 <h3>接入</h3>
 <hr>
 <h4>Step 0 : 创建相关organization、service、job</h4>
@@ -132,6 +134,7 @@
 <p>查看<a href="http://wiki.aqueducts.baidu.com/logstash%20%20kafka%20performance%20test" target="_blank">Logstash性能测试报告</a></p>
 <p>在流量较大，且日志格式复杂的情况下，对单机性能消耗较大。针对这种情况，我们提供了集中解析日志服务，agent只负责发送消息，解析由后端计算系统完成。这个功能正在和minos联合开发，如果有需求，请<a href="#/about?scrollTo=contact" target="_blank">联系我们</a>。</p>
 </blockquote><h4>Step 2 ：配置Logstash，发送日志</h4>
+<p>我们提供了详细的<a href="http://aqueducts.baidu.com/guides/logstash" target="_blank">Logstash配置文档</a>。以下仅为简要介绍。<br>
 <p>只有保证Logstash被正确配置了，提交的日志才能被计算。提交的日志需要保证被提取字段和item名称一致。比如：在web上注册的item名字叫page_view，则agent的format字段需要提取出page_view: (?&lt;page_view&gt;NOTICE:)</p>
 <p>以下是一个配置样例。用于提取organization im下router service的page_view和response _time。</p>
 <pre class="hljs-light"><code class="hljs coffeescript">input {
@@ -169,7 +172,7 @@ output {
 <p><strong>需要注意的是</strong>，如果是用户的private service，product的值为用户名，若是organization下的service，product的值为organization的名称。</p>
 <blockquote>
 <ul>
-<li>关于Logstash的详细文档请参考<a href="http://logstash.net/docs/1.3.3/" target="_blank">Logstash配置</a></li>
+<li>关于Logstash的详细文档还可以参考官方<a href="http://logstash.net/docs/1.3.3/" target="_blank">Logstash配置</a></li>
 <li>需要手工配置的说明在样例的注释中说明，<strong>其余的不需要修改</strong></li>
 <li>用于验证grok正则表达式正确性的web service: <a href="http://grokdebug.herokuapp.com/" target="_blank">grokdebug</a></li>
 </ul>

@@ -47,7 +47,7 @@ module.exports = function (grunt) {
         files: ['Gruntfile.js']
       },
       markdown: {
-        files: ['<%= yeoman.app %>/docs/src/*', '<%= yeoman.app %>/docs/*.jst'],
+        files: ['<%= yeoman.app %>/views/guides/src/*', '<%= yeoman.app %>/views/guides/*.jst'],
         tasks: ['markdown']
       },
       livereload: {
@@ -304,7 +304,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
+          src: ['*.html', 'views/{,*/}*.html', 'views/guides/output/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -343,6 +343,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
+            'views/guides/output/*.html',
             'bower_components/**/*',
             'images/{,*/}*.{webp}',
             'fonts/*'
@@ -390,8 +391,8 @@ module.exports = function (grunt) {
       all: {
         files: [{
           expand: true,
-          src: '<%= yeoman.app %>/docs/src/*.md',
-          dest: '<%= yeoman.app %>/html',
+          src: '<%= yeoman.app %>/views/guides/src/*.md',
+          dest: '<%= yeoman.app %>/views/guides/output',
           ext: '.html',
           rename : function ( dest, src ) {
               var parts = src.split( '/' ),
@@ -404,7 +405,7 @@ module.exports = function (grunt) {
           }
         }],
         options: {
-          template: '<%= yeoman.app %>/docs/Template.jst',
+          template: '<%= yeoman.app %>/views/guides/Template.jst',
           // preCompile: function(src, context) {},
           // postCompile: function(src, context) {},
           templateContext: {},

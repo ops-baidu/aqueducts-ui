@@ -182,7 +182,7 @@ angular.module('webApp', [
 
       .when('/guides/:guideName', {
         templateUrl: function (params) {
-          return 'html/' + params.guideName + '.html';
+          return 'views/guides/output/' + params.guideName + '.html';
         },
         access: { requiredAuthentication: false }
       })

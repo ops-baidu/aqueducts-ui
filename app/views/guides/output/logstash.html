@@ -1,0 +1,182 @@
+<div class="section ng-scope" style="padding-top:100px">
+  <div class="container ng-scope">
+    <h1 id="logstash-guide">Logstash Guide</h1>
+<p>Logstash 是一个日志收集，分析，输出存储工具，主要有三个部分，input，filter，output：</p>
+<ul>
+<li>input：日志文件的输入配置。</li>
+<li>filter：按照日志行进行处理，格式化，提取需要的数据。</li>
+<li>output：对处理后的数据存储输出，可以是 stdout，file，kafka 等等。</li>
+</ul>
+<h3 id="input">input</h3>
+<p>在 input 使用 file 配置项对日志文件进行读取操作的配置。</p>
+<pre><code>input {
+  file {
+    add_field =&gt; <span class="keyword">...</span> <span class="comment"># hash (optional), default: {}</span>
+    codec =&gt; <span class="keyword">...</span> <span class="comment"># codec (optional), default: "plain"</span>
+    debug =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: false</span>
+    discover_interval =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 15</span>
+    exclude =&gt; <span class="keyword">...</span> <span class="comment"># array (optional)</span>
+    path =&gt; <span class="keyword">...</span> <span class="comment"># array (required)</span>
+    sincedb_path =&gt; <span class="keyword">...</span> <span class="comment"># string (optional)</span>
+    sincedb_write_interval =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 15</span>
+    start_position =&gt; <span class="keyword">...</span> <span class="comment"># string, one of ["beginning", "end"] (optional), default: "end"</span>
+    stat_interval =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 1</span>
+    tags =&gt; <span class="keyword">...</span> <span class="comment"># array (optional)</span>
+    type =&gt; <span class="keyword">...</span> <span class="comment"># string (optional)</span>
+  }
+}</code></pre>
+<p>常用参数：</p>
+<ul>
+<li>path：必填，输入一个数组，可以使用通配符，用来指定日志文件的位置，可以指定多个日志文件。</li>
+<li>type：增加一个 type field 到事件处理器中，在 filter 里面可以根据配置项 type 的值，分别使用不同处理方式。</li>
+<li>sincedb_path：用来指定读取日志的偏移量，一般默认即可。</li>
+</ul>
+<p>例如，输入多个日志文件，根据 type 配置项不同，在 filter 里面进行不同的处理：</p>
+<pre><code><span class="title">input</span> {
+  file {
+    path =&gt; <span class="string">"/home/local/access.log"</span>
+    <span class="typedef"><span class="keyword">type</span> =&gt; "access"</span>
+  }
+
+  file {
+    path =&gt; <span class="string">"/home/local/error.log"</span>
+    <span class="typedef"><span class="keyword">type</span> =&gt; "error"</span>
+  }
+}
+
+<span class="title">filter</span> {
+  <span class="keyword">if</span> [<span class="typedef"><span class="keyword">type</span>] == "access" <span class="container">{
+  ...<span class="title">handle</span>...
+  }</span></span>
+
+  <span class="keyword">if</span> [<span class="typedef"><span class="keyword">type</span>] == "error" <span class="container">{
+  ...<span class="title">handle</span>...
+  }</span></span>
+}</code></pre>
+<h3 id="filter">filter</h3>
+<hr>
+<p>在 filter 中 <strong>Grok</strong> 是目前最好的解析非结构化数据的工具。</p>
+<pre><code>filter {
+  grok {
+    add_field =&gt; <span class="keyword">...</span> <span class="comment"># hash (optional), default: {}</span>
+    add_tag =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+    break_on_match =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: true</span>
+    drop_if_match =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: false</span>
+    keep_empty_captures =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: false</span>
+    match =&gt; <span class="keyword">...</span> <span class="comment"># hash (optional), default: {}</span>
+    named_captures_only =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: true</span>
+    overwrite =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+    patterns_dir =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+    remove_field =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+    remove_tag =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+    tag_on_failure =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: ["_grokparsefailure"]</span>
+  }
+}</code></pre>
+<p>如果需要测试 Grok，<a href="http://grokdebug.herokuapp.com">grokdebug</a> 会非常有用(需要翻墙)。</p>
+<p>常用参数：</p>
+<ul>
+<li>match：一个正则解释器，通过正则表达式，我们可以提取任何形式的数据。</li>
+<li>add_tag：增加一个 tag 到 event 里，可以在 output 配置项里面根据 tag 的值做不同处理。</li>
+</ul>
+<pre><code><span class="keyword">filter</span> {
+  grok {
+    <span class="keyword">match</span> =&gt; [ <span class="string">"message"</span>, <span class="string">"Regular Expressions"</span> ]
+  }
+}</code></pre>
+<p>例如，我们需要提取一个 10-11 个字符的 queue_id</p>
+<pre><code><span class="list">(<span class="body">?&lt;queue_id&gt;[<span class="number">0</span><span class="number">-9</span>A-F]{<span class="number">10</span>,<span class="number">11</span>})</span></span></code></pre>
+<p>这样我们就将一个字符串，放到以 queue_id 为 key 的哈希里面。</p>
+<hr>
+<p><strong>Ruby</strong> 执行一段 ruby 代码。</p>
+<pre><code>filter {
+  ruby {
+    add_field =&gt; <span class="keyword">...</span> <span class="comment"># hash (optional), default: {}</span>
+    add_tag =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+    code =&gt; <span class="keyword">...</span> <span class="comment"># string (required)</span>
+    init =&gt; <span class="keyword">...</span> <span class="comment"># string (optional)</span>
+    remove_field =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+    remove_tag =&gt; <span class="keyword">...</span> <span class="comment"># array (optional), default: []</span>
+  }
+}</code></pre>
+<p>常用参数：</p>
+<ul>
+<li>code：必填字段，一段 ruby 代码，必须要写成一行，其中有一个 event 变量可以使用。</li>
+</ul>
+<p>例如，我们希望把上面 grok 配置项提取出来的 queue_id 全部字母变成小写：</p>
+<pre><code><span class="comment">ruby</span> <span class="comment">{</span>
+  <span class="comment">code</span> <span class="comment">=</span>&gt; <span class="comment">"event</span>[<span class="comment">'queue_id'</span>] <span class="comment">=</span> <span class="comment">event</span>[<span class="comment">'queue_id'</span>]<span class="string">.</span><span class="comment">downcase</span> <span class="comment">"</span>
+<span class="comment">}</code></pre>
+<h3 id="output">output</h3>
+<hr>
+<p><strong>stdout</strong> 最简单的输出到命令行的配置，主要是用于调试。</p>
+<pre><code>output {
+  stdout { <span class="built_in">debug</span> =&gt; <span class="keyword">true</span> }
+}</code></pre>
+<hr>
+<p><strong>Kafka</strong> 输出到 kafka 消息队列。</p>
+<pre><code>kafka {
+  zk_connect =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: "localhost:2181"</span>
+  group_id =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: "logstash"</span>
+  topic_id =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: "test"</span>
+  reset_beginning =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: false</span>
+  consumer_threads =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 1</span>
+  queue_size =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 20</span>
+  rebalance_max_retries =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 4</span>
+  rebalance_backoff_ms =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default:  2000</span>
+  consumer_timeout_ms =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: -1</span>
+  consumer_restart_on_error =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: true</span>
+  consumer_restart_sleep_ms =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 0</span>
+  decorate_events =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: false</span>
+  consumer_id =&gt; <span class="keyword">...</span> <span class="comment"># string (optional) default: nil</span>
+  fetch_message_max_bytes =&gt; <span class="keyword">...</span> <span class="comment"># number (optional) default: 1048576</span>
+  compression_codec =&gt; <span class="keyword">...</span> <span class="comment"># string (optional [none, gzip, snappy]), default: 'none'</span>
+  compressed_topics =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: ''</span>
+  product =&gt; <span class="keyword">...</span> <span class="comment"># string (requied), default: nil</span>
+  service =&gt; <span class="keyword">...</span> <span class="comment"># string (requied), default: nil</span>
+  zk_host =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: 'buffer.aqueducts.baidu.com'</span>
+  zk_port =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: '2181'</span>
+  apidomain =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: 'api.aqueducts.baidu.com'</span>
+  skip_check =&gt; <span class="keyword">...</span> <span class="comment"># string (optional), default: 'false'</span>
+  workers =&gt; <span class="keyword">...</span> <span class="comment"># number (optional), default: 1</span>
+  message =&gt; <span class="keyword">...</span> <span class="comment"># boolean (optional), default: false</span>
+}</code></pre>
+<p>常用参数：</p>
+<ul>
+<li>zk_host：可选，配置 zookeeper 的 ip 地址，华北：10.36.4.185 华东：10.202.6.13。</li>
+<li>zk_port：可选，配置 zookeeper 的端口号，默认 2181。</li>
+<li>product：必填，在 <a href="http://aqueducts.baidu.com/">http://aqueducts.baidu.com/</a> 申请的 organization。</li>
+<li>service：必填，在 <a href="http://aqueducts.baidu.com/">http://aqueducts.baidu.com/</a> 申请的 service。</li>
+<li>skip_check：可选，测试时可以跳过 product and service 的验证。</li>
+<li>message：可选，默认 false，当 message =&gt; true 可以把原始日志放在 event，如非必要，不填。</li>
+</ul>
+<p>例如，根据 filter 配置项里面 tag 的值，输出到不同的 kafka 消息队列：</p>
+<pre><code><span class="comment">filter</span> <span class="comment">{</span>
+  <span class="comment">grok</span> <span class="comment">{</span>
+  <span class="string">.</span><span class="string">.</span><span class="string">.</span><span class="comment">handle</span>.<span class="string">.</span><span class="string">.</span>
+  <span class="comment">add_tag</span> <span class="comment">=</span>&gt; <span class="comment">"ui"</span>
+  <span class="comment">}</span>
+
+  <span class="comment">grok</span> <span class="comment">{</span>
+  <span class="string">.</span><span class="string">.</span><span class="string">.</span><span class="comment">handle</span>.<span class="string">.</span><span class="string">.</span>
+  <span class="comment">add_tag</span> <span class="comment">=</span>&gt; <span class="comment">"api"</span>
+  <span class="comment">}</span>
+<span class="comment">}</span>
+
+<span class="comment">output</span> <span class="comment">{</span>
+  <span class="comment">if</span> <span class="comment">"ui"</span> <span class="comment">in</span> <span class="title">[</span><span class="comment">tags</span>] <span class="comment">{</span>
+    <span class="comment">kafka</span> <span class="comment">{</span>
+      <span class="comment">product</span> <span class="comment">=</span>&gt; <span class="comment">"search"</span>
+      <span class="comment">service</span> <span class="comment">=</span>&gt; <span class="comment">"ui"</span>
+    <span class="comment">}</span>
+  <span class="comment">}</span>
+
+  <span class="comment">if</span> <span class="comment">"api"</span> <span class="comment">in</span> <span class="title">[</span><span class="comment">tags</span>] <span class="comment">{</span>
+    <span class="comment">kafka</span> <span class="comment">{</span>
+      <span class="comment">product</span> <span class="comment">=</span>&gt; <span class="comment">"search"</span>
+      <span class="comment">service</span> <span class="comment">=</span>&gt; <span class="comment">"api"</span>
+    <span class="comment">}</span>
+  <span class="comment">}</span>
+<span class="comment">}</code></pre>
+
+  </div>
+</div>
