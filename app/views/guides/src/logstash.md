@@ -98,6 +98,10 @@ filter {
   grok {
     match => [ "message", "Regular Expressions" ]
   }
+
+  if '_grokparsefailure' in [tags] {
+    drop {}
+  }
 }
 ```
 
