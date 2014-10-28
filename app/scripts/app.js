@@ -10,7 +10,6 @@ angular.module('webApp', [
   'ui.dashboard',
   'highcharts-ng',
   'headroom',
-  'perfect_scrollbar',
   'dialogs.main',
   'pascalprecht.translate',
   'dialogs.default-translations'
@@ -27,143 +26,96 @@ angular.module('webApp', [
         access: { requiredLogin: false }
       })
       .when('/wait', {
-        templateUrl: 'views/v3/wait.html',
+        templateUrl: 'views/wait.html',
         controller: 'AuthController',
         access: { requiredLogin: false }
       })
 
       .when('/login', {
-        templateUrl: 'views/v3/login.html',
+        templateUrl: 'views/login.html',
         controller: 'UserController',
         access: { requiredAuthentication: false }
       })
       .when('/guest', {
-        templateUrl: 'views/v3/login.html',
+        templateUrl: 'views/login.html',
         controller: 'GuestController',
         access: { requiredAuthentication: false }
       })
       .when('/join', {
-        templateUrl: 'views/v3/join.html',
+        templateUrl: 'views/join.html',
         controller: 'UserController',
         access: { requiredAuthentication: false }
       })
-      // .when('/forgot_password', {
-      //   templateUrl: 'views/forgot_password.html',
-      //   controller: 'UserController',
-      //   access: { requiredAuthentication: false }
-      // })
-
 
       .when('/about', {
-        templateUrl: 'views/v3/about.html',
+        templateUrl: 'views/about.html',
         access: { requiredAuthentication: false }
       })
       .when('/guide', {
-        templateUrl: 'views/v3/guide.html',
+        templateUrl: 'views/guide.html',
         access: { requiredAuthentication: false }
       })
 
 
       .when('/users/:username', {
-        templateUrl: 'views/v3/user_home.html',
+        templateUrl: 'views/user_home.html',
         controller: 'UserHomeController',
         access: { requiredAuthentication: true }
       })
       .when('/home', {
-        templateUrl: 'views/v3/user_home.html',
+        templateUrl: 'views/user_home.html',
         controller: 'UserHomeController',
         access: { requiredAuthentication: true }
       })
 
       .when('/users/:username/:service_name', {
-        templateUrl: 'views/v3/user_job_list.html',
+        templateUrl: 'views/user_job_list.html',
         controller: 'UserJobController',
         access: { requiredAuthentication: true }
       })
 
-      .when('/console', {
-        templateUrl: 'views/v3/console.html',
-        controller: 'UserConsoleController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/console/:service_name', {
-        templateUrl: 'views/v3/console.html',
-        controller: 'UserConsoleController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/console/orgs/:orgname', {
-        templateUrl: 'views/v3/console.html',
-        controller: 'OrgConsoleController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/console/orgs/:orgname/:service_name', {
-        templateUrl: 'views/v3/console.html',
-        controller: 'OrgConsoleController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/charts', {
-        templateUrl: 'views/v3/user_charts.html',
-        controller: 'UserChartController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/charts/:service_name', {
-        templateUrl: 'views/v3/user_charts.html',
-        controller: 'UserChartController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/charts/orgs/:orgname', {
-        templateUrl: 'views/v3/org_charts.html',
-        controller: 'OrgChartController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/charts/orgs/:orgname/:service_name', {
-        templateUrl: 'views/v3/org_charts.html',
-        controller: 'OrgChartController',
-        access: { requiredAuthentication: true }
-      })
-
-
+    
       .when('/orgs/:orgname', {
-        templateUrl: 'views/v3/org_home.html',
+        templateUrl: 'views/org_home.html',
         controller: 'OrgHomeController',
         access: { requiredAuthentication: true }
       })
       .when('/orgs/:orgname/:service_name', {
-        templateUrl: 'views/v3/org_job_list.html',
+        templateUrl: 'views/org_job_list.html',
         controller: 'OrgJobController',
         access: { requiredAuthentication: true }
       })
 
 
       .when('/orgs/:orgname/services/new', {
-        templateUrl: 'views/v3/new_service.html',
+        templateUrl: 'views/new_service.html',
         controller: 'OrgServiceController',
         access: { requiredAuthentication: true }
       })
       .when('/new/org', {
-        templateUrl: 'views/v3/new_org.html',
+        templateUrl: 'views/new_org.html',
         controller: 'OrganizationController',
         access: { requiredAuthentication: true }
       })
       .when('/new', {
-        templateUrl: 'views/v3/new_service.html',
+        templateUrl: 'views/new_service.html',
         controller: 'UserServiceController',
         access: { requiredAuthentication: true }
       })
       .when('/settings', {
-        templateUrl: 'views/v3/settings.html',
+        templateUrl: 'views/settings.html',
         controller: 'SettingsController',
         access: { requiredAuthentication: true }
       })
       .when('/zipkin', {
-        templateUrl: 'views/v3/zipkin_home.html',
+        templateUrl: 'views/zipkin_home.html',
         controller: 'ZipkinHomeController',
-        access: { requiredAuthentication: true }
+        access: { requiredAuthentication: false }
       })
       .when('/traces/:traceId', {
-        templateUrl: 'views/v3/traces.html',
+        templateUrl: 'views/traces.html',
         controller: 'TracesController',
-        access: { requiredAuthentication: true }
+        access: { requiredAuthentication: false }
       })
 
       .otherwise({
