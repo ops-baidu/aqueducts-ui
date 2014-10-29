@@ -123,6 +123,10 @@
 </code></pre>
 <pre class="hljs-light"><code class="hljs nginx"><span class="hljs-title">cd</span> /home/work/opbin/logstash
 </code></pre>
+<p>在当前目录下，启动Logstash：</p>
+<pre class="hljs-light"><code class="hljs sql">./bin/logstash_control.sh <span class="hljs-operator"><span class="hljs-keyword">start</span> conf_file</span>
+</code></pre>
+<p>其中conf_file为配置文件，配置文件的写法详见下面配置部分。</p>
 <p>外部用户可以执行以下命令：</p>
 <pre class="hljs-light"><code class="hljs ruby">curl -<span class="hljs-constant">O</span> <span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/download.elasticsearch.org/logstash</span><span class="hljs-regexp">/logstash/logstash</span>-<span class="hljs-number">1.4</span>.<span class="hljs-number">2</span>.tar.gz
 </code></pre>
