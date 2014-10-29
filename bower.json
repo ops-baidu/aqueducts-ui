@@ -19,7 +19,7 @@
     "highcharts-ng": "0.0.6",
     "restangular": "1.4.0",
     "headroom.js": "0.6.0",
-    "angular-perfect-scrollbar": "0.1.4",
+    "angular-perfect-scrollbar": "",
     "angular-dialog-service": "5.1.2",
     "font-awesome": "4.2.0"
   },
