@@ -17,7 +17,6 @@ angular.module('webApp', [
   .config(function($httpProvider){
     $httpProvider.interceptors.push('tokenInterceptor');
   })
-
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
@@ -36,11 +35,11 @@ angular.module('webApp', [
         controller: 'UserController',
         access: { requiredAuthentication: false }
       })
-      .when('/guest', {
-        templateUrl: 'views/login.html',
-        controller: 'GuestController',
-        access: { requiredAuthentication: false }
-      })
+      // .when('/guest', {
+      //   templateUrl: 'views/login.html',
+      //   controller: 'GuestController',
+      //   access: { requiredAuthentication: false }
+      // })
       .when('/join', {
         templateUrl: 'views/join.html',
         controller: 'UserController',
@@ -57,57 +56,52 @@ angular.module('webApp', [
       })
 
 
-      .when('/users/:username', {
-        templateUrl: 'views/user_home.html',
-        controller: 'UserHomeController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/home', {
-        templateUrl: 'views/user_home.html',
-        controller: 'UserHomeController',
-        access: { requiredAuthentication: true }
-      })
+      // .when('/home', {
+      //   templateUrl: 'views/user_home.html',
+      //   controller: 'UserHomeController',
+      //   access: { requiredAuthentication: true }
+      // })
 
-      .when('/users/:username/:service_name', {
-        templateUrl: 'views/user_job_list.html',
-        controller: 'UserJobController',
-        access: { requiredAuthentication: true }
-      })
+      // .when('/users/:username/:service_name', {
+      //   templateUrl: 'views/user_job_list.html',
+      //   controller: 'UserJobController',
+      //   access: { requiredAuthentication: true }
+      // })
 
     
-      .when('/orgs/:orgname', {
-        templateUrl: 'views/org_home.html',
-        controller: 'OrgHomeController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/orgs/:orgname/:service_name', {
-        templateUrl: 'views/org_job_list.html',
-        controller: 'OrgJobController',
-        access: { requiredAuthentication: true }
-      })
+      // .when('/orgs/:orgname', {
+      //   templateUrl: 'views/org_home.html',
+      //   controller: 'OrgHomeController',
+      //   access: { requiredAuthentication: true }
+      // })
+      // .when('/orgs/:orgname/:service_name', {
+      //   templateUrl: 'views/org_job_list.html',
+      //   controller: 'OrgJobController',
+      //   access: { requiredAuthentication: true }
+      // })
 
 
-      .when('/orgs/:orgname/services/new', {
-        templateUrl: 'views/new_service.html',
-        controller: 'OrgServiceController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/new/org', {
-        templateUrl: 'views/new_org.html',
-        controller: 'OrganizationController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/new', {
-        templateUrl: 'views/new_service.html',
-        controller: 'UserServiceController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/settings', {
-        templateUrl: 'views/settings.html',
-        controller: 'SettingsController',
-        access: { requiredAuthentication: true }
-      })
-      .when('/zipkin', {
+      // .when('/orgs/:orgname/services/new', {
+      //   templateUrl: 'views/new_service.html',
+      //   controller: 'OrgServiceController',
+      //   access: { requiredAuthentication: true }
+      // })
+      // .when('/new/org', {
+      //   templateUrl: 'views/new_org.html',
+      //   controller: 'OrganizationController',
+      //   access: { requiredAuthentication: true }
+      // })
+      // .when('/new', {
+      //   templateUrl: 'views/new_service.html',
+      //   controller: 'UserServiceController',
+      //   access: { requiredAuthentication: true }
+      // })
+      // .when('/settings', {
+      //   templateUrl: 'views/settings.html',
+      //   controller: 'SettingsController',
+      //   access: { requiredAuthentication: true }
+      // })
+      .when('/home', {
         templateUrl: 'views/zipkin_home.html',
         controller: 'ZipkinHomeController',
         access: { requiredAuthentication: false }
@@ -139,7 +133,7 @@ angular.module('webApp', [
     });
   }]);
 
-angular.module('dialogs.default-translations',['pascalprecht.translate'])
+  angular.module('dialogs.default-translations',['pascalprecht.translate'])
  /**
    * Default translations in English.
    *

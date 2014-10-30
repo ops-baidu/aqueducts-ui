@@ -1,7 +1,11 @@
 <!-- spanPanel begin  -->
 <div class='modal-header'>
-  <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-  <h4 class='modal-title'>{{serviceNames}}: {{durationStr}}</h4>
+  <button type='button' ng-click="ok()"class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+  <h4 class='modal-title'>{{serviceNames}}: {{durationStr}}
+  <a class="pull-right"style="padding-right:50px;"target="_blank" href="{{url}}" ><span popover-placement="left" popover="open this in a new tab window, or right click to copy this url" popover-trigger="mouseenter"><i class="fa fa-share fa-lg"/></span></a>
+  </a>
+  </h4>
+  
 </div>
 <div class='modal-body'>
   <table id='annotations' class='table table-striped'>
@@ -29,7 +33,7 @@
       <th>Value</th>
     </tr></thead>
     <tbody>
-      <tr ng-repeat="ba in binaAnnos">
+      <tr ng-repeat="ba in binaAnnos | orderBy: 'weight':true">
         <td class='key' data-key='key'>{{ba.key}}</td>
         <td class='value' data-key='value'>{{ba.value}}</td>
       </tr>
