@@ -1,0 +1,241 @@
+<div class="section" style="padding-top: 100px;">
+  <div class="container" ng-controller="ZipkinHomeController">
+    <!-- zipkin home page start -->
+    <div class="well well-sm">
+      <form class="form-inline" role="form" style="padding-bottom:10px;">
+        <!-- servicename start -->
+        <div class="form-group">
+          <select ng-model="serviceName"  ng-change="getSpanNames(serviceName)"class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName" ng-options="service for service in services">
+            <option value="">--- choose a service ---</option>         
+          </select>
+        </div>
+        <!-- servicename end -->
+
+        <!-- span name start -->
+        <div class="form-group">
+          <select ng-model="spanName" class="form-control input-sm" style="width: 180px;" name="spanName" id="spanName" ng-options="span.name for span in spanNames">
+            <option value="">--- choose a span ---</option>         
+
+          </select>
+        </div>
+        <!-- span name end -->
+      </form>
+
+      <form class="form-inline" role="form" style="padding-bottom:10px;">
+        <div class="form-group">
+          <label for="from">from</label>
+          <input id="from" class="form-control input-sm date-input1" ng-model="startDate" type="text" value='{{startDate}}'>
+        </div>
+        <!-- <div class="form-group timepicker-form">
+          <timepicker ng-model="to" hour-step="1" minute-step="10" show-meridian="false"></timepicker>
+        </div> -->
+        <div class="form-group">
+          <input class="form-control input-sm time-input1" ng-model="startTime" type="text" value='{{startTime}}'>
+          <input class="" ng-model="startTimestamp" id="startTimestamp" name="startTimestamp" type="hidden" value="{{startTimestamp}}">
+        </div>
+        <div class="form-group">
+          <label for="to">to</label>
+          <input id="to" class="form-control input-sm date-input2" ng-model="endDate" type="text" value='{{endDate}}'>
+          <script type="text/javascript">
+          $('.date-input1').datepicker({format: 'mm-dd-yyyy'}).on("changeDate", function(e){
+            var ms = e.date.getTime() * 1000;
+            var last_timestamp = $('#startTimestamp').attr('value');
+            var timestamp = (ms/1000000)*1000000 + (last_timestamp%1000000);
+            $('#startTimestamp').attr('value', timestamp);
+            $(this).datepicker('hide');
+          });
+          $('.date-input2').datepicker({format: 'mm-dd-yyyy'}).on("changeDate", function(e){
+            var ms = e.date.getTime() * 1000;
+            var last_timestamp = $('#endTimestamp').attr('value');
+            var timestamp = (ms/1000000)*1000000 + (last_timestamp%1000000);
+            $('#endTimestamp').attr('value', timestamp);
+            $(this).datepicker('hide');
+          });
+          </script>
+        </div>
+        <div class="form-group">
+          <input class="form-control input-sm time-input2" ng-model="endTime" type="text" value='{{endTime}}' />
+          <input class="" ng-model="endTimestamp" id="endTimestamp" name="endTimestamp" type="hidden" value="{{endTimestamp}}" />
+
+          <script type="text/javascript">
+          $('.time-input1').on('change', function(e){
+            var date = $('.date-input1').attr('value');
+            var dateArray = date.split('-');
+            var time = $('.time-input1').val();
+            var timeArray = time.split(':');
+            if (timeArray.length === 2) {
+              var datetime = new Date(
+                dateArray[2], (dateArray[0] - 1), dateArray[1],
+                timeArray[0], timeArray[1]);
+            } else {
+              var datetime = new Date()
+            }
+
+            var ms = datetime.getTime();
+            var timestamp = ms * 1000;
+            $('#startTimestamp').attr('value', timestamp);
+          });
+          $('.time-input2').on('change', function(e){
+            var date = $('.date-input2').attr('value');
+            var dateArray = date.split('-');
+            var time = $('.time-input2').val();
+            var timeArray = time.split(':');
+            if (timeArray.length === 2) {
+              var datetime = new Date(
+                dateArray[2], (dateArray[0] - 1), dateArray[1],
+                timeArray[0], timeArray[1]);
+            } else {
+              var datetime = new Date()
+            }
+
+            var ms = datetime.getTime();
+            var timestamp = ms * 1000;
+            $('#endTimestamp').attr('value', timestamp);
+          });
+          </script>
+        </div>          
+      </form>
+      <!-- <timepicker ng-model="to" hour-step="1" minute-step="10" show-meridian="false"></timepicker> -->
+
+        <!-- timestamp end -->
+      <form class="form-inline" role="form" style="margin-bottom:10px;">
+
+        <!-- limit start -->
+        <div class="form-group">
+          <label for="limit">Limit</label>
+          <input class="form-control input-sm" ng-model="limit" id="limit" name="limit" type="text">
+        </div>
+        <!-- limit end -->
+        <!-- find traces start -->
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-sm" ng-click="findTraces(serviceName, spanName.name, startTimestamp, endTimestamp, limit, annotationQuery)">Find Traces</button>
+          <button type="button" class="btn btn-default btn-sm info-request" ng-click="openHelpModal()">
+            <span class="glyphicon glyphicon-question-sign"></span>
+          </button>
+        </div>
+        <!-- find traces end -->
+      </form>
+      <div style="padding-bottom:10px;">
+        <!-- annotationQuery start -->
+        <input type="text" ng-model="annotationQuery" class="form-control input-sm" id="annotationQuery" name="annotationQuery" style="width: 100%;" placeholder='Annotations Query (e.g. "finagle.timeout", "http.uri=/foo/bar/ and cluster=foo and cache.miss")'>
+        <!-- annotationQuery end -->
+      <!-- form end -->
+      </div>
+      <div id="trace-filters" >
+        <div class="pull-left">
+          <span>
+            Showing:  <span class="filter-current">{{count}}</span>
+            of <span class="filter-total">{{count}}</span>
+          </span>
+        </div>
+        <div class="pull-right">
+          <span class="selector">Sort:
+            <select
+              class="sort-order js-sort-order"
+              ng-model="ZipkinHomeController.currentValue"
+              ng-change="order(ZipkinHomeController.currentValue)">
+              <option selected value="duration-desc">Longest First</option>
+              <option value="duration-asc">Shortest First</option>
+              <option value="timestamp-desc">Newest First</option>
+              <option value="timestamp-asc">Oldest First</option>
+            </select>
+          </span>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="service-tags">
+          Services:
+          <span class='label service-tag-filtered' data-service-name="{{serviceName}}">{{serviceName}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- trace list start -->
+    <div class="row">
+      <ul id="traces">
+        <li class="trace" data-traceId="{{trace.traceId}}" data-duration="{{trace.duration}}" data-timestamp="{{trace.timestamp}}" ng-repeat="trace in traces"ng-init="open=false;">
+          <a href="/traces/{{trace.traceId}}?serviceName={{trace.serviceName}}"><div class="bar-block">
+            <span class="bar-graphic" style="width:{{trace.width}}%;"></span>
+            <span class="bar-label">{{trace.durationStr}}</span>
+            <span class="bar-label">{{trace.spanCount}} spans</span>
+            <!-- <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}" ng-click="open=!open;"></i> -->
+          </div></a>
+          <div class="trace-details services" style="min-height:23px">
+            <span class="label label-default service-filter-label" data-service-name="{{name}}" ng-repeat="serviceCount in trace.serviceCounts">{{serviceCount.name}} x{{serviceCount.count}} </span>
+          </div>
+          <div class="trace-details timestamp pull-right">
+            <time class="label" datetime="{{trace.startTime}}">{{trace.timeago}}</time>
+          </div>
+          <!-- <div collapse="!open"> -->
+            <!-- trace-container begin -->
+            <!-- <div class='row' id='trace-container'ng-if="open"ng-controller="TracesController">
+              <div id='timeLabel' class='span'>
+                <div class='handle'>Services</div>
+                <div class='duration-container'>
+                  <div ng-repeat='tm in timeMarkers' class='time-marker time-marker-{{$index}}'>{{tm}}</div>
+                </div>
+              </div>
+
+              <div
+                class='span service-span depth-{{span.depthClass}}'
+                data-keys='id,spanName,serviceNames,durationStr,duration'
+                data-id='{{span.spanId}}'
+                data-parent-id='{{span.parentId}}'
+                data-span-name='{{span.spanName}}'
+                data-service-names='{{span.serviceNames}}'
+                data-duration-str='{{span.durationStr}}'
+                data-duration='{{span.duration}}'
+                data-children='{{span.children}}'
+                id='{{span.spanId}}'
+                ng-repeat='span in spans'
+                ng-click="showModal(span)"
+              >
+                <div class='handle'>
+                  <div class='service-name' style='margin-left: {{span.depth}}px'>
+                    <span class='expander'>+</span>
+                    {{span.serviceNames}}
+                  </div>
+                </div>
+
+                <div class='duration-container'>
+                  <div ng-repeat='tm in timeMarkers' class='time-marker time-marker-{{$index}}'>.</div>
+
+                  <div class='duration' style='left: {{span.left}}%; width: {{span.width}}%'>
+                    {{span.durationStr}} : {{span.spanName}}
+                    <div
+                      ng-repeat='annotation in span.annotations'
+                      class='annotation core'
+                      style='left: {{annotation.left}}%; width: {{annotation.width}}px'
+                      title='{{annotation.value}}'
+                      data-keys='endpoint,value,timestamp,relativeTime,serviceName,duration'
+                      data-endpoint='{{annotation.endpoint}}'
+                      data-value='{{annotation.value}}'
+                      data-timestamp='{{annotation.timestamp}}'
+                      data-relative-time='{{annotation.relativeTime}}'
+                      data-service-name='{{annotation.serviceName}}'
+                      data-duration='{{annotation.duration}}'
+                    ></div>
+                  </div>
+                </div>
+
+                <div ng-repeat='ba in span.binaryAnnotations'
+                  class='binary-annotation'
+                  data-keys='key,value,type'
+                  data-key='{{ba.key}}'
+                  data-value='{{ba.value}}'
+                  data-type='{{ba.annotationType}}'
+                ></div>
+              </div>
+            </div> -->
+            <!-- trace-container end -->
+          <!-- </div> -->
+        </li>
+      </ul>
+    </div>
+    <!-- trace list end -->
+
+    <!-- help panel for different lookup options -->
+
+    <!-- zipkin home page end -->
+  </div>
+</div>

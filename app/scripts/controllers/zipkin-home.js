@@ -6,7 +6,7 @@
 */
 'use strict';
 
-angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 'ApiBaseUrl', 'Restangular', '$filter', function($scope, $http, ApiBaseUrl, Restangular, $filter) {
+angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', '$http', 'ApiBaseUrl', 'Restangular', '$filter', function($modal, $scope, $http, ApiBaseUrl, Restangular, $filter) {
   $scope.services  = [];
   $scope.spanNames = [];
   $scope.traces    = [];
@@ -22,19 +22,20 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
     });
 
     $http.get(ApiBaseUrl + "zipkin/get_service_names").success(function (response) {
-      $scope.services = [];
-      for (var i = response.length - 1; i >= 0; i--) {
-        var serviceName = response[i];
-        var org_name = serviceName.split(":");
+      $scope.services = response;
+      
+      // for (var i = response.length - 1; i >= 0; i--) {
+      //   var serviceName = response[i];
+      //   var org_name = serviceName.split(":");
 
-        if (org_name.length === 2) {
-          if ($.inArray(org_name[0], orgs) >= 0) {
-            $scope.services.push({name: serviceName});
-          };
-        } else{
-          // $scope.services.push({name: response[i]});
-        };
-      };;
+      //   if (org_name.length === 2) {
+      //     if ($.inArray(org_name[0], orgs) >= 0) {
+      //       $scope.services.push({name: serviceName});
+      //     };
+      //   } else{
+      //     $scope.services.push({name: response[i]});
+      //   };
+      // };;
     });
 
   };
@@ -43,7 +44,12 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
   var now = new Date();
   $scope.endDate = (now.getMonth() + 1) + '-' + now.getDate() + '-' + now.getFullYear();
   $scope.endTime = now.getHours() + ':' + now.getMinutes();
-  $scope.timestamp = now.getTime() * 1000;
+  $scope.startTime = $scope.endTime;
+  var tmp = new Date();
+  tmp.setDate(tmp.getDate() - 7);
+  $scope.startDate = (tmp.getMonth() + 1) + '-' + tmp.getDate() + '-' + tmp.getFullYear();
+  $scope.endTimestamp = now.getTime() * 1000;
+  $scope.startTimestamp = tmp.getTime() * 1000;
   $scope.limit = 100;
 
   // TODO show count number
@@ -51,14 +57,15 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
 
 
   $scope.findTraces = function (serviceName, spanName,
-                                timestamp, limit, annotationQuery) {
+                                from, to, limit, annotationQuery) {
 
     var findTracesUrl = ApiBaseUrl + "zipkin/find_traces"
     + "?service_name=" + serviceName
     + "&span_name=" + spanName
-    + "&end_ts=" + timestamp
+    + "&end_ts=" + to
     + "&limit=" + limit
-    + "&annotation_query=" + annotationQuery;
+    + "&annotation_query=" + annotationQuery
+    + "&start_ts=" + from;
 
     $http.get(findTracesUrl).success(function (response) {
       $scope.traces = [];
@@ -71,9 +78,9 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
   };
 
   $scope.getSpanNames = function(serviceName) {
+    $scope.spanNames = [{name: 'ALL'}];
     $http.get(ApiBaseUrl + "zipkin/get_span_names?service_name=" + serviceName)
     .success(function (response) {
-      $scope.spanNames = [];
       for (var i = response.length - 1; i >= 0; i--) {
         $scope.spanNames.push({name: response[i]});
       };;
@@ -83,7 +90,12 @@ angular.module('webApp').controller('ZipkinHomeController', ['$scope', '$http', 
   $scope.selectChange = function (value) {
     console.log(value);
   };
+  $scope.openHelpModal = function(){
+    var modalInstance = $modal.open({
+      templateUrl: 'views/trace_help.html' ,
+    });
 
+  };
   $scope.order = function (predicateReverse) {
     var predicate = predicateReverse.split("-")[0];
     var reverse;

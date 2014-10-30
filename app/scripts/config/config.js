@@ -9,7 +9,6 @@ var host = 'http://api.aqueducts.baidu.com';
 
 var aqueductsApp = angular.module('webApp');
 
-aqueductsApp.value('EventsApiBaseUrl', host + '/v1/');
 aqueductsApp.value('ApiBaseUrl', host + '/v3/');
 
 aqueductsApp.config(['$routeProvider', 'RestangularProvider', function($routeProvider, RestangularProvider) {
