@@ -147,3 +147,8 @@
   word-break: break-all;
   max-width: 75%;
 }
+
+.no-pointer {
+  cursor: default;
+}
+

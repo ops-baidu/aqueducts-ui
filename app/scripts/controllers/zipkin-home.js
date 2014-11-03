@@ -11,7 +11,15 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
   $scope.spanNames = [];
   $scope.traces    = [];
   var orderBy = $filter('orderBy');
-
+  $scope.show = Object();
+  $scope.show.show = [];
+  $scope.show.duration = [];
+  $scope.show.servicesNumber = [];
+  $scope.show.depth = [];
+  $scope.show.totalSpans = [];
+  $scope.show.serviceCounts = [];
+  $scope.show.timeMarkers = [];
+  $scope.show.spans = [];
   function getServiceNames () {
     // access authority
     var orgs = [];
@@ -109,6 +117,16 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
 
   // $scope.order('duration', true);
 
+  $scope.showTraceBrief = function(traceId, serviceName){
+    $scope.show.show[traceId] = !$scope.show.show[traceId];
+    if ($scope.show.show[traceId]) {
+      var url = "zipkin/trace/" + traceId + "/?service_name=" + serviceName;
+      $http.get(ApiBaseUrl + url).success(function (response) {
+        $scope.show.timeMarkers[traceId] = response['timeMarkers'];
+        $scope.show.spans[traceId] = response['spans'];
 
+      });
+    };
+  };
 
 }]);
