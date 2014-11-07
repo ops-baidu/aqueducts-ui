@@ -12,43 +12,51 @@ angular.module('webApp')
 
   var traceId = $routeParams.traceId;
   var serviceName = $routeParams.serviceName;
-  var spanId = $routeParams.spanId;
+  $scope.show = Object();
+  $scope.show.show = [];
+  $scope.show.annos = [];
+  $scope.show.binaAnnos = [];
+  $scope.show.serviceNames = [];
+  $scope.show.durationStr = [];
 
-  
 
-  $scope.showModal = function(span) {
+  // $scope.showModal = function(span) {
 
-    var modalInstance = $modal.open({
-      templateUrl: 'views/trace_detail.html',
-      controller: ModalInstanceCtrl,
-      resolve: {
-        span: function(){
-          return span;
-      }
-    }
-    });
+  //   var modalInstance = $modal.open({
+  //     templateUrl: 'views/trace_detail.html',
+  //     controller: ModalInstanceCtrl,
+  //     resolve: {
+  //       span: function(){
+  //         return span;
+  //     }
+  //   }
+  //   });
 
-    modalInstance.result.then(function() {});
+  //   modalInstance.result.then(function() {});
+  // };
+
+  $scope.showSpanDetail = function(span){
+    var id = span.spanId;
+    
   };
+  // var ModalInstanceCtrl = function($scope, $location, $routeParams, $modalInstance, span) {
+  //   for (var i = span.binaryAnnotations.length - 1; i >= 0; i--) {
+  //     span.binaryAnnotations[i]['weight'] = getKeyWeight(span.binaryAnnotations[i]['key']);
+  //   };
+  //   $scope.annos = span.annotations;
+  //   $scope.binaAnnos = span.binaryAnnotations;
+  //   $scope.serviceNames = span.serviceNames;
+  //   $scope.durationStr = span.durationStr;
+  //   $scope.url = $location.path() + '?serviceName=' + $routeParams.serviceName + '&spanId=' + span.spanId;
 
-  var ModalInstanceCtrl = function($scope, $location, $routeParams, $modalInstance, span) {
-    for (var i = span.binaryAnnotations.length - 1; i >= 0; i--) {
-      span.binaryAnnotations[i]['weight'] = getKeyWeight(span.binaryAnnotations[i]['key']);
-    };
-    $scope.annos = span.annotations;
-    $scope.binaAnnos = span.binaryAnnotations;
-    $scope.serviceNames = span.serviceNames;
-    $scope.durationStr = span.durationStr;
-    $scope.url = $location.path() + '?serviceName=' + $routeParams.serviceName + '&spanId=' + span.spanId;
-
-    $scope.ok = function() {
-      $modalInstance.close($scope);
-    };
-    $scope.cancel = function() {
-      $modalInstance.close($scope);
-    };
-  };
-  ModalInstanceCtrl.$inject = ['$scope', '$location', '$routeParams', '$modalInstance', 'span'];
+  //   $scope.ok = function() {
+  //     $modalInstance.close($scope);
+  //   };
+  //   $scope.cancel = function() {
+  //     $modalInstance.close($scope);
+  //   };
+  // };
+  // ModalInstanceCtrl.$inject = ['$scope', '$location', '$routeParams', '$modalInstance', 'span'];
   function getKeyWeight(key){
     switch(key){
       case 'query':
@@ -89,16 +97,21 @@ angular.module('webApp')
       $scope.timeMarkers = response['timeMarkers'];
       var spans = response['spans'];
       var span = Object();
-      $scope.spans = spans;
-      if (spanId) {
-        for (var i = spans.length - 1; i >= 0; i--) {
-          if (spans[i]['spanId'] === spanId) {
-            span = spans[i];
-            break;
-          };
+      var id = '';
+      for (var j = spans.length - 1; j >= 0; j--) {
+        span = spans[j];
+
+        for (var i = span.binaryAnnotations.length - 1; i >= 0; i--) {
+          span.binaryAnnotations[i]['weight'] = getKeyWeight(span.binaryAnnotations[i]['key']);
         };
-        $scope.showModal(span);
+        id = span.spanId;
+        $scope.show.annos[id] = span.annotations;
+        $scope.show.binaAnnos[id] = span.binaryAnnotations;
+        $scope.show.serviceNames[id] = span.serviceNames;
+        $scope.show.durationStr[id] = span.durationStr;
       };
+      $scope.spans = spans;
+
     });
   };
 

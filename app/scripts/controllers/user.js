@@ -8,7 +8,7 @@ angular.module('webApp').controller('UserController', ['$scope', '$location', 'R
       Restangular.all('user').customPOST({key: key, password: password}, "login").then(function(data){
         authenticationService.isAuthenticated = true;
         tokenService.setToken(data.token);
-        $location.path('/users/' + data.name);
+        $location.path('/home');
       }, function(data){
         $scope.loginFailedMsg = data.data.message;
         $scope.loginFailed = true;
@@ -31,7 +31,7 @@ angular.module('webApp').controller('UserController', ['$scope', '$location', 'R
       Restangular.all('user').customPOST(user, "join").then(function(data){
         tokenService.setToken(data.token);
         authenticationService.isAuthenticated = true;
-        $location.path('/users/' + data.name);
+        $location.path('/home');
       }, function(data){
         $scope.joinFailedMsg = data.data.message;
         $scope.joinFailed = true;

@@ -13,21 +13,16 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
   var orderBy = $filter('orderBy');
   $scope.show = Object();
   $scope.show.show = [];
-  $scope.show.duration = [];
-  $scope.show.servicesNumber = [];
-  $scope.show.depth = [];
-  $scope.show.totalSpans = [];
-  $scope.show.serviceCounts = [];
   $scope.show.timeMarkers = [];
   $scope.show.spans = [];
   function getServiceNames () {
     // access authority
-    var orgs = [];
-    Restangular.all('orgs').getList().then(function(response) {
-      for (var i = response.length - 1; i >= 0; i--) {
-        orgs.push(response[i]["name"]);
-      };
-    });
+    // var orgs = [];
+    // Restangular.all('orgs').getList().then(function(response) {
+    //   for (var i = response.length - 1; i >= 0; i--) {
+    //     orgs.push(response[i]["name"]);
+    //   };
+    // });
 
     $http.get(ApiBaseUrl + "zipkin/get_service_names").success(function (response) {
       $scope.services = response;
