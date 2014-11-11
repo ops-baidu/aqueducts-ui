@@ -8,30 +8,39 @@
 
 angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', '$http', 'ApiBaseUrl', 'Restangular', '$filter', function($modal, $scope, $http, ApiBaseUrl, Restangular, $filter) {
   $scope.services  = [];
-  $scope.spanNames = [];
+  $scope.spanNames = [{name: 'ALL'}];
   $scope.traces    = [];
   var orderBy = $filter('orderBy');
   $scope.show = Object();
   $scope.show.show = [];
-  $scope.show.duration = [];
-  $scope.show.servicesNumber = [];
-  $scope.show.depth = [];
-  $scope.show.totalSpans = [];
-  $scope.show.serviceCounts = [];
   $scope.show.timeMarkers = [];
   $scope.show.spans = [];
+  $scope.show.query = [];
+  $scope.show.qid = [];
+  $scope.show.qtime = [];
+  $scope.spanName = $scope.spanNames[0];
+  $scope.currentValue = 'duration-desc';
   function getServiceNames () {
     // access authority
-    var orgs = [];
-    Restangular.all('orgs').getList().then(function(response) {
-      for (var i = response.length - 1; i >= 0; i--) {
-        orgs.push(response[i]["name"]);
-      };
-    });
-
+    // var orgs = [];
+    // Restangular.all('orgs').getList().then(function(response) {
+    //   for (var i = response.length - 1; i >= 0; i--) {
+    //     orgs.push(response[i]["name"]);
+    //   };
+    // });
+    
     $http.get(ApiBaseUrl + "zipkin/get_service_names").success(function (response) {
       $scope.services = response;
-      
+      for (var i = $scope.services.length - 1; i >= 0; i--) {
+        if ($scope.services[i] == "psop:pr-nginx") {
+          $scope.serviceName = $scope.services[i];
+          break;
+        };
+      };
+      if (!$scope.serviceName) {
+        $scope.serviceName = $scope.services[0];
+      };
+
       // for (var i = response.length - 1; i >= 0; i--) {
       //   var serviceName = response[i];
       //   var org_name = serviceName.split(":");
@@ -65,7 +74,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
 
 
   $scope.findTraces = function (serviceName, spanName,
-                                from, to, limit, annotationQuery) {
+                                from, to, limit, annotationQuery, currentValue) {
 
     var findTracesUrl = ApiBaseUrl + "zipkin/find_traces"
     + "?service_name=" + serviceName
@@ -82,6 +91,8 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
         response[i]['timeago'] = timeago;
         $scope.traces.push(response[i]);
       };
+      $scope.order(currentValue);
+
     });
   };
 
@@ -93,6 +104,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
         $scope.spanNames.push({name: response[i]});
       };;
     });
+    $scope.spanName = $scope.spanNames[0];
   };
 
   $scope.selectChange = function (value) {
@@ -118,15 +130,33 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
   // $scope.order('duration', true);
 
   $scope.showTraceBrief = function(traceId, serviceName){
-    $scope.show.show[traceId] = !$scope.show.show[traceId];
-    if ($scope.show.show[traceId]) {
-      var url = "zipkin/trace/" + traceId + "/?service_name=" + serviceName;
-      $http.get(ApiBaseUrl + url).success(function (response) {
-        $scope.show.timeMarkers[traceId] = response['timeMarkers'];
-        $scope.show.spans[traceId] = response['spans'];
+    var url = "zipkin/trace/" + traceId + "/?service_name=" + serviceName;
+    $http.get(ApiBaseUrl + url).success(function (response) {
+      $scope.show.timeMarkers[traceId] = response['timeMarkers'];
+      var spans = response['spans'];
+      var span = Object();
+      var id = '';
+      for (var j = spans.length - 1; j >= 0; j--) {
+        span = spans[j];
 
-      });
-    };
+        for (var i = span.binaryAnnotations.length - 1; i >= 0; i--) {
+          if (span.binaryAnnotations[i]['key'] == 'query') {
+              $scope.show.query[traceId] = span.binaryAnnotations[i]['value'];
+          };
+          if (span.binaryAnnotations[i]['key'] == 'qid') {
+            $scope.show.qid[traceId] = span.binaryAnnotations[i]['value'];
+          }; 
+          if (span.binaryAnnotations[i]['key'] == 'time') {
+            $scope.show.qtime[traceId] = span.binaryAnnotations[i]['value'];
+          };     
+        };
+      };
+      $scope.show.query[traceId] = $scope.show.query[traceId] || "empty query";
+      $scope.show.qid[traceId] = $scope.show.qid[traceId] || "empty qid";
+      $scope.show.qtime[traceId] = $scope.show.qtime[traceId] || "empty time";
+      $scope.show.spans[traceId] = spans;
+
+    });
   };
 
 }]);

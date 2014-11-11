@@ -19,41 +19,41 @@ angular.module('webApp', [
   })
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainController',
-        access: { requiredLogin: false }
-      })
-      .when('/wait', {
-        templateUrl: 'views/wait.html',
-        controller: 'AuthController',
-        access: { requiredLogin: false }
-      })
+      // .when('/', {
+      //   templateUrl: 'views/main.html',
+      //   controller: 'MainController',
+      //   access: { requiredLogin: false }
+      // })
+      // .when('/wait', {
+      //   templateUrl: 'views/wait.html',
+      //   controller: 'AuthController',
+      //   access: { requiredLogin: false }
+      // })
 
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'UserController',
-        access: { requiredAuthentication: false }
-      })
+      // .when('/login', {
+      //   templateUrl: 'views/login.html',
+      //   controller: 'UserController',
+      //   access: { requiredAuthentication: false }
+      // })
       // .when('/guest', {
       //   templateUrl: 'views/login.html',
       //   controller: 'GuestController',
       //   access: { requiredAuthentication: false }
       // })
-      .when('/join', {
-        templateUrl: 'views/join.html',
-        controller: 'UserController',
-        access: { requiredAuthentication: false }
-      })
+      // .when('/join', {
+      //   templateUrl: 'views/join.html',
+      //   controller: 'UserController',
+      //   access: { requiredAuthentication: false }
+      // })
 
       .when('/about', {
         templateUrl: 'views/about.html',
         access: { requiredAuthentication: false }
       })
-      .when('/guide', {
-        templateUrl: 'views/guide.html',
-        access: { requiredAuthentication: false }
-      })
+      // .when('/guide', {
+      //   templateUrl: 'views/guide.html',
+      //   access: { requiredAuthentication: false }
+      // })
 
 
       // .when('/home', {
@@ -101,10 +101,10 @@ angular.module('webApp', [
       //   controller: 'SettingsController',
       //   access: { requiredAuthentication: true }
       // })
-      .when('/home', {
+      .when('/', {
         templateUrl: 'views/zipkin_home.html',
         controller: 'ZipkinHomeController',
-        access: { requiredAuthentication: false }
+        access: { requiredAuthentication: false  }
       })
       .when('/traces/:traceId', {
         templateUrl: 'views/traces.html',

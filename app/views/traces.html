@@ -1,5 +1,5 @@
 <div class="section" style="padding-top: 100px;">
-  <div class="container" ng-controller="ZipkinHomeController">
+  <div class="container">
 
     <!-- trace controls begin -->
     <div id='trace-controls' class='row well well-sm'>
@@ -14,12 +14,12 @@
       <form class='form-inline' role='form'>
         <div class='btn-group btn-group-sm' id='filterAllServices'>
           <button type='button' class='btn btn-default' value='uiExpandAllSpans'>Expand All</button>
-          <button type='button' class='btn btn-default active' value='uiCollapseAllSpans'>Collapse All</button>
+          <button type='button' class='btn btn-default' value='uiCollapseAllSpans'>Collapse All</button>
           <script type="text/javascript">
             $('.btn-default').click(function () {
               var button = $(this);
               if (button.attr('value') === 'uiExpandAllSpans') {
-                $('.btn.active').toggleClass('active');
+                $('.btn-default.active').toggleClass('active');
                 button.toggleClass('active');
 
                 $('.service-filter-label').each(function () {
@@ -30,7 +30,7 @@
                   $(this).addClass('highlight');
                 });
               } else {
-                $('.btn.active').toggleClass('active');
+                $('.btn-default.active').toggleClass('active');
                 button.toggleClass('active');
 
                 $('.service-filter-label').each(function () {
@@ -72,6 +72,11 @@
           });
         });
         </script>
+        <div class='btn-group btn-group-sm'>
+
+          <button type='button' class='btn btn-primary' ng-click="openOrClose('open')" ng-class="{active: show.openAll}">Open all</button>
+          <button type='button' class='btn btn-primary' ng-click="openOrClose('close')" ng-class="{active: !show.openAll}">Close all</button>
+        </div>
       </form>
       <!-- trace form end -->
 
@@ -80,9 +85,14 @@
       </div>
     </div>
     <!-- trace controls end -->
-
+    <div class="row" style="padding-bottom: 20px;">
+      <span class="label label-primary" style="margin-right:20px;font-size:14px;font-weight:normal"popover-placement="top" popover="qid" popover-trigger="mouseenter">{{qid}} </span>
+      <span class="label label-success"style="margin-right:20px;font-size:14px;font-weight:normal"popover-placement="top" popover="query" popover-trigger="mouseenter">{{query}} </span>
+      <span class="label label-warning"popover-placement="top" style="font-size:14px;font-weight:normal"popover="time" popover-trigger="mouseenter">{{qtime}} </span>
+    </div>
     <!-- trace-container begin -->
     <div class='row' id='trace-container'>
+
       <div id='timeLabel' class='span'>
         <div class='handle'>Services</div>
         <div class='duration-container'>
@@ -102,8 +112,10 @@
         data-children='{{span.children}}'
         id='{{span.spanId}}'
         ng-repeat='span in spans'
-        ng-click="showModal(span)"
+        ng-init="show.show[span.spanId]=false;"
       >
+      <div ng-click="show.show[span.spanId] = !show.show[span.spanId];"
+>
         <div class='handle'>
           <div class='service-name' style='margin-left: {{span.depth}}px'>
             <span class='expander'>+</span>
@@ -131,14 +143,46 @@
             ></div>
           </div>
         </div>
+      </div>
+        <div collapse="!show.show[span.spanId]">
+        <!-- <div collapse="(!show.show[span.spanId])"> -->
+          <!-- spanPanel begin  -->
+          <div class=''style="padding-top:20px;">
+            <table id='annotations' class='table table-striped'>
+              <thead><tr>
+                <th>Relative Time</th>
+                <th>Duration</th>
+                <th>Service</th>
+                <th>Annotation</th>
+                <th>Host</th>
+              </tr></thead>
+              <tbody>
+                <tr ng-repeat="a in show.annos[span.spanId]">
+                  <td data-key='relativeTime'>{{a.relativeTime}}</td>
+                  <td data-key='duration'>{{a.duration}}</td>
+                  <td data-key='serviceName'>{{a.serviceName}}</td>
+                  <td data-key='value'>{{a.value}}</td>
+                  <td data-key='endpoint'>{{a.endpoint}}</td>
+                </tr>
+              </tbody>
+            </table>
 
-        <div ng-repeat='ba in span.binaryAnnotations'
-          class='binary-annotation'
-          data-keys='key,value,type'
-          data-key='{{ba.key}}'
-          data-value='{{ba.value}}'
-          data-type='{{ba.annotationType}}'
-        ></div>
+            <table id='binaryAnnotations' class='table table-striped'>
+              <thead><tr>
+                <th>Key</th>
+                <th>Value</th>
+              </tr></thead>
+              <tbody>
+                <tr ng-repeat="ba in show.binaAnnos[span.spanId] | orderBy: 'weight':true">
+                  <td class='key' data-key='key'>{{ba.key}}</td>
+                  <td class='value' data-key='value'>{{ba.value}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- spanPanel end -->
+
+        </div>
       </div>
     </div>
     <!-- trace-container end -->
