@@ -14,12 +14,12 @@
       <form class='form-inline' role='form'>
         <div class='btn-group btn-group-sm' id='filterAllServices'>
           <button type='button' class='btn btn-default' value='uiExpandAllSpans'>Expand All</button>
-          <button type='button' class='btn btn-default active' value='uiCollapseAllSpans'>Collapse All</button>
+          <button type='button' class='btn btn-default' value='uiCollapseAllSpans'>Collapse All</button>
           <script type="text/javascript">
             $('.btn-default').click(function () {
               var button = $(this);
               if (button.attr('value') === 'uiExpandAllSpans') {
-                $('.btn.active').toggleClass('active');
+                $('.btn-default.active').toggleClass('active');
                 button.toggleClass('active');
 
                 $('.service-filter-label').each(function () {
@@ -30,7 +30,7 @@
                   $(this).addClass('highlight');
                 });
               } else {
-                $('.btn.active').toggleClass('active');
+                $('.btn-default.active').toggleClass('active');
                 button.toggleClass('active');
 
                 $('.service-filter-label').each(function () {
@@ -72,6 +72,11 @@
           });
         });
         </script>
+        <div class='btn-group btn-group-sm'>
+
+          <button type='button' class='btn btn-primary' ng-click="openOrClose('open')" ng-class="{active: show.openAll}">Open all</button>
+          <button type='button' class='btn btn-primary' ng-click="openOrClose('close')" ng-class="{active: !show.openAll}">Close all</button>
+        </div>
       </form>
       <!-- trace form end -->
 
@@ -80,9 +85,14 @@
       </div>
     </div>
     <!-- trace controls end -->
-
+    <div class="row" style="padding-bottom: 20px;">
+      <span class="label label-primary" style="margin-right:20px;font-size:14px;font-weight:normal"popover-placement="top" popover="qid" popover-trigger="mouseenter">{{qid}} </span>
+      <span class="label label-success"style="margin-right:20px;font-size:14px;font-weight:normal"popover-placement="top" popover="query" popover-trigger="mouseenter">{{query}} </span>
+      <span class="label label-warning"popover-placement="top" style="font-size:14px;font-weight:normal"popover="time" popover-trigger="mouseenter">{{qtime}} </span>
+    </div>
     <!-- trace-container begin -->
     <div class='row' id='trace-container'>
+
       <div id='timeLabel' class='span'>
         <div class='handle'>Services</div>
         <div class='duration-container'>
@@ -104,7 +114,7 @@
         ng-repeat='span in spans'
         ng-init="show.show[span.spanId]=false;"
       >
-      <div ng-click="show.show[span.spanId] = !show.show[span.spanId]"
+      <div ng-click="show.show[span.spanId] = !show.show[span.spanId];"
 >
         <div class='handle'>
           <div class='service-name' style='margin-left: {{span.depth}}px'>
@@ -135,6 +145,7 @@
         </div>
       </div>
         <div collapse="!show.show[span.spanId]">
+        <!-- <div collapse="(!show.show[span.spanId])"> -->
           <!-- spanPanel begin  -->
           <div class=''style="padding-top:20px;">
             <table id='annotations' class='table table-striped'>

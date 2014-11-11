@@ -6,7 +6,6 @@
         <!-- servicename start -->
         <div class="form-group">
           <select ng-model="serviceName"  ng-change="getSpanNames(serviceName)"class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName" ng-options="service for service in services">
-            <option value="">--- choose a service ---</option>         
           </select>
         </div>
         <!-- servicename end -->
@@ -14,8 +13,6 @@
         <!-- span name start -->
         <div class="form-group">
           <select ng-model="spanName" class="form-control input-sm" style="width: 180px;" name="spanName" id="spanName" ng-options="span.name for span in spanNames">
-            <option value="">--- choose a span ---</option>         
-
           </select>
         </div>
         <!-- span name end -->
@@ -108,7 +105,7 @@
         <!-- limit end -->
         <!-- find traces start -->
         <div class="form-group">
-          <button type="submit" class="btn btn-default btn-sm" ng-click="findTraces(serviceName, spanName.name, startTimestamp, endTimestamp, limit, annotationQuery)">Find Traces</button>
+          <button type="submit" class="btn btn-default btn-sm" ng-click="findTraces(serviceName, spanName.name, startTimestamp, endTimestamp, limit, annotationQuery, currentValue)">Find Traces</button>
           <button type="button" class="btn btn-default btn-sm info-request" ng-click="openHelpModal()">
             <span class="glyphicon glyphicon-question-sign"></span>
           </button>
@@ -132,8 +129,8 @@
           <span class="selector">Sort:
             <select
               class="sort-order js-sort-order"
-              ng-model="ZipkinHomeController.currentValue"
-              ng-change="order(ZipkinHomeController.currentValue)">
+              ng-model="currentValue"
+              ng-change="order(currentValue)">
               <option selected value="duration-desc">Longest First</option>
               <option value="duration-asc">Shortest First</option>
               <option value="timestamp-desc">Newest First</option>
@@ -153,14 +150,19 @@
     <!-- trace list start -->
     <div class="row">
       <ul id="traces">
-        <li class="trace" data-traceId="{{trace.traceId}}" data-duration="{{trace.duration}}" data-timestamp="{{trace.timestamp}}" ng-repeat="trace in traces"ng-init="show.show[trace.traceId]=false;">
+        <li class="trace" data-traceId="{{trace.traceId}}" data-duration="{{trace.duration}}" data-timestamp="{{trace.timestamp}}" ng-repeat="trace in traces"ng-init="show.show[trace.traceId]=false;showTraceBrief(trace.traceId, trace.serviceName)">
+          <div>
+            <span class="label label-default" style="margin-right:20px;font-size:14px;font-weight:normal">{{show.qid[trace.traceId]}} </span>
+            <span class="label label-success"style="margin-right:20px;font-size:14px;font-weight:normal">{{show.query[trace.traceId]}} </span>
+            <span class="label label-default"popover-placement="top" style="font-size:14px;font-weight:normal">{{show.qtime[trace.traceId]}} </span>
+          </div>
           <div class="bar-block">
-            
+            <a href="/traces/{{trace.traceId}}?serviceName={{trace.serviceName}}" target="_blank">
             <span class="bar-graphic" style="width:{{trace.width}}%;"></span>
-            <a href="/traces/{{trace.traceId}}?serviceName={{trace.serviceName}}" target="_blank"><span class="bar-label">{{trace.durationStr}}</span>
-            <span class="bar-label" style="padding-right:50px;">{{trace.spanCount}} spans</span></a>
-            <a ng-click="showTraceBrief(trace.traceId, trace.serviceName)" style="cursor:default;"><span class="pull-right"style="padding-left:20px;padding-right:20px;cursor:default">
-            <i class="glyphicon" ng-class="{'glyphicon-chevron-down': show.show[trace.traceId], 'glyphicon-chevron-right': !show.show[trace.traceId]}"></i></span></a>
+            <span class="bar-label"style="">{{trace.durationStr}}</span>
+            <span class="bar-label" >{{trace.spanCount}} spans</span></a>
+            <a ng-click="show.show[trace.traceId] = !show.show[trace.traceId];" style="cursor:pointer;"><span class="pull-right"style="cursor:pointer">
+            <i class="glyphicon" style="padding-left:200px;padding-right:50px;"ng-class="{'glyphicon-chevron-down': show.show[trace.traceId], 'glyphicon-chevron-right': !show.show[trace.traceId]}"></i></span></a>
           </div>
           <div class="trace-details services" style="min-height:23px">
             <span class="label label-default service-filter-label" data-service-name="{{name}}" ng-repeat="serviceCount in trace.serviceCounts">{{serviceCount.name}} x{{serviceCount.count}} </span>
@@ -171,6 +173,7 @@
           <div collapse="!show.show[trace.traceId]">
             <!-- trace-container begin -->
             <div id='trace-container' >
+
               <div id='timeLabel' class='span'>
                 <div class='handle no-pointer'>Services</div>
                 <div class='duration-container no-pointer'>

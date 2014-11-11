@@ -18,45 +18,9 @@ angular.module('webApp')
   $scope.show.binaAnnos = [];
   $scope.show.serviceNames = [];
   $scope.show.durationStr = [];
+  $scope.show.openAll = false;
 
 
-  // $scope.showModal = function(span) {
-
-  //   var modalInstance = $modal.open({
-  //     templateUrl: 'views/trace_detail.html',
-  //     controller: ModalInstanceCtrl,
-  //     resolve: {
-  //       span: function(){
-  //         return span;
-  //     }
-  //   }
-  //   });
-
-  //   modalInstance.result.then(function() {});
-  // };
-
-  $scope.showSpanDetail = function(span){
-    var id = span.spanId;
-    
-  };
-  // var ModalInstanceCtrl = function($scope, $location, $routeParams, $modalInstance, span) {
-  //   for (var i = span.binaryAnnotations.length - 1; i >= 0; i--) {
-  //     span.binaryAnnotations[i]['weight'] = getKeyWeight(span.binaryAnnotations[i]['key']);
-  //   };
-  //   $scope.annos = span.annotations;
-  //   $scope.binaAnnos = span.binaryAnnotations;
-  //   $scope.serviceNames = span.serviceNames;
-  //   $scope.durationStr = span.durationStr;
-  //   $scope.url = $location.path() + '?serviceName=' + $routeParams.serviceName + '&spanId=' + span.spanId;
-
-  //   $scope.ok = function() {
-  //     $modalInstance.close($scope);
-  //   };
-  //   $scope.cancel = function() {
-  //     $modalInstance.close($scope);
-  //   };
-  // };
-  // ModalInstanceCtrl.$inject = ['$scope', '$location', '$routeParams', '$modalInstance', 'span'];
   function getKeyWeight(key){
     switch(key){
       case 'query':
@@ -86,6 +50,20 @@ angular.module('webApp')
     }
 
   };
+
+  $scope.openOrClose = function(action){
+    var open = false;
+    $scope.show.openAll = false;
+    if (action == "open") {
+      open = true;
+      $scope.show.openAll = true;
+    };
+    for (var k in $scope.show.show) {
+      $scope.show.show[k] = open;
+    };
+    
+  };
+
   function getTrace () {
     var url = "zipkin/trace/" + traceId + "/?service_name=" + serviceName;
     $http.get(ApiBaseUrl + url).success(function (response) {
@@ -100,9 +78,19 @@ angular.module('webApp')
       var id = '';
       for (var j = spans.length - 1; j >= 0; j--) {
         span = spans[j];
+        
 
         for (var i = span.binaryAnnotations.length - 1; i >= 0; i--) {
           span.binaryAnnotations[i]['weight'] = getKeyWeight(span.binaryAnnotations[i]['key']);
+          if (span.binaryAnnotations[i]['key'] == 'query') {
+              $scope.query = span.binaryAnnotations[i]['value'];
+          };
+          if (span.binaryAnnotations[i]['key'] == 'qid') {
+            $scope.qid = span.binaryAnnotations[i]['value'];
+          }; 
+          if (span.binaryAnnotations[i]['key'] == 'time') {
+            $scope.qtime = span.binaryAnnotations[i]['value'];
+          };     
         };
         id = span.spanId;
         $scope.show.annos[id] = span.annotations;
@@ -110,6 +98,9 @@ angular.module('webApp')
         $scope.show.serviceNames[id] = span.serviceNames;
         $scope.show.durationStr[id] = span.durationStr;
       };
+      $scope.query = $scope.query || "empty query";
+      $scope.qid = $scope.qid || "empty qid";
+      $scope.qtime = $scope.qtime || "empty time";
       $scope.spans = spans;
 
     });
