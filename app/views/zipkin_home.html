@@ -150,18 +150,23 @@
     <!-- trace list start -->
     <div class="row">
       <ul id="traces">
-        <li class="trace" data-traceId="{{trace.traceId}}" data-duration="{{trace.duration}}" data-timestamp="{{trace.timestamp}}" ng-repeat="trace in traces"ng-init="show.show[trace.traceId]=false;showTraceBrief(trace.traceId, trace.serviceName)">
+        <li class="trace" data-traceId="{{trace.traceId}}" data-duration="{{trace.duration}}" data-timestamp="{{trace.timestamp}}" ng-repeat="trace in traces"ng-init="show.show[trace.traceId]=false;">
           <div>
-            <span class="label label-default" style="margin-right:20px;font-size:14px;font-weight:normal">{{show.qid[trace.traceId]}} </span>
-            <span class="label label-success"style="margin-right:20px;font-size:14px;font-weight:normal">{{show.query[trace.traceId]}} </span>
-            <span class="label label-default"popover-placement="top" style="font-size:14px;font-weight:normal">{{show.qtime[trace.traceId]}} </span>
+            <!-- <span>{{trace.traceId}}</span>
+            <span>{{sho w.query}}</span>-->
+            <!-- <span>{{show.qid}}</span> -->
+            <!-- <span>{{show.qtime}}</span> -->
+
+            <span class="label label-default" style="margin-right:20px;font-size:14px;font-weight:normal">{{show.query[trace.traceId].qid || 'empty qid'}} </span>
+            <span class="label label-success"style="margin-right:20px;font-size:14px;font-weight:normal">{{show.query[trace.traceId].query|| 'empty query'}} </span>
+            <span class="label label-default"popover-placement="top" style="font-size:14px;font-weight:normal">{{show.query[trace.traceId].qtime || 'empty time'}} </span>
           </div>
           <div class="bar-block">
             <a href="/traces/{{trace.traceId}}?serviceName={{trace.serviceName}}" target="_blank">
             <span class="bar-graphic" style="width:{{trace.width}}%;"></span>
             <span class="bar-label"style="">{{trace.durationStr}}</span>
             <span class="bar-label" >{{trace.spanCount}} spans</span></a>
-            <a ng-click="show.show[trace.traceId] = !show.show[trace.traceId];" style="cursor:pointer;"><span class="pull-right"style="cursor:pointer">
+            <a ng-click="showTraceBrief(trace.traceId, trace.serviceName);" style="cursor:pointer;"><span class="pull-right"style="cursor:pointer">
             <i class="glyphicon" style="padding-left:200px;padding-right:50px;"ng-class="{'glyphicon-chevron-down': show.show[trace.traceId], 'glyphicon-chevron-right': !show.show[trace.traceId]}"></i></span></a>
           </div>
           <div class="trace-details services" style="min-height:23px">
