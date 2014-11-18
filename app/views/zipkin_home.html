@@ -5,7 +5,7 @@
       <form class="form-inline" role="form" style="padding-bottom:10px;">
         <!-- servicename start -->
         <div class="form-group">
-          <select ng-model="serviceName"  ng-change="getSpanNames(serviceName)"class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName" ng-options="service for service in services">
+          <select ng-model="serviceName"  ng-change="getSpanNames(serviceName)"class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName" ng-options="service.name for service in services">
           </select>
         </div>
         <!-- servicename end -->

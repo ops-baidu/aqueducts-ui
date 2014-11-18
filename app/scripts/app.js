@@ -19,32 +19,32 @@ angular.module('webApp', [
   })
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      // .when('/', {
-      //   templateUrl: 'views/main.html',
-      //   controller: 'MainController',
-      //   access: { requiredLogin: false }
-      // })
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainController',
+        access: { requiredLogin: false }
+      })
       // .when('/wait', {
       //   templateUrl: 'views/wait.html',
       //   controller: 'AuthController',
       //   access: { requiredLogin: false }
       // })
 
-      // .when('/login', {
-      //   templateUrl: 'views/login.html',
-      //   controller: 'UserController',
-      //   access: { requiredAuthentication: false }
-      // })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'UserController',
+        access: { requiredAuthentication: false }
+      })
       // .when('/guest', {
       //   templateUrl: 'views/login.html',
       //   controller: 'GuestController',
       //   access: { requiredAuthentication: false }
       // })
-      // .when('/join', {
-      //   templateUrl: 'views/join.html',
-      //   controller: 'UserController',
-      //   access: { requiredAuthentication: false }
-      // })
+      .when('/join', {
+        templateUrl: 'views/join.html',
+        controller: 'UserController',
+        access: { requiredAuthentication: false }
+      })
 
       .when('/about', {
         templateUrl: 'views/about.html',
@@ -56,11 +56,11 @@ angular.module('webApp', [
       // })
 
 
-      // .when('/home', {
-      //   templateUrl: 'views/user_home.html',
-      //   controller: 'UserHomeController',
-      //   access: { requiredAuthentication: true }
-      // })
+      .when('/home', {
+        templateUrl: 'views/user_home.html',
+        controller: 'UserHomeController',
+        access: { requiredAuthentication: true }
+      })
 
       // .when('/users/:username/:service_name', {
       //   templateUrl: 'views/user_job_list.html',
@@ -69,43 +69,24 @@ angular.module('webApp', [
       // })
 
     
-      // .when('/orgs/:orgname', {
-      //   templateUrl: 'views/org_home.html',
-      //   controller: 'OrgHomeController',
-      //   access: { requiredAuthentication: true }
-      // })
-      // .when('/orgs/:orgname/:service_name', {
-      //   templateUrl: 'views/org_job_list.html',
-      //   controller: 'OrgJobController',
-      //   access: { requiredAuthentication: true }
-      // })
-
-
-      // .when('/orgs/:orgname/services/new', {
-      //   templateUrl: 'views/new_service.html',
-      //   controller: 'OrgServiceController',
-      //   access: { requiredAuthentication: true }
-      // })
-      // .when('/new/org', {
-      //   templateUrl: 'views/new_org.html',
-      //   controller: 'OrganizationController',
-      //   access: { requiredAuthentication: true }
-      // })
-      // .when('/new', {
-      //   templateUrl: 'views/new_service.html',
-      //   controller: 'UserServiceController',
-      //   access: { requiredAuthentication: true }
-      // })
-      // .when('/settings', {
-      //   templateUrl: 'views/settings.html',
-      //   controller: 'SettingsController',
-      //   access: { requiredAuthentication: true }
-      // })
-      .when('/', {
+      .when('/orgs/:orgname', {
         templateUrl: 'views/zipkin_home.html',
         controller: 'ZipkinHomeController',
-        access: { requiredAuthentication: false  }
+        access: { requiredAuthentication: false }
       })
+      
+      .when('/new/org', {
+        templateUrl: 'views/new_org.html',
+        controller: 'OrganizationController',
+        access: { requiredAuthentication: true }
+      })
+
+      .when('/settings', {
+        templateUrl: 'views/settings.html',
+        controller: 'SettingsController',
+        access: { requiredAuthentication: true }
+      })
+      
       .when('/traces/:traceId', {
         templateUrl: 'views/traces.html',
         controller: 'TracesController',

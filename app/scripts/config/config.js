@@ -1,8 +1,8 @@
 'use strict';
 
-var host = 'http://api.dtrace.aqueducts.baidu.com';
+// var host = 'http://api.dtrace.aqueducts.baidu.com';
 // var host = 'http://10.38.137.32:8082';
-// var host = 'http://127.0.0.1:3000';
+var host = 'http://127.0.0.1:3000';
 // var host = 'http://10.81.37.247:8128';
 
 // var host = 'http://10.36.52.55:8080';

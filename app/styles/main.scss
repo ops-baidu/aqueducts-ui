@@ -444,3 +444,24 @@ a.list-group-item.active, a.list-group-item.active:focus, a.list-group-item.acti
 .timepicker-form {
   width: 100%;
 }
+
+.box {
+  height: 200px;
+  width: 200px;
+  background-color: #9AB270;
+  border-radius: 5px;
+  line-height:200px;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+
+}
+
+.private-box {
+  background-color: #F38630;
+
+}
+
+.new-box {
+  background-color: #aeaeae;
+}
