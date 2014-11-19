@@ -343,13 +343,13 @@ ul ul, ol ul {
   overflow-y: hidden;
   position: relative;
 }
-.panel-default {
-  min-height: 350px;
-}
+// .panel-default {
+//   min-height: 350px;
+// }
 
-.panel-mini {
-  min-height: 170px;
-}
+// .panel-mini {
+//   max-height: 170px;
+// }
 .services {
   min-height: 600px;
 }
@@ -457,11 +457,68 @@ a.list-group-item.active, a.list-group-item.active:focus, a.list-group-item.acti
 
 }
 
+
 .private-box {
   background-color: #F38630;
 
 }
+.box:hover {
+  background-color: #789048;
 
+}
+
+.private-box:hover {
+  background-color: #E15E32;
+
+}
 .new-box {
   background-color: #aeaeae;
+}
+
+.new-box:hover{
+  background-color: #949494;
+}
+
+
+
+.list {
+  list-style: none outside none;
+  margin: 10px 0 30px;
+}
+
+.item {
+  width: 200px;
+  padding: 8px 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #9AB270;
+  color: white;
+
+  font-size: 18px;
+  text-align: center;
+  cursor: move;
+}
+.item:hover {
+  background-color: #F38630;
+  
+}
+.hovercolor {
+  background-color: #F38630;
+}
+.operations {
+  padding: 8px 10px;
+  margin: 5px 0;
+  display:inline-block;
+  width: 200px;
+
+}
+
+.floatleft {
+  float: left;
+}
+
+.operation-large {
+  width: auto;
+
 }

@@ -34,7 +34,7 @@
               </div>
             </li>
           
-            <li ng-if="isLoggedIn()" class="dropdown">
+            <!-- <li ng-if="isLoggedIn()" class="dropdown">
               <a role="button" id="drop1" data-toggle="dropdown" href="#" class="dropdown-toggle" aria-describedby="Create new...">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="caret"></span>
@@ -48,15 +48,15 @@
               </ul>
 
 
-            </li>
+            </li> -->
+            <li ng-if="isLoggedIn()"><a href="#/settings"><span popover-placement="bottom" popover="Settings" popover-trigger="mouseenter"class="glyphicon glyphicon-cog"></span></a></li>
 
-            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></a></li>
+            <li ng-if="isLoggedIn()"><a href="#/logout" ng-click="logout()"><span class="glyphicon glyphicon-log-out"popover-placement="bottom" popover-trigger="mouseenter"popover="Logout"></span></a></li>
 
             <!-- <li ng-if="!isLoggedIn()"><a href="#/guest">GUEST</a></li> -->
 
             <li ng-if="!isLoggedIn()"><a href="#/login">LOGIN</a></li>
             <li ng-if="!isLoggedIn()"><a href="#/join">SIGN UP</a></li>
-            <li ng-if="isLoggedIn()"><a href="#/settings"><span popover-placement="bottom" popover="Settings" popover-trigger="mouseenter"class="glyphicon glyphicon-cog"></span></a></li>
 
           </ul>
         </div>

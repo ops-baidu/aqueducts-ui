@@ -25,6 +25,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$routeParams', '$m
   function getModules () {
     Restangular.one('orgs', orgname).all('modules').getList().then(function(modules) {
       $scope.services = modules;
+      $scope.service = modules[0];
     });
   };
 

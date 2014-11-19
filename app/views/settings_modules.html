@@ -18,12 +18,26 @@
         </div>
         <div class="form-group" style="padding-left: 10px;">
           <button class="btn btn-primary" type="submit" ng-disabled="addModuleForm.$invalid"ng-click="addModule(name, desc)">Add module</button>
+
         </div>
       </form>
     </div>
     <div>
-      <div class="col-md-3"style="padding: 0 40px 15px 0px;"ng-repeat="module in modules">
-        <span popover="{{module.desc}}" popover-trigger="mouseenter"class="bg-warning" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;">{{module.name}}</span>
+      <form class="form-inline" role="form"style="padding-bottom:50px;">
+        <span style="padding-right:150px;font-size:18px;">Modules from top to bottom:</span>
+        <button class="btn btn-warning" type="submit" ng-click="saveModuleOrder(modules)">Save order</button>
+      </form>
+        
+      <div class="floatleft">
+
+        <ul ui-sortable="modules" ng-model="modules" class="list">
+          <li ng-repeat="module in modules" ng-mouseenter="showOperations = true"ng-mouseleave="showOperations = false" class="">
+            <div ng-class="{hovercolor: hover}"class="item" style="display:inline-block">{{module.name}}</div>
+            <div class="operations"ng-mouseenter="hover=true"ng-mouseleave="hover=false">
+              <a ng-show="showOperations" ng-click="removeModule(module, $index)" style="padding-left:50px;padding-right:50px;cursor:pointer;"><span class="glyphicon glyphicon-trash" style="padding-right:20px;"></span><span>remove</span></a>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

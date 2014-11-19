@@ -1,42 +1,49 @@
-<div class="panel panel-default settings"ng-init="open=true;">
+<div class="panel panel-default settings" >
   <div class="panel-heading">
-    <h3 class="panel-title">System default tags
-    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}" ng-click="open=!open;"></i>
-    </h3>
-    
-  </div>
-  <div class="panel-body" collapse="!open">
-    <div class="col-md-3"ng-repeat="tag in sysTags" style="padding: 0 40px 15px 20px;">
-      <span popover="{{tag.description}}" popover-trigger="mouseenter" class="bg-success" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;">{{tag.name}}</span>
-    </div>
-  </div>
-</div>
-<div class="panel panel-default settings">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{tab.context}} custom tags</h3>
+    <h3 class="panel-title">{{tab.context}} annotations</h3>
   </div>
   <div class="panel-body">
     <div>
       <alert ng-repeat="alert in page.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
     <div style="padding-bottom: 20px;">
-      <form class="form-inline" role="form" name="addTagForm">
-        <div class="form-group"ng-class="{'has-error': addTagForm.name.$invalid && addTagForm.name.$dirty, 'has-success' : addTagForm.name.$vaild && addTagForm.name.$dirty}">
-          <label class="sr-only" for="name">Tag name</label>
-          <input class="form-control" id="name" required cu-focus ng-model="name"placeholder="tag name">
+      <form class="form-inline" role="form" name="addAnnotationForm">
+        <div class="form-group">
+          <select ng-model="module" class="form-control input-sm" ng-change="getAnnotations(module)"ng-options="module.name for module in modules">
+          </select>
+        </div>
+        <div class="form-group"ng-class="{'has-error': addAnnotationForm.name.$invalid && addAnnotationForm.name.$dirty, 'has-success' : addAnnotationForm.name.$vaild && addAnnotationForm.name.$dirty}">
+          <label class="sr-only" for="name">Annotation name</label>
+          <input class="form-control" id="name" required cu-focus ng-model="name"placeholder="annotation name">
         </div>
         <div class="form-group">
           <label class="sr-only" for="desc">Description</label>
           <input class="form-control" id="desc" ng-model="desc"placeholder="description">
         </div>
         <div class="form-group" style="padding-left: 10px;">
-          <button class="btn btn-primary" type="submit" ng-disabled="addTagForm.$invalid"ng-click="addTag(name, desc)">Add tag</button>
+          <button class="btn btn-primary" type="submit" ng-disabled="addAnnotationForm.$invalid"ng-click="addAnnotation(name, desc, module)">Add annotation</button>
         </div>
       </form>
     </div>
     <div>
-      <div class="col-md-3"style="padding: 0 40px 15px 0px;"ng-repeat="tag in customTags">
-        <span popover="{{tag.description}}" popover-trigger="mouseenter"class="bg-warning" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;">{{tag.name}}</span>
+      <form class="form-inline" role="form"style="padding-bottom:50px;">
+        <span style="padding-right:150px;font-size:18px;">Annotations from top to bottom:</span>
+        <button class="btn btn-warning" type="submit" ng-click="saveAnnoOrder(modules)">Save order</button>
+      </form>
+      <div class="floatleft">
+        <ul ui-sortable="annotations" ng-model="annotations" class="list">
+          <li ng-repeat="anno in annotations" ng-mouseenter="showOperations = true"ng-mouseleave="showOperations = false" >
+            <div ng-class="{hovercolor: hover}"class="item" style="display:inline-block">{{anno.name}}</div>
+            <div class="operations operation-large"ng-mouseenter="hover=true"ng-mouseleave="hover=false">
+              
+              <a style="padding-left:20px;cursor:pointer;"><span ng-show="showOperations" ng-click="highlightAnnotationOnFrontPage(anno, $index)">highlight1</span></a>
+              <a style="padding-left:40px;cursor:pointer;"><span ng-show="showOperations" ng-click="highlightAnnotationOnDetailPage(anno, $index)">highlight2</span></a>
+
+              <a ng-show="showOperations" ng-click="removeAnnotation(anno, $index)" style="padding-left:40px;cursor:pointer;"><span>remove</span></a>
+            </div>
+            
+          </li>
+        </ul>
       </div>
     </div>
   </div>

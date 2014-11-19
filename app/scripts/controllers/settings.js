@@ -14,6 +14,7 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
   $scope.userTab.active = 2;
   $scope.active = true;
   $scope.orgTab = Object();
+  $scope.orgTab.open = false;
   $scope.page = Object();
   $scope.page.alerts = [];
 
@@ -26,12 +27,7 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
     $scope.user = user;
     if (user.name == "guest") {$scope.guest = true;};
   });
-  // $scope.getUserTags = function(){
-  //   Restangular.all('user').all('tags').getList().then(function(tags){
-  //     $scope.customTags = tags;
-  //   });
-  // };
-
+  
   $scope.closeAlert = function(index) {
     $scope.page.alerts.splice(index, 1);
   };
@@ -39,7 +35,7 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
   $scope.addModule = function(name, desc){
     var module = Object();
     module.name = name;
-    tag.desc = desc;
+    module.desc = desc;
     // if ($scope.tab.context == 'User') {
     //   Restangular.all('user').all('modules').post(tag).then(function(){
     //     $scope.page.alerts.push({type: 'success', msg: 'success'});
@@ -58,15 +54,35 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
     // }
 
   };
-
-  $scope.addAnnotation = function(name, desc, moduleName){
+  $scope.getAnnotations = function(module) {
+    module.all('annotations').getList().then(function(annotations){
+      $scope.annotations = annotations;
+    });
+  };
+  $scope.removeModule = function(module, index) {
+    module.remove().then(function() {
+      $scope.modules.splice(index, 1);      
+      $scope.page.alerts.push({type: 'success', msg: 'success'});
+    }, function (response) {
+      $scope.page.alerts.push({type: 'danger', msg: 'failed'});
+    });
+  };
+  $scope.removeAnnotation = function(annotation, index) {
+    annotation.remove().then(function() {
+      $scope.annotations.splice(index, 1);      
+      $scope.page.alerts.push({type: 'success', msg: 'success'});
+    }, function (response) {
+      $scope.page.alerts.push({type: 'danger', msg: 'failed'});
+    });
+  };
+  $scope.addAnnotation = function(name, desc, module){
     var anno = Object();
     anno.name = name;
     anno.desc = desc;
     var orgname = $scope.tab.context;
-    Restangular.one('orgs', orgname).one('modules', moduleName).all()post(tag).then(function(){
+    module.all('annotations').post(anno).then(function(){
       $scope.page.alerts.push({type: 'success', msg: 'success'});
-      $scope.customTags.push(tag);
+      $scope.annotations.push(anno);
     }, function(response){
       $scope.page.alerts.push({type: 'danger', msg: response.data.message});
     });
@@ -84,33 +100,42 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
       $scope.annotations = annotations;
     });
   };
-  // $scope.resetToken = function(){
-  //   Restangular.all('user').customPOST({}, "reset_token", {}, {}).then(function(token){
-  //     tokenService.setToken(token.token);
-  //     $scope.user.authentication_token = token.token;
-  //   });
-  // };
+  $scope.resetToken = function(){
+    Restangular.all('user').customPOST({}, "reset_token", {}, {}).then(function(token){
+      tokenService.setToken(token.token);
+      $scope.user.authentication_token = token.token;
+    });
+  };
+  $scope.saveModuleOrder = function(modules){
+    for (var i = modules.length - 1; i >= 0; i--) {
+      modules[i].put();
+    };
 
-  // $scope.changePassword = function(old, new_pass){
-  //   Restangular.all('user').customPOST({old: old, 'new': new_pass}, "change_password", {}, {}).then(function(){
-  //     $route.reload();
-  //   }, function() {
-  //     $scope.changePasswordFailed = true;
-  //   });
-  // };
-  // $scope.changeEmail = function(email){
-  //   Restangular.all('user').customPOST({email: email}, "change_email", {}, {}).then(function(){
-  //     $route.reload();
-  //   }, function() {
-  //     $scope.changeEmailFailed = true;
-  //   });
-  // };
-  // $scope.changeUsername = function(name) {
-  //   Restangular.all('user').customPOST({name: name}, "change_name", {}, {}).then(function(){
-  //     $route.reload();
-  //   }, function() {
-  //     $scope.changeUsernameFailed = true;
-  //   });
-  // };
+  };
+
+  $scope.saveAnnoOrder = function(annotations, module){
+
+  };
+  $scope.changePassword = function(old, new_pass){
+    Restangular.all('user').customPOST({old: old, 'new': new_pass}, "change_password", {}, {}).then(function(){
+      $route.reload();
+    }, function() {
+      $scope.changePasswordFailed = true;
+    });
+  };
+  $scope.changeEmail = function(email){
+    Restangular.all('user').customPOST({email: email}, "change_email", {}, {}).then(function(){
+      $route.reload();
+    }, function() {
+      $scope.changeEmailFailed = true;
+    });
+  };
+  $scope.changeUsername = function(name) {
+    Restangular.all('user').customPOST({name: name}, "change_name", {}, {}).then(function(){
+      $route.reload();
+    }, function() {
+      $scope.changeUsernameFailed = true;
+    });
+  };
 
 }]);

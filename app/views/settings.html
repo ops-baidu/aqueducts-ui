@@ -2,14 +2,14 @@
   <div class="container with-margin">
     <div class="row">
       <div class="col-xs-6 col-md-3">
-        <accordion>
-          <accordion-group heading="{{user.name}}" is-open="userTab.open" ng-click="orgTab.active=0;page.alerts=[]">
+        <accordion style="cursor: pointer;">
+          <accordion-group heading="{{user.name}}" is-open="userTab.open" ng-click="orgTab.active=0;page.alerts=[]" class="panel-mini">
             <tabset vertical="true" type="pills">
               <tab heading="Access token" ng-click="userTab.active=2"></tab>
               <tab heading="Account settings" ng-show="!guest" ng-click="userTab.active=1"></tab>
             </tabset>
           </accordion-group>
-          <accordion-group ng-repeat="org in orgs" heading="{{org.name}}" ng-click="userTab.active=0;userTab.open=false;tab.context=org.name;getOrgModules(org.name);page.alerts=[]">
+          <accordion-group class="panel-mini" ng-repeat="org in orgs" heading="{{org.name}}" ng-click="userTab.active=0;userTab.open=false;tab.context=org.name;getOrgModules(org.name);page.alerts=[]">
             <tabset vertical="true" type="pills">
               <tab heading="Modules" ng-click="orgTab.active=1;getOrgModules(org.name)"></tab>
               <tab heading="Annotations" ng-click="orgTab.active=2;"></tab>
@@ -18,18 +18,16 @@
         </accordion>
       </div>
       <div class="col-xs-6 col-md-8 col-md-offset-1">
-        <div ng-show="userTab.active==1" ng-include src="'views/v3/settings_account.html'">
+        <div ng-show="userTab.active==1" ng-include src="'views/settings_account.html'">
         </div>
 
 
-        <div ng-show="userTab.active==2" ng-include src="'views/v3/settings_token.html'">
+        <div ng-show="userTab.active==2" ng-include src="'views/settings_token.html'">
         </div>
 
-        <div ng-show="userTab.active==3" ng-include src="'views/v3/settings_tags.html'">
+        <div ng-show="orgTab.active==1" ng-include src="'views/settings_modules.html'">
         </div>
-        <div ng-show="orgTab.active==1" ng-include src="'views/v3/settings_modules.html'">
-        </div>
-        <div ng-show="orgTab.active==2" ng-include src="'views/v3/settings_annotations.html'">
+        <div ng-show="orgTab.active==2" ng-include src="'views/settings_annotations.html'">
         </div>
       </div>
     </div>

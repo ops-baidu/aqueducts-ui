@@ -12,7 +12,8 @@ angular.module('webApp', [
   'headroom',
   'dialogs.main',
   'pascalprecht.translate',
-  'dialogs.default-translations'
+  'dialogs.default-translations',
+  'ui.sortable'
 ])
   .config(function($httpProvider){
     $httpProvider.interceptors.push('tokenInterceptor');
