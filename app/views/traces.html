@@ -86,9 +86,7 @@
     </div>
     <!-- trace controls end -->
     <div class="row" style="padding-bottom: 20px;">
-      <span class="label label-primary" style="margin-right:20px;font-size:14px;font-weight:normal"popover-placement="top" popover="qid" popover-trigger="mouseenter">{{qid}} </span>
-      <span class="label label-success"style="margin-right:20px;font-size:14px;font-weight:normal"popover-placement="top" popover="query" popover-trigger="mouseenter">{{query}} </span>
-      <span class="label label-warning"popover-placement="top" style="font-size:14px;font-weight:normal"popover="time" popover-trigger="mouseenter">{{qtime}} </span>
+      <span class="label label-diy" style="margin-right:20px;font-size:14px;font-weight:normal;"ng-repeat="item in highlight">{{item}} </span>
     </div>
     <!-- trace-container begin -->
     <div class='row' id='trace-container'>
@@ -114,8 +112,7 @@
         ng-repeat='span in spans'
         ng-init="show.show[span.spanId]=false;"
       >
-      <div ng-click="show.show[span.spanId] = !show.show[span.spanId];"
->
+      <div ng-click="show.show[span.spanId] = !show.show[span.spanId];">
         <div class='handle'>
           <div class='service-name' style='margin-left: {{span.depth}}px'>
             <span class='expander'>+</span>
@@ -173,8 +170,8 @@
                 <th>Value</th>
               </tr></thead>
               <tbody>
-                <tr ng-repeat="ba in show.binaAnnos[span.spanId] | orderBy: 'weight':true">
-                  <td class='key' data-key='key'>{{ba.key}}</td>
+                <tr ng-repeat="ba in show.binaAnnos[span.spanId]">
+                  <td class='key' data-key='key'><span ng-show="$index==1 || show.binaAnnos[span.spanId][$index-1].key!=ba.key">{{ba.key}}</span></td>
                   <td class='value' data-key='value'>{{ba.value}}</td>
                 </tr>
               </tbody>

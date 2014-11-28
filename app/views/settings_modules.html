@@ -27,11 +27,10 @@
         <span style="padding-right:150px;font-size:18px;">Modules from top to bottom:</span>
         <button class="btn btn-warning" type="submit" ng-click="saveModuleOrder(modules)">Save order</button>
       </form>
-        
       <div class="floatleft">
 
-        <ul ui-sortable="modules" ng-model="modules" class="list">
-          <li ng-repeat="module in modules" ng-mouseenter="showOperations = true"ng-mouseleave="showOperations = false" class="">
+        <ul ui-sortable="sortableOptionsModule" ng-model="modules" class="list">
+          <li ng-repeat="module in modules" ng-mouseenter="showOperations = true" ng-mouseleave="showOperations = false" class="">
             <div ng-class="{hovercolor: hover}"class="item" style="display:inline-block">{{module.name}}</div>
             <div class="operations"ng-mouseenter="hover=true"ng-mouseleave="hover=false">
               <a ng-show="showOperations" ng-click="removeModule(module, $index)" style="padding-left:50px;padding-right:50px;cursor:pointer;"><span class="glyphicon glyphicon-trash" style="padding-right:20px;"></span><span>remove</span></a>

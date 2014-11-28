@@ -88,7 +88,7 @@ angular.module('webApp', [
         access: { requiredAuthentication: true }
       })
       
-      .when('/traces/:traceId', {
+      .when('/traces/:orgname/:moduleId/:traceId', {
         templateUrl: 'views/traces.html',
         controller: 'TracesController',
         access: { requiredAuthentication: false }

@@ -28,20 +28,23 @@
     <div>
       <form class="form-inline" role="form"style="padding-bottom:50px;">
         <span style="padding-right:150px;font-size:18px;">Annotations from top to bottom:</span>
-        <button class="btn btn-warning" type="submit" ng-click="saveAnnoOrder(modules)">Save order</button>
+        <button class="btn btn-warning" type="submit" ng-click="saveAnnoOrder(annotations)">Save order</button>
       </form>
       <div class="floatleft">
-        <ul ui-sortable="annotations" ng-model="annotations" class="list">
+        <ul ui-sortable="sortableOptionsAnnotation" ng-model="annotations" class="list">
           <li ng-repeat="anno in annotations" ng-mouseenter="showOperations = true"ng-mouseleave="showOperations = false" >
-            <div ng-class="{hovercolor: hover}"class="item" style="display:inline-block">{{anno.name}}</div>
-            <div class="operations operation-large"ng-mouseenter="hover=true"ng-mouseleave="hover=false">
-              
+            <div ng-class="{hovercolor: hover}" class="item" style="display:inline-block;text-align:center">{{anno.name}}
+              <span ng-show="anno.highlight2"class="pull-right"style="vertical-align:middle;background-color:#949494;font-size:10px;color:white;padding: 2px 6px 2px 6px;border-radius:50%;margin-top:3px;margin-left:3px;">2</span>
+
+              <span ng-show="anno.highlight1"class="pull-right"style="vertical-align:middle;background-color:#949494;font-size:10px;color:white;padding: 2px 6px 2px 6px;border-radius:50%;margin-top:3px;">1</span>
+
+            </div>
+            <div class="operations operation-large" ng-mouseenter="hover=true" ng-mouseleave="hover=false">
               <a style="padding-left:20px;cursor:pointer;"><span ng-show="showOperations" ng-click="highlightAnnotationOnFrontPage(anno, $index)">highlight1</span></a>
               <a style="padding-left:40px;cursor:pointer;"><span ng-show="showOperations" ng-click="highlightAnnotationOnDetailPage(anno, $index)">highlight2</span></a>
 
               <a ng-show="showOperations" ng-click="removeAnnotation(anno, $index)" style="padding-left:40px;cursor:pointer;"><span>remove</span></a>
             </div>
-            
           </li>
         </ul>
       </div>

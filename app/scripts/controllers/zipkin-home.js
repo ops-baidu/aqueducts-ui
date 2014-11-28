@@ -15,16 +15,14 @@ angular.module('webApp').controller('ZipkinHomeController', ['$routeParams', '$m
   $scope.show.show = [];
   $scope.show.timeMarkers = [];
   $scope.show.spans = [];
-  $scope.show.query = {};
-  $scope.show.qid = {};
-  $scope.show.qtime = {};
+  $scope.show.highlight = {};
   $scope.spanName = $scope.spanNames[0];
   $scope.currentValue = 'duration-desc';
   var orgname = $routeParams.orgname;
   $scope.orgname = orgname;
   function getModules () {
     Restangular.one('orgs', orgname).all('modules').getList().then(function(modules) {
-      $scope.services = modules;
+      $scope.services = modules.sort(function(a ,b) {return (a.sequence < b.sequence) ? -1: 1});
       $scope.service = modules[0];
     });
   };
@@ -47,7 +45,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$routeParams', '$m
 
 
   $scope.findTraces = function (serviceName, spanName,
-                                from, to, limit, annotationQuery, currentValue) {
+                                from, to, limit, annotationQuery, currentValue, moduleId) {
     serviceName = orgname + ":" + serviceName;
     var findTracesUrl = ApiBaseUrl + "zipkin/find_traces"
     + "?service_name=" + serviceName
@@ -67,49 +65,12 @@ angular.module('webApp').controller('ZipkinHomeController', ['$routeParams', '$m
         ids.push(response[i].traceId);
       };
       $scope.order(currentValue);
-      getAllTracesBrief(ids);
-      console.log("123");
+      getAllTracesBrief(ids, moduleId);
     });
   };
-  function getAllTracesBrief(ids){
-    Restangular.all('zipkin').customPOST({traces_ids: ids}, "traces").then(function(spans) {
-      $scope.show.query = spans;
-      // var span = Object();
-      // var id = '';
-      // var traceId;
-      // for (var j = spans.length - 1; j >= 0; j--) {
-      //   span = spans[j];
-      //   traceId = span.trace_id.toString();
-        // for (var i = span.binary_annotations.length - 1; i >= 0; i--) {
-        //   if (span.binary_annotations[i]['key'] == 'query') {
-        //     $scope.show.query[traceId] = span.binary_annotations[i]['value'];
-        //   };
-        //   if (span.binary_annotations[i]['key'] == 'qid') {
-        //     $scope.show.qid[traceId] = span.binary_annotations[i]['value'];
-        //   }; 
-        //   if (span.binary_annotations[i]['key'] == 'time') {
-        //     $scope.show.qtime[traceId] = span.binary_annotations[i]['value'];
-        //   };
-        // };
-        // $scope.show.query[traceId] = $scope.show.query[traceId] || "empty query";
-        // $scope.show.qid[traceId] = $scope.show.qid[traceId] || "empty qid";
-        // $scope.show.qtime[traceId] = $scope.show.qtime[traceId] || "empty time";
-        // for (var i = span.binary_annotations.length - 1; i >= 0; i--) {
-        //   if (span.binary_annotations[i]['key'] == 'query'){
-        //     $scope.show.query[traceId] = span.binary_annotations[i].value;
-        //   }
-        //   if (span.binary_annotations[i]['key'] == 'qid') {
-        //     $scope.show.qid[traceId] = span.binary_annotations[i].value;
-        //   }; 
-        //   if (span.binary_annotations[i]['key'] == 'time') {
-        //     $scope.show.qtime[traceId] = span.binary_annotations[i].value;
-        //   };
-        // };
-        // $scope.show.query[traceId] = $scope.show.query[traceId] || "empty query";
-        // $scope.show.qid[traceId] = $scope.show.qid[traceId] || "empty qid";
-        // $scope.show.qtime[traceId] = $scope.show.qtime[traceId] || "empty time";
-      // };
-      
+  function getAllTracesBrief(ids, moduleId){
+    Restangular.all('zipkin').customPOST({traces_ids: ids, module_id: moduleId}, "traces").then(function(spans) {
+      $scope.show.highlight = spans;
     });
   };
   $scope.getSpanNames = function(serviceName) {

@@ -27,7 +27,6 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
     $scope.user = user;
     if (user.name == "guest") {$scope.guest = true;};
   });
-  
   $scope.closeAlert = function(index) {
     $scope.page.alerts.splice(index, 1);
   };
@@ -36,6 +35,7 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
     var module = Object();
     module.name = name;
     module.desc = desc;
+    module.sequence = 0;
     // if ($scope.tab.context == 'User') {
     //   Restangular.all('user').all('modules').post(tag).then(function(){
     //     $scope.page.alerts.push({type: 'success', msg: 'success'});
@@ -47,7 +47,8 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
       var orgname = $scope.tab.context;
       Restangular.one('orgs', orgname).all('modules').post(module).then(function(){
         $scope.page.alerts.push({type: 'success', msg: 'success'});
-        $scope.modules.push(module);
+        $scope.getOrgModules(orgname);
+
       }, function(response){
         $scope.page.alerts.push({type: 'danger', msg: response.data.message});
       });
@@ -56,12 +57,12 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
   };
   $scope.getAnnotations = function(module) {
     module.all('annotations').getList().then(function(annotations){
-      $scope.annotations = annotations;
+      $scope.annotations = annotations.sort(function(a ,b) {return (a.weight > b.weight) ? -1: 1});
     });
   };
   $scope.removeModule = function(module, index) {
     module.remove().then(function() {
-      $scope.modules.splice(index, 1);      
+      $scope.modules.splice(index, 1);
       $scope.page.alerts.push({type: 'success', msg: 'success'});
     }, function (response) {
       $scope.page.alerts.push({type: 'danger', msg: 'failed'});
@@ -69,7 +70,7 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
   };
   $scope.removeAnnotation = function(annotation, index) {
     annotation.remove().then(function() {
-      $scope.annotations.splice(index, 1);      
+      $scope.annotations.splice(index, 1);
       $scope.page.alerts.push({type: 'success', msg: 'success'});
     }, function (response) {
       $scope.page.alerts.push({type: 'danger', msg: 'failed'});
@@ -79,10 +80,11 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
     var anno = Object();
     anno.name = name;
     anno.desc = desc;
+    anno.weight = 0;
     var orgname = $scope.tab.context;
     module.all('annotations').post(anno).then(function(){
       $scope.page.alerts.push({type: 'success', msg: 'success'});
-      $scope.annotations.push(anno);
+      $scope.getAnnotations(module);
     }, function(response){
       $scope.page.alerts.push({type: 'danger', msg: response.data.message});
     });
@@ -91,15 +93,10 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
 
   $scope.getOrgModules = function(orgname){
     Restangular.one('orgs', orgname).all('modules').getList().then(function(modules){
-      $scope.modules = modules;
+      $scope.modules = modules.sort(function(a ,b) {return (a.sequence < b.sequence) ?  -1: 1});
     });
   };
 
-  $scope.getOrgAnnotations = function(orgname){
-    Restangular.one('orgs', orgname).all('annotations').getList().then(function(annotations){
-      $scope.annotations = annotations;
-    });
-  };
   $scope.resetToken = function(){
     Restangular.all('user').customPOST({}, "reset_token", {}, {}).then(function(token){
       tokenService.setToken(token.token);
@@ -110,10 +107,53 @@ angular.module('webApp').controller('SettingsController', ['$scope','Restangular
     for (var i = modules.length - 1; i >= 0; i--) {
       modules[i].put();
     };
+    $scope.page.alerts.push({type: 'success', msg: 'success'});
+
+  };
+  $scope.sortableOptionsModule = {
+    update: function(e, ui) {
+      
+    },
+    stop: function(e, ui) {
+      // this callback has the changed model
+      $scope.modules.map(function(i){
+        i.sequence = $scope.modules.indexOf(i) + 1;
+        return;
+      });
+    }
 
   };
 
-  $scope.saveAnnoOrder = function(annotations, module){
+  $scope.highlightAnnotationOnFrontPage = function(anno){
+    anno.highlight1 = !anno.highlight1;
+    anno.put();
+  };
+
+  $scope.highlightAnnotationOnDetailPage = function(anno){
+    anno.highlight2 = !anno.highlight2;
+    anno.put();
+
+  };
+
+  $scope.sortableOptionsAnnotation = {
+    update: function(e, ui) {
+      
+    },
+    stop: function(e, ui) {
+      // this callback has the changed model
+      $scope.annotations.map(function(i){
+        i.weight = $scope.annotations.length - $scope.annotations.indexOf(i);
+        return;
+      });
+    }
+
+  };
+  $scope.saveAnnoOrder = function(annotations){
+    for (var i = annotations.length - 1; i >= 0; i--) {
+      annotations[i].put();
+    };
+    $scope.page.alerts.push({type: 'success', msg: 'success'});
+
 
   };
   $scope.changePassword = function(old, new_pass){
