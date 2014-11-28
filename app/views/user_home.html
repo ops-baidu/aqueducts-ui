@@ -1,41 +1,16 @@
-<div class="section" >
-  <div class="container vcard with-margin">
+<div class="section">
+  <div class="container with-margin">
     <div class="row">
-      <div class="col-xs-6 col-md-3">
-        <img class="avatar" ng-src="{{randomImgArray[0]}}" height="230" width="230">
-        <h4 class="vcard-username" ng-model="user.name">{{user.name}}</h4>
-        <h5 class="vcard-email" ng-model="user.email"><span style="width:25px; color:#999;"class="glyphicon glyphicon-envelope"></span>{{user.email}}</h5>
-        <div class="vcard-orgs">
-          <h4>Organizations
-            <span class="badge pull-right"style="margin-right:40px;margin-top:2px;">{{user.orgs.length}}</span>
-          </h4>
-          <div ng-repeat="org in user.orgs">
-            <div style="padding:10px;">
-            <a ng-href="#/orgs/{{org.name}}"><img alt="ops-baidu"class="avatar" ng-src="{{randomImgArray[$index+1]}}" height="42" width="42"></a>
-            <h5><a ng-href="#/orgs/{{org.name}}">{{org.name}}</a></h5>
-          </div>
-          </div>
-        </div>
+      <div class="col-xs-6 col-md-3" style="padding-bottom:50px;">
+        <a ng-href="#/"><div class="box private-box"><span style="vertical-align:middle;
+">Private</span></div></a>
       </div>
-      <div class="col-xs-12 col-md-9 ">
-        <div class="panel panel-default services" style="min-height:600px;">
-          <div class="panel-heading">
-            <h3 class="panel-title">Private services<a href="#/new" class="glyphicon glyphicon-plus pull-right"></a></h3>
-          </div>
-          <div class="panel-body">
-            <div style="padding:30px;border-bottom:solid 1px #e4e4e4;" class="" role="" ng-repeat="service in user.services" >
-              <a ng-href="#/users/{{user.name}}/{{service.name}}">{{service.name}}</a>
-              <div class="pull-right">
-                  <span class="bg-success" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;"ng-if="service.flows.huabei">华北</span>
-                  <span class="bg-warning" style="color:#777;padding: 4px 6px 4px 6px;border-radius:4px;"ng-if="service.flows.huadong">华东</span>
-                  <span style="padding-left:20px;"ng-controller="UserHomeController"ng-init="getJobNum(service.name)">{{jobNum}}</span>
-                  <span style="color:#999;padding-left:4px;">Jobs</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="col-xs-6 col-md-3" style="padding-bottom:50px;">
+        <a ng-href="#/new/org"><div class="box new-box"><div style="vertical-align:middle;"><i class="fa fa-plus fa-" style="color: white"/><span>New</span></div></div></a>
       </div>
-
+      <div class="col-xs-6 col-md-3"ng-repeat="org in user.orgs" style="padding-bottom:50px;">
+        <a ng-href="#/orgs/{{org.name}}"><div class="box"><span>{{org.name}}</span></div></a>
+      </div>
     </div>
   </div>
 

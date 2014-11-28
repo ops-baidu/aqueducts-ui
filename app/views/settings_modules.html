@@ -1,0 +1,43 @@
+<div class="panel panel-default settings">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{tab.context}} modules</h3>
+  </div>
+  <div class="panel-body">
+    <div>
+      <alert ng-repeat="alert in page.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+    <div style="padding-bottom: 20px;">
+      <form class="form-inline" role="form" name="addModuleForm">
+        <div class="form-group"ng-class="{'has-error': addModuleForm.name.$invalid && addModuleForm.name.$dirty, 'has-success' : addModuleForm.name.$vaild && addModuleForm.name.$dirty}">
+          <label class="sr-only" for="name">Module name</label>
+          <input class="form-control" id="name" required cu-focus ng-model="name"placeholder="module name">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="desc">Description</label>
+          <input class="form-control" id="desc" ng-model="desc"placeholder="description">
+        </div>
+        <div class="form-group" style="padding-left: 10px;">
+          <button class="btn btn-primary" type="submit" ng-disabled="addModuleForm.$invalid"ng-click="addModule(name, desc)">Add module</button>
+
+        </div>
+      </form>
+    </div>
+    <div>
+      <form class="form-inline" role="form"style="padding-bottom:50px;">
+        <span style="padding-right:150px;font-size:18px;">Modules from top to bottom:</span>
+        <button class="btn btn-warning" type="submit" ng-click="saveModuleOrder(modules)">Save order</button>
+      </form>
+      <div class="floatleft">
+
+        <ul ui-sortable="sortableOptionsModule" ng-model="modules" class="list">
+          <li ng-repeat="module in modules" ng-mouseenter="showOperations = true" ng-mouseleave="showOperations = false" class="">
+            <div ng-class="{hovercolor: hover}"class="item" style="display:inline-block">{{module.name}}</div>
+            <div class="operations"ng-mouseenter="hover=true"ng-mouseleave="hover=false">
+              <a ng-show="showOperations" ng-click="removeModule(module, $index)" style="padding-left:50px;padding-right:50px;cursor:pointer;"><span class="glyphicon glyphicon-trash" style="padding-right:20px;"></span><span>remove</span></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

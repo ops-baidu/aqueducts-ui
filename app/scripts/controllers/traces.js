@@ -8,10 +8,14 @@
 'use strict';
 
 angular.module('webApp')
-    .controller('TracesController', ['$scope', '$location', '$http', 'ApiBaseUrl', '$routeParams', '$modal', function($scope, $location, $http, ApiBaseUrl, $routeParams, $modal) {
+    .controller('TracesController', ['Restangular', '$scope', '$location', '$http', 'ApiBaseUrl', '$routeParams', '$modal', function(Restangular, $scope, $location, $http, ApiBaseUrl, $routeParams, $modal) {
 
   var traceId = $routeParams.traceId;
+  $scope.traceId = traceId;
   var serviceName = $routeParams.serviceName;
+  var moduleId = $routeParams.moduleId;
+  var orgname = $routeParams.orgname;
+  var annotations = {};
   $scope.show = Object();
   $scope.show.show = [];
   $scope.show.annos = [];
@@ -20,36 +24,14 @@ angular.module('webApp')
   $scope.show.durationStr = [];
   $scope.show.openAll = false;
 
-
-  function getKeyWeight(key){
-    switch(key){
-      case 'query':
-        return 10;
-        break;
-      case 'qid':
-        return 9;
-        break;
-      case 'modulename':
-        return 8;
-        break;
-      case 'service_name':
-        return 7;
-        break;
-      case 'ip':
-        return 6;
-        break;
-      case 'port':
-        return 5;
-        break;
-      case 'parentip':
-        return 4;
-        break;
-      default:
-        return 1;
-
-    }
-
+  function getModuleAnnotations() {
+    Restangular.one('orgs', orgname).one('modules', moduleId).all('annotations').getList().then(function(annos){
+      for (var i = annos.length - 1; i >= 0; i--) {
+        annotations[annos[i].name] = annos[i].weight;
+      };
+    });
   };
+  getModuleAnnotations();
 
   $scope.openOrClose = function(action){
     var open = false;
@@ -61,11 +43,10 @@ angular.module('webApp')
     for (var k in $scope.show.show) {
       $scope.show.show[k] = open;
     };
-    
   };
 
   function getTrace () {
-    var url = "zipkin/trace/" + traceId + "/?service_name=" + serviceName;
+    var url = "zipkin/trace/" + traceId + "/?service_name=" + serviceName; //+ '&force_format=1';
     $http.get(ApiBaseUrl + url).success(function (response) {
       $scope.duration = response['duration'];
       $scope.servicesNumber = response['services'];
@@ -78,58 +59,59 @@ angular.module('webApp')
       var id = '';
       for (var j = spans.length - 1; j >= 0; j--) {
         span = spans[j];
-        
 
         for (var i = span.binaryAnnotations.length - 1; i >= 0; i--) {
-          span.binaryAnnotations[i]['weight'] = getKeyWeight(span.binaryAnnotations[i]['key']);
-          if (span.binaryAnnotations[i]['key'] == 'query') {
-              $scope.query = span.binaryAnnotations[i]['value'];
-          };
-          if (span.binaryAnnotations[i]['key'] == 'qid') {
-            $scope.qid = span.binaryAnnotations[i]['value'];
-          }; 
-          if (span.binaryAnnotations[i]['key'] == 'time') {
-            $scope.qtime = span.binaryAnnotations[i]['value'];
-          };     
+          span.binaryAnnotations[i]['weight'] = annotations[span.binaryAnnotations[i]['key']] || 0;
         };
         id = span.spanId;
         $scope.show.annos[id] = span.annotations;
-        $scope.show.binaAnnos[id] = span.binaryAnnotations;
+        $scope.show.binaAnnos[id] = span.binaryAnnotations.sort(function(a ,b) {
+            if (a.weight > b.weight) {
+              return -1;
+            }else if (a.key === b.key) {
+              return 0;
+            }else{
+              return 1;
+            };
+          });
         $scope.show.serviceNames[id] = span.serviceNames;
         $scope.show.durationStr[id] = span.durationStr;
       };
-      $scope.query = $scope.query || "empty query";
-      $scope.qid = $scope.qid || "empty qid";
-      $scope.qtime = $scope.qtime || "empty time";
       $scope.spans = spans;
 
     });
   };
+  function getTraceHighlight(moduleId){
+    Restangular.all('zipkin').customPOST({traces_ids: [traceId], module_id:moduleId}, "traces").then(function(spans) {
+      $scope.highlight = spans[traceId]['highlight2'];
+    });
+  };
 
   getTrace();
+  getTraceHighlight(moduleId);
 
 }])
   .directive('finishRenderServiceCounts', ['$timeout', function ($timeout) {
-      return {
-          restrict: 'A',
-          link: function (scope, element, attr) {
-              if (scope.$last === true) {
-                  $timeout( function () {
-                      $('.service-filter-label').click(function () {
-                          $(this).toggleClass('service-tag-filtered');
-                          var serviceName = $(this).attr('data-service-name');
-                          var spans = $('.service-span');
+    return {
+      restrict: 'A',
+      link: function (scope, element, attr) {
+        if (scope.$last === true) {
+          $timeout( function () {
+            $('.service-filter-label').click(function () {
+              $(this).toggleClass('service-tag-filtered');
+              var serviceName = $(this).attr('data-service-name');
+              var spans = $('.service-span');
 
-                          $.each(spans, function () {
-                              if (serviceName === $(this).attr('data-service-names')) {
-                                  $(this).toggleClass('highlight');
-                              };
-                          });
-                      });
-                  });
-              }
-          }
+              $.each(spans, function () {
+                if (serviceName === $(this).attr('data-service-names')) {
+                  $(this).toggleClass('highlight');
+                };
+              });
+            });
+          });
+        }
       }
+    }
   }]);
 
   // .directive('finishRenderOptions', ['$timeout', function ($timeout) {

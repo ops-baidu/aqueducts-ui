@@ -5,17 +5,27 @@
       <form class="form-inline" role="form" style="padding-bottom:10px;">
         <!-- servicename start -->
         <div class="form-group">
-          <select ng-model="serviceName"  ng-change="getSpanNames(serviceName)"class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName" ng-options="service for service in services">
+          <select ng-model="service" class="form-control input-sm" style="width: 234px;" name="serviceName" id="serviceName" ng-options="service.name for service in services">
           </select>
         </div>
         <!-- servicename end -->
 
         <!-- span name start -->
-        <div class="form-group">
+        <!-- <div class="form-group">
           <select ng-model="spanName" class="form-control input-sm" style="width: 180px;" name="spanName" id="spanName" ng-options="span.name for span in spanNames">
           </select>
-        </div>
+        </div> -->
         <!-- span name end -->
+        <div class="form-group"style="padding-left:20px;">
+            <label for="limit">limit</label>
+            <input style="width:50px;"class="form-control input-sm" ng-model="limit" id="limit" name="limit" type="text">
+          </div>
+        <div class="form-group"style="padding-left:20px;">
+          <button type="submit" class="btn btn-warning btn-sm" ng-click="findTraces(service.name, spanName.name, startTimestamp, endTimestamp, limit, annotationQuery, currentValue, service.id)">Find Traces</button>
+          <button type="button" class="btn btn-default btn-sm info-request" ng-click="openHelpModal()">
+            <span class="glyphicon glyphicon-question-sign"></span>
+          </button>
+        </div>
       </form>
 
       <form class="form-inline" role="form" style="padding-bottom:10px;">
@@ -27,10 +37,10 @@
           <timepicker ng-model="to" hour-step="1" minute-step="10" show-meridian="false"></timepicker>
         </div> -->
         <div class="form-group">
-          <input class="form-control input-sm time-input1" ng-model="startTime" type="text" value='{{startTime}}'>
+          <input  style="width:60px;"class="form-control input-sm time-input1" ng-model="startTime" type="text" value='{{startTime}}'>
           <input class="" ng-model="startTimestamp" id="startTimestamp" name="startTimestamp" type="hidden" value="{{startTimestamp}}">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="padding-left:10px;">
           <label for="to">to</label>
           <input id="to" class="form-control input-sm date-input2" ng-model="endDate" type="text" value='{{endDate}}'>
           <script type="text/javascript">
@@ -51,8 +61,9 @@
           </script>
         </div>
         <div class="form-group">
-          <input class="form-control input-sm time-input2" ng-model="endTime" type="text" value='{{endTime}}' />
+          <input style="width:60px;"class="form-control input-sm time-input2" ng-model="endTime" type="text" value='{{endTime}}' />
           <input class="" ng-model="endTimestamp" id="endTimestamp" name="endTimestamp" type="hidden" value="{{endTimestamp}}" />
+          
 
           <script type="text/javascript">
           $('.time-input1').on('change', function(e){
@@ -95,23 +106,7 @@
       <!-- <timepicker ng-model="to" hour-step="1" minute-step="10" show-meridian="false"></timepicker> -->
 
         <!-- timestamp end -->
-      <form class="form-inline" role="form" style="margin-bottom:10px;">
-
-        <!-- limit start -->
-        <div class="form-group">
-          <label for="limit">Limit</label>
-          <input class="form-control input-sm" ng-model="limit" id="limit" name="limit" type="text">
-        </div>
-        <!-- limit end -->
-        <!-- find traces start -->
-        <div class="form-group">
-          <button type="submit" class="btn btn-default btn-sm" ng-click="findTraces(serviceName, spanName.name, startTimestamp, endTimestamp, limit, annotationQuery, currentValue)">Find Traces</button>
-          <button type="button" class="btn btn-default btn-sm info-request" ng-click="openHelpModal()">
-            <span class="glyphicon glyphicon-question-sign"></span>
-          </button>
-        </div>
-        <!-- find traces end -->
-      </form>
+      
       <div style="padding-bottom:10px;">
         <!-- annotationQuery start -->
         <input type="text" ng-model="annotationQuery" class="form-control input-sm" id="annotationQuery" name="annotationQuery" style="width: 100%;" placeholder='Annotations Query (e.g. "finagle.timeout", "http.uri=/foo/bar/ and cluster=foo and cache.miss")'>
@@ -142,7 +137,7 @@
 
         <div class="service-tags">
           Services:
-          <span class='label service-tag-filtered' data-service-name="{{serviceName}}">{{serviceName}}</span>
+          <span class='label service-tag-filtered' data-service-name="{{service.name}}">{{service.name}}</span>
         </div>
       </div>
     </div>
@@ -152,17 +147,10 @@
       <ul id="traces">
         <li class="trace" data-traceId="{{trace.traceId}}" data-duration="{{trace.duration}}" data-timestamp="{{trace.timestamp}}" ng-repeat="trace in traces"ng-init="show.show[trace.traceId]=false;">
           <div>
-            <!-- <span>{{trace.traceId}}</span>
-            <span>{{sho w.query}}</span>-->
-            <!-- <span>{{show.qid}}</span> -->
-            <!-- <span>{{show.qtime}}</span> -->
-
-            <span class="label label-default" style="margin-right:20px;font-size:14px;font-weight:normal">{{show.query[trace.traceId].qid || 'empty qid'}} </span>
-            <span class="label label-success"style="margin-right:20px;font-size:14px;font-weight:normal">{{show.query[trace.traceId].query|| 'empty query'}} </span>
-            <span class="label label-default"popover-placement="top" style="font-size:14px;font-weight:normal">{{show.query[trace.traceId].qtime || 'empty time'}} </span>
+            <span class="label label-diy" style="margin-right:20px;font-size:14px;font-weight:normal;"ng-repeat="item in show.highlight[trace.traceId]['highlight1']">{{item}} </span>
           </div>
           <div class="bar-block">
-            <a href="/traces/{{trace.traceId}}?serviceName={{trace.serviceName}}" target="_blank">
+            <a href="/traces/{{orgname}}/{{service.id}}/{{trace.traceId}}?serviceName={{trace.serviceName}}" target="_blank">
             <span class="bar-graphic" style="width:{{trace.width}}%;"></span>
             <span class="bar-label"style="">{{trace.durationStr}}</span>
             <span class="bar-label" >{{trace.spanCount}} spans</span></a>

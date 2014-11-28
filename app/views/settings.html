@@ -2,115 +2,32 @@
   <div class="container with-margin">
     <div class="row">
       <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default settings">
-          <div class="panel-heading">
-            <h3 class="panel-title">Settings</h3>
-          </div>
-          <div class="panel-body">
-            <div class="list-group">
-              <a href="javascript:void(0);" class="list-group-item" ng-class="{active: account}" ng-click="account=true"ng-show="!guest">
-                Account settings
-              </a>
-              <a href="javascript:void(0);" ng-click="account=false" ng-class="{active: !account}" class="list-group-item">Access token</a>
-            </div>
-          </div>
-        </div>
+        <accordion style="cursor: pointer;">
+          <accordion-group heading="{{user.name}}" is-open="userTab.open" ng-click="orgTab.active=0;page.alerts=[]" class="panel-mini">
+            <tabset vertical="true" type="pills">
+              <tab heading="Access token" ng-click="userTab.active=2"></tab>
+              <tab heading="Account settings" ng-show="!guest" ng-click="userTab.active=1"></tab>
+            </tabset>
+          </accordion-group>
+          <accordion-group class="panel-mini" ng-repeat="org in orgs" heading="{{org.name}}" ng-click="userTab.active=0;userTab.open=false;tab.context=org.name;getOrgModules(org.name);page.alerts=[]">
+            <tabset vertical="true" type="pills">
+              <tab heading="Modules" ng-click="orgTab.active=1;getOrgModules(org.name)"></tab>
+              <tab heading="Annotations" ng-click="orgTab.active=2;"></tab>
+            </tabset>
+          </accordion-group>
+        </accordion>
       </div>
       <div class="col-xs-6 col-md-8 col-md-offset-1">
-        <div ng-show="account&&!guest">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Change password</h3>
-            </div>
-            <div class="panel-body">
-              <form class="form" name="changePasswordForm" novalidate ng-submit="changePassword(old, new1)">
-                <div class="alert alert-danger" ng-show="changePasswordFailed">
-                Failed
-                </div>
-                <div class="form-group" ng-class="{'has-error': changePasswordForm.old.$invalid && changePasswordForm.old.$dirty, 'has-success' : changePasswordForm.old.$vaild && changePasswordForm.old.$dirty}">
-                  <label for="old" class="control-label">Old</label>
-                  <input type="password" name="old" id="old" class="form-control" ng-model="old" required cu-focus />
-                  <p class="help-block" ng-show="changePasswordForm.old.$invalid && changePasswordForm.old.$dirty && !changePasswordForm.old.$focused">
-                  Old password is required
-                  </p>
-                </div>
-                <div class="form-group" ng-class="{'has-error': changePasswordForm.new1.$invalid && changePasswordForm.new1.$dirty, 'has-success' : changePasswordForm.pw1.$vaild && changePasswordForm.new1.$dirty}">
-                  <label for="new1" class="control-label">New</label>
-                  <input type="password" name="new1" id="new1" class="form-control" ng-model="new1" required cu-focus />
-                  <p class="help-block" ng-show="changePasswordForm.new1.$invalid && changePasswordForm.new1.$dirty && !changePasswordForm.new1.$focused">
-                  New password is required
-                  </p>
-                </div>
-                <div class="form-group" ng-class="{'has-error': changePasswordForm.new2.$invalid && changePasswordForm.new2.$dirty, 'has-success' : changePasswordForm.new2.$vaild && changePasswordForm.new2.$dirty}">
-                  <label for="new2" class="control-label">Confirmation</label>
-                  <input type="password" name="new2" id="new2" class="form-control" ng-model="new2" required cu-focus password-check="new1"/>
-                  <p class="help-block" ng-show="changePasswordForm.new2.$error.passwordMatch &&changePasswordForm.new2.$invalid && changePasswordForm.new2.$dirty && !changePasswordForm.new2.$focused">
-                  Confirmation is required
-                  </p>
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-primary" type="submit" ng-disabled="changePasswordForm.$invalid">Submit</button>
-                </div>
-
-              </form>
-            </div>
-          </div>
-          <div class="panel panel-default" style="min-height:100px;">
-            <div class="panel-heading">
-              <h3 class="panel-title">Change username</h3>
-            </div>
-            <div class="panel-body">
-              <form class="form" name="changeUsernameForm" novalidate ng-submit="changeUsername(user.newUsername)">
-                <div class="alert alert-danger" ng-show="changeUsernameFailed">
-                Failed
-                </div>
-                <div class="form-group" ng-class="{'has-error': changeUsernameForm.username.$invalid && changeUsernameForm.username.$dirty, 'has-success' : changeUsernameForm.username.$vaild && changeUsernameForm.username.$dirty}">
-                  <label for="" class="control-label">New username</label>
-                  <input type="username" name="username" class="form-control" ng-model="user.newUsername" required cu-focus />
-                  <p class="help-block" ng-show="changeUsernameForm.username.$invalid && changeUsernameForm.username.$dirty && !changeUsernameForm.username.$focused">
-                  Invalid username
-                  </p>
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-primary" type="submit" ng-disabled="changeUsernameForm.$invalid">Submit</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="panel panel-default"style="min-height:100px;">
-            <div class="panel-heading">
-              <h3 class="panel-title">Change email</h3>
-            </div>
-            <div class="panel-body">
-              <form class="form" name="changeEmailForm" novalidate ng-submit="changeEmail(user.newEmail)">
-                <div class="alert alert-danger" ng-show="changeEmailFailed">
-                Failed
-                </div>
-                <div class="form-group" ng-class="{'has-error': changeEmailForm.email.$invalid && changeEmailForm.email.$dirty, 'has-success' : changeEmailForm.email.$vaild && changeUsernameForm.email.$dirty}">
-                  <label for="" class="control-label">New email</label>
-                  <input type="email" name="email" class="form-control" ng-model="user.newEmail" required cu-focus />
-                  <p class="help-block" ng-show="changeEmailForm.email.$invalid && changeEmailForm.email.$dirty && !changeEmailForm.email.$focused">
-                  Invalid email
-                  </p>
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-primary" type="submit" ng-disabled="changeEmailForm.$invalid">Submit</button>
-                </div>
-              </form>
-            </div>
-          </div>
+        <div ng-show="userTab.active==1" ng-include src="'views/settings_account.html'">
         </div>
 
-        <div ng-show="!account">
-          <div class="panel panel-default" style="min-height:150px;">
-            <div class="panel-heading">
-              <h3 class="panel-title">Reset token</h3>
-            </div>
-            <div class="panel-body">
-                <span ng-model="user.authentication_token">{{user.authentication_token}}</span>
-                <button class="btn btn-primary" ng-click="resetToken()">Reset</button>
-            </div>
-          </div>
+
+        <div ng-show="userTab.active==2" ng-include src="'views/settings_token.html'">
+        </div>
+
+        <div ng-show="orgTab.active==1" ng-include src="'views/settings_modules.html'">
+        </div>
+        <div ng-show="orgTab.active==2" ng-include src="'views/settings_annotations.html'">
         </div>
       </div>
     </div>

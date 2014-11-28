@@ -6,7 +6,7 @@
 */
 'use strict';
 
-angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', '$http', 'ApiBaseUrl', 'Restangular', '$filter', function($modal, $scope, $http, ApiBaseUrl, Restangular, $filter) {
+angular.module('webApp').controller('ZipkinHomeController', ['$routeParams', '$modal','$scope', '$http', 'ApiBaseUrl', 'Restangular', '$filter', function($routeParams, $modal, $scope, $http, ApiBaseUrl, Restangular, $filter) {
   $scope.services  = [];
   $scope.spanNames = [{name: 'ALL'}];
   $scope.traces    = [];
@@ -15,48 +15,19 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
   $scope.show.show = [];
   $scope.show.timeMarkers = [];
   $scope.show.spans = [];
-  $scope.show.query = {};
-  $scope.show.qid = {};
-  $scope.show.qtime = {};
+  $scope.show.highlight = {};
   $scope.spanName = $scope.spanNames[0];
   $scope.currentValue = 'duration-desc';
-  function getServiceNames () {
-    // access authority
-    // var orgs = [];
-    // Restangular.all('orgs').getList().then(function(response) {
-    //   for (var i = response.length - 1; i >= 0; i--) {
-    //     orgs.push(response[i]["name"]);
-    //   };
-    // });
-    
-    $http.get(ApiBaseUrl + "zipkin/get_service_names").success(function (response) {
-      $scope.services = response;
-      for (var i = $scope.services.length - 1; i >= 0; i--) {
-        if ($scope.services[i] == "psop:pr-nginx") {
-          $scope.serviceName = $scope.services[i];
-          break;
-        };
-      };
-      if (!$scope.serviceName) {
-        $scope.serviceName = $scope.services[0];
-      };
-
-      // for (var i = response.length - 1; i >= 0; i--) {
-      //   var serviceName = response[i];
-      //   var org_name = serviceName.split(":");
-
-      //   if (org_name.length === 2) {
-      //     if ($.inArray(org_name[0], orgs) >= 0) {
-      //       $scope.services.push({name: serviceName});
-      //     };
-      //   } else{
-      //     $scope.services.push({name: response[i]});
-      //   };
-      // };;
+  var orgname = $routeParams.orgname;
+  $scope.orgname = orgname;
+  function getModules () {
+    Restangular.one('orgs', orgname).all('modules').getList().then(function(modules) {
+      $scope.services = modules.sort(function(a ,b) {return (a.sequence < b.sequence) ? -1: 1});
+      $scope.service = modules[0];
     });
-
   };
-  getServiceNames();
+
+  getModules();
 
   var now = new Date();
   $scope.endDate = (now.getMonth() + 1) + '-' + now.getDate() + '-' + now.getFullYear();
@@ -74,8 +45,8 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
 
 
   $scope.findTraces = function (serviceName, spanName,
-                                from, to, limit, annotationQuery, currentValue) {
-
+                                from, to, limit, annotationQuery, currentValue, moduleId) {
+    serviceName = orgname + ":" + serviceName;
     var findTracesUrl = ApiBaseUrl + "zipkin/find_traces"
     + "?service_name=" + serviceName
     + "&span_name=" + spanName
@@ -94,52 +65,16 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
         ids.push(response[i].traceId);
       };
       $scope.order(currentValue);
-      getAllTracesBrief(ids);
-      console.log("123");
+      getAllTracesBrief(ids, moduleId);
     });
   };
-  function getAllTracesBrief(ids){
-    Restangular.all('zipkin').customPOST({traces_ids: ids}, "traces").then(function(spans) {
-      $scope.show.query = spans;
-      // var span = Object();
-      // var id = '';
-      // var traceId;
-      // for (var j = spans.length - 1; j >= 0; j--) {
-      //   span = spans[j];
-      //   traceId = span.trace_id.toString();
-        // for (var i = span.binary_annotations.length - 1; i >= 0; i--) {
-        //   if (span.binary_annotations[i]['key'] == 'query') {
-        //     $scope.show.query[traceId] = span.binary_annotations[i]['value'];
-        //   };
-        //   if (span.binary_annotations[i]['key'] == 'qid') {
-        //     $scope.show.qid[traceId] = span.binary_annotations[i]['value'];
-        //   }; 
-        //   if (span.binary_annotations[i]['key'] == 'time') {
-        //     $scope.show.qtime[traceId] = span.binary_annotations[i]['value'];
-        //   };
-        // };
-        // $scope.show.query[traceId] = $scope.show.query[traceId] || "empty query";
-        // $scope.show.qid[traceId] = $scope.show.qid[traceId] || "empty qid";
-        // $scope.show.qtime[traceId] = $scope.show.qtime[traceId] || "empty time";
-        // for (var i = span.binary_annotations.length - 1; i >= 0; i--) {
-        //   if (span.binary_annotations[i]['key'] == 'query'){
-        //     $scope.show.query[traceId] = span.binary_annotations[i].value;
-        //   }
-        //   if (span.binary_annotations[i]['key'] == 'qid') {
-        //     $scope.show.qid[traceId] = span.binary_annotations[i].value;
-        //   }; 
-        //   if (span.binary_annotations[i]['key'] == 'time') {
-        //     $scope.show.qtime[traceId] = span.binary_annotations[i].value;
-        //   };
-        // };
-        // $scope.show.query[traceId] = $scope.show.query[traceId] || "empty query";
-        // $scope.show.qid[traceId] = $scope.show.qid[traceId] || "empty qid";
-        // $scope.show.qtime[traceId] = $scope.show.qtime[traceId] || "empty time";
-      // };
-      
+  function getAllTracesBrief(ids, moduleId){
+    Restangular.all('zipkin').customPOST({traces_ids: ids, module_id: moduleId}, "traces").then(function(spans) {
+      $scope.show.highlight = spans;
     });
   };
   $scope.getSpanNames = function(serviceName) {
+    serviceName = orgname + ":" + serviceName;
     $scope.spanNames = [{name: 'ALL'}];
     $http.get(ApiBaseUrl + "zipkin/get_span_names?service_name=" + serviceName)
     .success(function (response) {
@@ -173,6 +108,7 @@ angular.module('webApp').controller('ZipkinHomeController', ['$modal','$scope', 
   // $scope.order('duration', true);
 
   $scope.showTraceBrief = function(traceId, serviceName){
+    serviceName = orgname + ":" + serviceName;
     $scope.show.show[traceId] = !$scope.show.show[traceId];
     if ($scope.show.show[traceId]) {
       var url = "zipkin/trace/" + traceId + "/?service_name=" + serviceName;
